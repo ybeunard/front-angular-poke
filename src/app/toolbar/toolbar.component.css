@@ -1,0 +1,17 @@
+:host {
+  color: #fff;
+  position: fixed;
+  right: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 200px;
+  z-index: 10;
+  display: inline-block;
+}
+
+.spacer {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
