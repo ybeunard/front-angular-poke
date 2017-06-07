@@ -1,0 +1,26 @@
+:host {
+  color: #fff;
+  position: fixed;
+  top: 0;
+  bottom: auto;
+  right: 0;
+  left: 200px;
+  z-index: 9;
+  height: 5%;
+  min-height: 25px;
+  display: inline-block;
+}
+
+.btn-header{
+  position: fixed;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.btn-language-french {
+  right: 5px;
+}
+
+.btn-language-english {
+  right: 75px;
+}
