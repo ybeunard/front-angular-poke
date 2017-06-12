@@ -1,0 +1,21 @@
+:host {
+  color: #fff;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  right: 0;
+  left: 200px;
+  z-index: 9;
+  height: auto;
+  min-height: 25px;
+  display: inline-block;
+}
+
+md-list {
+  color: black;
+}
+
+.vertical-list-actions {
+  width: 100%;
+  text-align: center;
+}
