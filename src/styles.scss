@@ -1,18 +1,23 @@
-@import "styles/_host";
-
-md-list-item {
-  display: block;
-  padding: 12px;
-}
-
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
+@import 'styles/_constant';
 
 html,body {
   height:100%;
   margin:0;
   padding:0;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+md-list {
+  width: 100%;
+}
+
+md-list-item {
+  color: $list-item-color;
+  display: block;
+  padding: $list-item-padding;
 }
