@@ -1,7 +1,8 @@
 <md-toolbar color="primary" class="filling-space">
-  <div class="btn-header" i18n>Super project</div>
-
-  <button  [disabled]="isLocaleLanguage('en')" class="btn-language-english btn-header" (click)="changeLanguage('en')" i18n>English</button>
-  <button  [disabled]="isLocaleLanguage('fr')" class="btn-language-french btn-header" (click)="changeLanguage('fr')" i18n>French</button>
+  <div class="element" i18n>Super project</div>
+  <div class="element">
+    <button md-button [disabled]="isLocaleLanguage('en')" (click)="changeLanguage('en')" i18n>English</button>
+    <button md-button [disabled]="isLocaleLanguage('fr')" (click)="changeLanguage('fr')" i18n>French</button>
+  </div>
 
 </md-toolbar>
