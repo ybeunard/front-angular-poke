@@ -1,14 +1,13 @@
+@import "../../styles/_host";
+
 :host {
-  color: #fff;
-  position: fixed;
+  color: $host-color;
+  position: $host-position;
+  display: $host-display;
   top: 64px;
   bottom: 0;
   right: 0;
   left: 200px;
-  z-index: 9;
-  height: auto;
-  min-height: 25px;
-  display: inline-block;
 }
 
 md-list {

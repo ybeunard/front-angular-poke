@@ -1,13 +1,14 @@
+@import "../../styles/_host";
+
 :host {
-  color: #fff;
-  position: fixed;
-  right: auto;
+  color: $host-color;
+  position: $host-position;
+  display: $host-display;
   top: 0;
-  left: 0;
   bottom: 0;
+  right: auto;
+  left: 0;
   width: 200px;
-  z-index: 10;
-  display: inline-block;
 }
 
 .spacer {

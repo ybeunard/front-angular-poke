@@ -1,25 +1,16 @@
+@import "../../styles/_host";
+
 :host {
-  color: #fff;
-  position: fixed;
+  color: $host-color;
+  position: $host-position;
+  display: $host-display;
   top: 0;
   bottom: auto;
   right: 0;
   left: 200px;
-  z-index: 9;
-  height: 64px;
-  display: inline-block;
+  height: 65px;
 }
 
-.btn-header{
-  position: fixed;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.btn-language-french {
-  right: 5px;
-}
-
-.btn-language-english {
-  right: 75px;
+.element:nth-child(2) {
+  margin-left: auto;
 }
