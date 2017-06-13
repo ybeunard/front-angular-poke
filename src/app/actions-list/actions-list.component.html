@@ -1,7 +1,7 @@
-<div class="vertical-list-actions">
+<div class="container">
   <md-list>
     <md-list-item *ngFor="let module of listActionsSortByModule">
-      <button md-button class="md-primary" (click)="changeVisibility(module)">{{ module.moduleName }}</button>
+      <button md-button (click)="changeVisibility(module)">{{ module.moduleName }}</button>
       <md-list [hidden]="!module.visibility">
         <md-list-item *ngFor="let action of module.actions">
           {{ action.label }}

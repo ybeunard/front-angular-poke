@@ -1,16 +1,10 @@
 @import "../../styles/_host";
 
 :host {
-  color: $host-color;
-  position: $host-position;
-  display: $host-display;
-  top: 0;
-  bottom: auto;
-  right: 0;
-  left: 200px;
-  height: 65px;
+  width: 100%;
+  height: 100%;
 }
 
-.element:nth-child(2) {
+.header:nth-child(2) {
   margin-left: auto;
 }

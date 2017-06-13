@@ -1,11 +1,18 @@
 @import "styles/_host";
 
-.filling-space {
-  height:100%;
-  width:100%
-}
-
 md-list-item {
   display: block;
   padding: 12px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+html,body {
+  height:100%;
+  margin:0;
+  padding:0;
 }
