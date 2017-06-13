@@ -5,6 +5,7 @@
   width: 100%;
 }
 
-.header:nth-child(2) {
-  margin-left: auto;
+.container {
+  text-align: $actions-list-text-align;
+  width: 100%;
 }
