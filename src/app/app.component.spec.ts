@@ -1,16 +1,16 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async, ComponentFixture} from "@angular/core/testing";
+import { MdIconModule, MdToolbarModule } from "@angular/material";
 
-import { MdIconModule, MdToolbarModule } from '@angular/material';
+import { AppComponent } from "./app.component";
+import {HeaderComponent} from "./header/header.component";
+import {ToolbarComponent} from "./toolbar/toolbar.component";
 
-import { AppComponent } from './app.component';
-import {HeaderComponent} from './header/header.component';
-import {ToolbarComponent} from './toolbar/toolbar.component';
-
-describe('AppComponent', () => {
+describe("AppComponent", () => {
 
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
+
       declarations: [
         AppComponent,
         ToolbarComponent,
@@ -20,14 +20,14 @@ describe('AppComponent', () => {
         MdIconModule,
         MdToolbarModule
       ]
+
     }).compileComponents();
 
   }));
+  it("should create the app", async(() => {
 
-  it('should create the app', async(() => {
-
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+    const fixture: ComponentFixture<any> = TestBed.createComponent(AppComponent);
+    const app: any = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
 
   }));
