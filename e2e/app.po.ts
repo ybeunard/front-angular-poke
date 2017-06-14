@@ -1,10 +1,10 @@
-import { browser, by, element } from 'protractor';
+import { browser } from "protractor";
 
 export class FrontOpsPage {
 
   navigateTo() {
 
-    return browser.get('/');
+    return browser.get("/");
 
   }
 

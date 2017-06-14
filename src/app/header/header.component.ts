@@ -1,32 +1,32 @@
-import {Component, OnInit, NgZone} from '@angular/core';
-import { getTranslationProviders } from '../../i18n-providers';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {Component, NgZone} from "@angular/core";
+import { getTranslationProviders } from "../../i18n-providers";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
-import { AppModule } from '../app.module';
+import { AppModule } from "../app.module";
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
-}) export class HeaderComponent implements OnInit {
+
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.scss"]
+
+}) export class HeaderComponent {
 
   locale: string;
-
-  isLocaleLanguage(language) {
+  isLocaleLanguage(language: string) {
 
     return (language === this.locale);
 
   };
+  changeLanguage(language: string) {
 
-  changeLanguage(language) {
-
-    document['locale'] = language;
+    document["locale"] = language;
     this.locale = language;
     this.zone.runOutsideAngular(() => {
 
       getTranslationProviders().then(providers => {
 
-        const options = { providers };
+        const options: any = { providers };
         platformBrowserDynamic().bootstrapModule(AppModule, options);
 
       });
@@ -34,13 +34,10 @@ import { AppModule } from '../app.module';
     });
 
   };
-
   constructor(private zone: NgZone) {
 
-    this.locale =  document['locale'] as string;
+    this.locale =  document["locale"] as string;
 
   }
-
-  ngOnInit() { }
 
 }
