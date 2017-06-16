@@ -25,7 +25,7 @@ const context: any = require.context("./", true, /\.spec\.ts$/);
 context.keys().map(context);
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () {};
+__karma__.loaded = function () { /*empty to block the loader*/ };
 
 // Finally, start Karma to run the tests.
 __karma__.start();
