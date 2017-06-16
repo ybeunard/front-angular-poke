@@ -7,8 +7,8 @@ import { AppComponent } from "./app.component";
 class HeaderComponent {}
 @Component({selector: "app-toolbar", template: ""})
 class ToolbarComponent {}
-@Component({selector: "app-actions-list", template: ""})
-class ActionsListComponent {}
+@Component({selector: "app-core", template: ""})
+class CoreComponent {}
 
 describe("AppComponent", () => {
 
@@ -22,7 +22,7 @@ describe("AppComponent", () => {
         AppComponent,
         HeaderComponent,
         ToolbarComponent,
-        ActionsListComponent
+        CoreComponent
       ]
 
     }).compileComponents().then(() => {
