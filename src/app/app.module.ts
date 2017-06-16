@@ -10,9 +10,11 @@ import { AppComponent } from "./app.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { HeaderComponent } from "./header/header.component";
 import { ActionsListComponent } from "./actions-list/actions-list.component";
+import { CoreComponent } from "./core/core.component";
 
 import { ModulesService } from "./service/modules.service";
 import { ActionsService } from "./service/actions.service";
+import { CoreDirective } from "./directive/core.directive";
 
 @NgModule({
 
@@ -20,6 +22,11 @@ import { ActionsService } from "./service/actions.service";
     AppComponent,
     ToolbarComponent,
     HeaderComponent,
+    ActionsListComponent,
+    CoreComponent,
+    CoreDirective
+  ],
+  entryComponents: [
     ActionsListComponent
   ],
   imports: [

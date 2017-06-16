@@ -6,7 +6,6 @@ import { Action } from "../front-ops";
 
 @Component({
 
-  selector: "app-actions-list",
   templateUrl: "./actions-list.component.html",
   styleUrls: ["./actions-list.component.scss"]
 

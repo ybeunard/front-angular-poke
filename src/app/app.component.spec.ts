@@ -1,5 +1,5 @@
 import {TestBed, async, ComponentFixture} from "@angular/core/testing";
-import { Component } from "@angular/core";
+import { Component, Input, Type } from "@angular/core";
 
 import { AppComponent } from "./app.component";
 
@@ -7,8 +7,10 @@ import { AppComponent } from "./app.component";
 class HeaderComponent {}
 @Component({selector: "app-toolbar", template: ""})
 class ToolbarComponent {}
-@Component({selector: "app-actions-list", template: ""})
-class ActionsListComponent {}
+@Component({selector: "app-core", template: ""})
+class CoreComponent {
+  @Input() componentType: Type<any>;
+}
 
 describe("AppComponent", () => {
 
@@ -22,7 +24,7 @@ describe("AppComponent", () => {
         AppComponent,
         HeaderComponent,
         ToolbarComponent,
-        ActionsListComponent
+        CoreComponent
       ]
 
     }).compileComponents().then(() => {
