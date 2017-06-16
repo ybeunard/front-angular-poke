@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { MdToolbarModule} from "@angular/material";
 
 import { HeaderComponent } from "./header.component";
 
 describe("HeaderComponent", () => {
 
-  let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let component: any;
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -15,21 +14,18 @@ describe("HeaderComponent", () => {
       declarations: [ HeaderComponent ],
       imports: [ MdToolbarModule ]
 
-    })
-    .compileComponents();
+    }).compileComponents().then(() => {
+
+      fixture = TestBed.createComponent(HeaderComponent);
+      component = fixture.debugElement.componentInstance;
+
+    });
 
   }));
-  beforeEach(() => {
-
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-  });
-  it("should be created", () => {
+  it("should be created", async(() => {
 
     expect(component).toBeTruthy();
 
-  });
+  }));
 
 });

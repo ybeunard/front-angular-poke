@@ -1,34 +1,41 @@
 import {TestBed, async, ComponentFixture} from "@angular/core/testing";
-import { MdIconModule, MdToolbarModule } from "@angular/material";
+import { Component } from "@angular/core";
 
 import { AppComponent } from "./app.component";
-import {HeaderComponent} from "./header/header.component";
-import {ToolbarComponent} from "./toolbar/toolbar.component";
+
+@Component({selector: "app-header", template: ""})
+class HeaderComponent {}
+@Component({selector: "app-toolbar", template: ""})
+class ToolbarComponent {}
+@Component({selector: "app-actions-list", template: ""})
+class ActionsListComponent {}
 
 describe("AppComponent", () => {
 
+  let fixture: ComponentFixture<AppComponent>;
+  let component: any;
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
 
       declarations: [
         AppComponent,
+        HeaderComponent,
         ToolbarComponent,
-        HeaderComponent
-      ],
-      imports: [
-        MdIconModule,
-        MdToolbarModule
+        ActionsListComponent
       ]
 
-    }).compileComponents();
+    }).compileComponents().then(() => {
+
+      fixture = TestBed.createComponent(AppComponent);
+      component = fixture.debugElement.componentInstance;
+
+    });
 
   }));
   it("should create the app", async(() => {
 
-    const fixture: ComponentFixture<any> = TestBed.createComponent(AppComponent);
-    const app: any = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
 
   }));
 

@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 
 import { ActionsService } from "../service/actions.service";
-import { ModulesService } from "../service/modules.service";
 
 import { Action } from "../front-ops";
 
@@ -34,7 +33,7 @@ import { Action } from "../front-ops";
     module.visibility = !module.visibility;
 
   }
-  constructor(private actionsService: ActionsService, private modulesService: ModulesService) {
+  constructor(private actionsService: ActionsService) {
 
     this.loadActions();
 

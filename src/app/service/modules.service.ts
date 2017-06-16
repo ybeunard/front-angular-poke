@@ -11,7 +11,7 @@ import { Module } from "../front-ops";
 @Injectable()
 export class ModulesService {
 
-  getAllModules(): Observable<Module[]> {
+  getAllModules(): Observable<Array<Module>> {
 
     return this.http.get(environment.urlModule)
       .map(response => {
