@@ -19,10 +19,12 @@ module.exports = function (config) {
 
     },
     files: [
+      { pattern: './src/theme.scss'},
       { pattern: './src/test.ts', watched: false }
     ],
     preprocessors: {
 
+      './src/theme.scss': ['@angular/cli'],
       './src/test.ts': ['@angular/cli']
 
     },

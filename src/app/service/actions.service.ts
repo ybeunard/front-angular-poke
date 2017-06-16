@@ -6,8 +6,9 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 
-import { Action } from "../front-ops";
 import { ModulesService } from "./modules.service";
+
+import { Action } from "../front-ops";
 
 @Injectable()
 export class ActionsService {
@@ -48,13 +49,13 @@ export class ActionsService {
         this.modulesService.getAllModules()
       ]).map(([actions, modules]) => {
 
-        return this.sortActionsByMdule(actions, modules);
+        return this.sortActionsByModule(actions, modules);
 
       })
       .catch(this.handleError);
 
   }
-  sortActionsByMdule(actions: any, modules: any): Array<{ moduleName: string, actions: Action[], visibility: boolean }> {
+  sortActionsByModule(actions: any, modules: any): Array<{ moduleName: string, actions: Action[], visibility: boolean }> {
 
     const listActionsSortByModule: Array< { moduleName: string, actions: Action[], visibility: boolean } > = [];
     modules.forEach( (module) => {

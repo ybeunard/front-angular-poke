@@ -3,10 +3,12 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
+const urlServeurBack: string = "http://172.18.36.38:5000";
+
 export const environment: any = {
 
   production: false,
-  urlAction: "http://172.18.36.112:5000/actions",
-  urlModule: "http://172.18.36.112:5000/modules"
+  urlAction: urlServeurBack + "/actions",
+  urlModule: urlServeurBack + "/modules"
 
 };

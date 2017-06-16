@@ -5,8 +5,8 @@ import { ToolbarComponent } from "./toolbar.component";
 
 describe("ToolbarComponent", () => {
 
-  let component: ToolbarComponent;
   let fixture: ComponentFixture<ToolbarComponent>;
+  let component: any;
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -17,21 +17,18 @@ describe("ToolbarComponent", () => {
         MdToolbarModule
       ]
 
-    })
-    .compileComponents();
+    }).compileComponents().then(() => {
+
+      fixture = TestBed.createComponent(ToolbarComponent);
+      component = fixture.debugElement.componentInstance;
+
+    });
 
   }));
-  beforeEach(() => {
-
-    fixture = TestBed.createComponent(ToolbarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-  });
-  it("should be created", () => {
+  it("should be created", async(() => {
 
     expect(component).toBeTruthy();
 
-  });
+  }));
 
 });
