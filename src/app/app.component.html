@@ -9,12 +9,12 @@
 
     <div class="item">
 
-      <app-toolbar></app-toolbar>
+      <app-toolbar (changeCore)="changeCore($event)"></app-toolbar>
 
     </div>
     <div class="item">
 
-      <app-core></app-core>
+      <app-core [componentType]="component"></app-core>
 
     </div>
 
