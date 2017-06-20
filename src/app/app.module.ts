@@ -7,6 +7,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MdIconModule, MdToolbarModule, MdButtonModule } from "@angular/material";
 
 import {CoreActionModule} from "./core-action/core-action.module";
+import {CoreScenarioModule} from "./core-scenario/core-scenario.module";
 
 import {AppRoutingModule} from "./app-routing.module";
 
@@ -36,6 +37,7 @@ import {NotFoundComponent} from "./error/not-found.component";
     JsonpModule,
     MdButtonModule,
     CoreActionModule,
+    CoreScenarioModule,
     AppRoutingModule
 
   ],
