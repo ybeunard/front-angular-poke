@@ -8,22 +8,31 @@ import "rxjs/add/operator/map";
 
 import { ModulesService } from "./modules.service";
 
-import { Action } from "../front-ops";
+import {Action, Module} from '../front-ops';
 
 @Injectable()
 export class ActionsService {
 
+  listActions: Array<Action>;
+
   getAllActions(): Observable<Action[]> {
 
+    if(this.listActions){
+
+      return Observable.of(this.listActions);
+
+    }
     return this.http.get(environment.urlAction)
       .map(response => {
 
-        return response.json().actions;
+        this.listActions = response.json().actions;
+        return this.listActions;
 
       })
       .catch(this.handleError);
 
   }
+
   private handleError (error: Response | any) {
 
     let errMsg: string;
@@ -41,7 +50,8 @@ export class ActionsService {
     return Observable.throw(errMsg);
 
   }
-  getListActionsSortByModule(): Observable<{ moduleName: string, actions: Action[], visibility: boolean }[]> {
+
+  getListActionsSortByModule(): Observable<{ module: Module, actions: Action[], visibility: boolean }[]> {
 
     return Observable
       .forkJoin([
@@ -55,9 +65,10 @@ export class ActionsService {
       .catch(this.handleError);
 
   }
-  sortActionsByModule(actions: any, modules: any): Array<{ moduleName: string, actions: Action[], visibility: boolean }> {
 
-    const listActionsSortByModule: Array< { moduleName: string, actions: Action[], visibility: boolean } > = [];
+  sortActionsByModule(actions: any, modules: any): Array<{ module: Module, actions: Action[], visibility: boolean }> {
+
+    const listActionsSortByModule: Array< { module: Module, actions: Action[], visibility: boolean } > = [];
     modules.forEach( (module) => {
 
       const listActionsForOneModule: Array<Action> = [];
@@ -70,12 +81,13 @@ export class ActionsService {
         }
 
       });
-      listActionsSortByModule.push( { moduleName: module.name, actions: listActionsForOneModule, visibility: false });
+      listActionsSortByModule.push( { module: module, actions: listActionsForOneModule, visibility: false });
 
     });
     return listActionsSortByModule;
 
   }
+
   constructor(private http: Http, private modulesService: ModulesService) { }
 
 }
