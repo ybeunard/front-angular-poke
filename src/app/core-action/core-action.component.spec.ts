@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CoreComponent } from "./core.component";
+import { CoreComponent } from "./core-action.component";
 
 describe("CoreComponent", () => {
 

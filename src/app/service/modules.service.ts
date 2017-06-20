@@ -11,8 +11,15 @@ import { Module } from "../front-ops";
 @Injectable()
 export class ModulesService {
 
+  listModules: Array<Module>;
+
   getAllModules(): Observable<Array<Module>> {
 
+    if(this.listModules) {
+
+      return Observable.of(this.listModules);
+
+    }
     return this.http.get(environment.urlModule)
       .map(response => {
 
@@ -22,6 +29,7 @@ export class ModulesService {
       .catch(this.handleError);
 
   }
+
   private handleError (error: Response | any) {
 
     let errMsg: string;
@@ -39,6 +47,7 @@ export class ModulesService {
     return Observable.throw(errMsg);
 
   }
+
   constructor(private http: Http) { }
 
 }

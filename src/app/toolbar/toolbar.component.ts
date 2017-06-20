@@ -11,16 +11,11 @@ import { ActionsListComponent } from "../actions-list/actions-list.component";
 }) export class ToolbarComponent {
 
   @Output() changeCore: EventEmitter<Type<any>> = new EventEmitter<Type<any>>();
+
   classes: any = {
 
     "ActionsListComponent": ActionsListComponent
 
   };
-  updateCore(component: string) {
-
-    const componentType: Type<any> = this.classes[component];
-    this.changeCore.emit(componentType);
-
-  }
 
 }

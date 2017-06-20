@@ -1,4 +1,4 @@
-import { Component, Type } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
 
@@ -6,13 +6,4 @@ import { Component, Type } from "@angular/core";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 
-}) export class AppComponent {
-
-  component: Type<any>;
-  changeCore(component: Type<any>) {
-
-    this.component = component;
-
-  }
-
-}
+}) export class AppComponent { }
