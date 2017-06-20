@@ -4,45 +4,40 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
 import "hammerjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { MdMenuModule, MdIconModule, MdToolbarModule, MdButtonModule } from "@angular/material";
+import { MdIconModule, MdToolbarModule, MdButtonModule } from "@angular/material";
+
+import {CoreActionModule} from './core-action/core-action.module';
+
+import {AppRoutingModule} from "./app-routing.module";
 
 import { AppComponent } from "./app.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { HeaderComponent } from "./header/header.component";
-import { ActionsListComponent } from "./actions-list/actions-list.component";
-import { CoreComponent } from "./core/core.component";
-
-import { ModulesService } from "./service/modules.service";
-import { ActionsService } from "./service/actions.service";
-import { CoreDirective } from "./directive/core.directive";
+import {NotFoundComponent} from "./error/not-found.component";
 
 @NgModule({
 
   declarations: [
+
     AppComponent,
     ToolbarComponent,
     HeaderComponent,
-    ActionsListComponent,
-    CoreComponent,
-    CoreDirective
-  ],
-  entryComponents: [
-    ActionsListComponent
+    NotFoundComponent
+
   ],
   imports: [
+
     BrowserModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
     MdIconModule,
     MdToolbarModule,
-    MdMenuModule,
     JsonpModule,
-    MdButtonModule
-  ],
-  providers: [
-    ModulesService,
-    ActionsService
+    MdButtonModule,
+    CoreActionModule,
+    AppRoutingModule
+
   ],
   bootstrap: [ AppComponent ]
 
