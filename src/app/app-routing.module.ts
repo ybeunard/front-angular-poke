@@ -8,12 +8,6 @@ const appRoutes: Routes = [
 
   {
 
-    path: "actions",
-    loadChildren: "app/core-action/core-action.module"
-
-  },
-  {
-
     path: "",
     redirectTo: "",
     pathMatch: "full"
