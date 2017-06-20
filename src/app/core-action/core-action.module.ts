@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {MdButtonModule, MdMenuModule} from '@angular/material';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import {MdButtonModule, MdMenuModule} from "@angular/material";
 
 import {CoreActionRoutingModule} from "./core-action-routing.module";
 import {CoreActionComponent} from "./core-action.component";

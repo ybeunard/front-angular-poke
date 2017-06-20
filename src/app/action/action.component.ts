@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 import { ActionsService } from "../service/actions.service";
 
-import { Action } from '../front-ops';
-import {isUndefined} from 'util';
+import { Action } from "../front-ops";
+import {isUndefined} from "util";
 
 @Component({
 
-  selector: 'app-action',
-  templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss']
+  selector: "app-action",
+  templateUrl: "./action.component.html",
+  styleUrls: ["./action.component.scss"]
 
 }) export class ActionComponent implements OnInit {
 
@@ -28,7 +28,7 @@ import {isUndefined} from 'util';
 
   }
 
-  foundAction(listActions) {
+  foundAction(listActions: any) {
 
     this.route.params
       .map((params: Params) => {
@@ -39,12 +39,12 @@ import {isUndefined} from 'util';
 
         }
 
-      }).subscribe((id: number) => {
+      }).subscribe((id: string) => {
 
       if(id) {
 
-        const indexAction: number = listActions.findIndex(list => list.id == id);
-        if(indexAction != -1) {
+        const indexAction: number = listActions.findIndex( action => action.id.toString() === id);
+        if(indexAction !== -1) {
 
           this.action = listActions[indexAction];
 

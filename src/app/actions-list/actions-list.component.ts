@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import { Subscription }   from "rxjs/Subscription";
 
 import { ActionsService } from "../service/actions.service";
 
-import {Action, Module} from '../front-ops';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Action, Module} from "../front-ops";
 
 @Component({
 
@@ -49,12 +49,12 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 
         }
 
-      }).subscribe((id: number) => {
+      }).subscribe((id: string) => {
 
         if(id) {
 
-          const indexModule: number = this.listActionsSortByModule.findIndex(list => list.module.id == id);
-          if(indexModule != -1) {
+          const indexModule: number = this.listActionsSortByModule.findIndex(list => list.module.id.toString() === id);
+          if(indexModule !== -1) {
 
             this.listActionsSortByModule[indexModule].visibility = true;
 

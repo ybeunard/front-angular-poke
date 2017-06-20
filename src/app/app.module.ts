@@ -6,7 +6,7 @@ import "hammerjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MdIconModule, MdToolbarModule, MdButtonModule } from "@angular/material";
 
-import {CoreActionModule} from './core-action/core-action.module';
+import {CoreActionModule} from "./core-action/core-action.module";
 
 import {AppRoutingModule} from "./app-routing.module";
 

@@ -8,7 +8,7 @@ import "rxjs/add/operator/map";
 
 import { ModulesService } from "./modules.service";
 
-import {Action, Module} from '../front-ops';
+import {Action, Module} from "../front-ops";
 
 @Injectable()
 export class ActionsService {
@@ -17,7 +17,7 @@ export class ActionsService {
 
   getAllActions(): Observable<Action[]> {
 
-    if(this.listActions){
+    if(this.listActions) {
 
       return Observable.of(this.listActions);
 

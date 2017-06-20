@@ -1,8 +1,8 @@
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
+import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from "@angular/core";
 
-import {SelectivePreloadingStrategy} from "./selective-preloading-strategy";
-import {NotFoundComponent} from "./error/not-found.component";
+import { SelectivePreloadingStrategy } from "./selective-preloading-strategy";
+import { NotFoundComponent } from "./error/not-found.component";
 
 const appRoutes: Routes = [
 
@@ -17,6 +17,12 @@ const appRoutes: Routes = [
     path: "",
     redirectTo: "",
     pathMatch: "full"
+
+  },
+  {
+
+    path: "**",
+    component: NotFoundComponent
 
   }
 
