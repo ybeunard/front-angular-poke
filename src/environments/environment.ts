@@ -8,7 +8,8 @@ const urlServeurBack: string = "http://172.18.36.38:5000";
 export const environment: any = {
 
   production: false,
-  urlAction: urlServeurBack + "/actions",
-  urlModule: urlServeurBack + "/modules"
+  urlGetAllActions: urlServeurBack + "/modules/*/actions/",
+  urlPostAction: urlServeurBack + "/modules/",
+  urlGetAllModules: urlServeurBack + "/modules/"
 
 };
