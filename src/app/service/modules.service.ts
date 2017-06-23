@@ -11,19 +11,22 @@ import { Module } from "../front-ops";
 @Injectable()
 export class ModulesService {
 
-  listModules: Array<Module>;
+  listModules: Array<Module> = [];
 
   getAllModules(): Observable<Array<Module>> {
 
-    if(this.listModules) {
+    if(this.listModules && this.listModules.length > 0) {
 
       return Observable.of(this.listModules);
 
     }
-    return this.http.get(environment.urlModule)
+    return this.http.get(environment.urlGetAllModules)
       .map(response => {
 
-        this.listModules = response.json().modules || { };
+        const responseModules: Array<any> = response.json().modules || { };
+        responseModules.forEach((module: any) => {
+          this.listModules.push({ id: module.id, name: module.name});
+        });
         return this.listModules;
 
       })

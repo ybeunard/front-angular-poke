@@ -13,19 +13,19 @@ import {Action, Module} from "../front-ops";
 @Injectable()
 export class ActionsService {
 
-  listActions: Array<Action>;
+  listActions: Array<Action> = [];
 
   getAllActions(): Observable<Action[]> {
 
-    if(this.listActions) {
+    if(this.listActions && this.listActions.length > 0) {
 
       return Observable.of(this.listActions);
 
     }
-    return this.http.get(environment.urlAction)
+    return this.http.get(environment.urlGetAllActions)
       .map(response => {
 
-        this.listActions = response.json().actions || { };
+        this.listActions = response.json() || { };
         return this.listActions;
 
       })
@@ -63,6 +63,15 @@ export class ActionsService {
 
       })
       .catch(this.handleError);
+
+  }
+
+  executeAction(action: Action, args: string): Observable<string> {
+
+    return this.http.post(environment.urlPostAction + action.module_id + "/actions/" + action.id + "/execute", {args: args})
+      .map((response) => {
+        return response.json().message;
+      });
 
   }
 
