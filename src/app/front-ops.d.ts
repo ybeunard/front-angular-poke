@@ -6,6 +6,8 @@ export class Action {
   label: string;
   command: string;
   args: string;
+  args_helper: string;
+  working_status: boolean;
 
 }
 export class Module {
