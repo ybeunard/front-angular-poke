@@ -14,3 +14,22 @@ export class Module {
   name: string;
 
 }
+export class Task {
+
+  id: number;
+  action: Action;
+  x: number;
+  y: number;
+  size: number;
+  success: number;
+  error: number;
+
+}
+export class Scenario {
+
+  id: number;
+  label: string;
+  startTask: number;
+  tasks: number;
+
+}
