@@ -22,7 +22,11 @@
         "styles.scss",
         "theme.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "js/sigma/sigma.require.js",
+        "js/sigma/plugins/sigma.layout.forceAtlas2.min.js",
+        "js/sigma/plugins/sigma.parsers.json.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

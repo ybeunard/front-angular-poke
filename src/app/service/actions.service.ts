@@ -25,7 +25,7 @@ export class ActionsService {
     return this.http.get(environment.urlAction)
       .map(response => {
 
-        this.listActions = response.json().actions;
+        this.listActions = response.json().actions || { };
         return this.listActions;
 
       })

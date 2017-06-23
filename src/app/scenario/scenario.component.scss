@@ -1,0 +1,15 @@
+@import '../../styles/_constant';
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+#sigma-graph {
+
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+
+}

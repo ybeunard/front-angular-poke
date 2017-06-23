@@ -2,13 +2,27 @@ import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
 import {  CoreScenarioComponent } from "./core-scenario.component";
+import { ScenariosListComponent } from "../scenarios-list/scenarios-list.component";
+import { ScenarioComponent } from "../scenario/scenario.component";
 
 const scenariosRoutes: Routes = [
 
   {
 
     path: "scenarios",
-    component: CoreScenarioComponent
+    component: CoreScenarioComponent,
+    children: [{
+
+      path: "",
+      component: ScenariosListComponent,
+      children: [{
+
+        path: ":id",
+        component: ScenarioComponent
+
+      }]
+
+    }]
 
   }
 
