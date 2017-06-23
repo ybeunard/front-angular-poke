@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
 import { Scenario } from "../front-ops";
-import { mockUrlScenario } from "./scenarios.service.mock"
+import { mockUrlScenario } from "./scenarios.service.mock";
 
 @Injectable()
 export class ScenariosService {

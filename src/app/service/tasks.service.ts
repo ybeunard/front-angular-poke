@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from "@angular/core";
 
-import { Task } from '../front-ops';
-import {mockUrlTask} from './tasks.service.mock';
+import { Task } from "../front-ops";
+import { mockUrlTask } from "./tasks.service.mock";
 
 @Injectable()
 export class TaskService {
@@ -18,7 +17,7 @@ export class TaskService {
       return this.sigmaNodesDiagram;
 
     }
-    const model = mockUrlTask;
+    const model: any = mockUrlTask;
     this.extractModelTasks(model);
     return this.sigmaNodesDiagram;
 
@@ -28,7 +27,7 @@ export class TaskService {
 
     let starterTask: number = model.starter;
     this.edgeCount = 0;
-    this.sigmaNodesDiagram = { nodes: [], edges: [] }
+    this.sigmaNodesDiagram = { nodes: [], edges: [] };
     this.extractTask(model, model.tasksById[starterTask]);
 
   }

@@ -22,13 +22,14 @@ import {isUndefined} from "util";
       .getAllActions()
       .subscribe((response) => {
 
-        this.foundAction(response);
+        const listActions: Array<Action> = response;
+        this.foundAction(listActions);
 
       });
 
   }
 
-  foundAction(listActions: any) {
+  foundAction(listActions: Array<Action>) {
 
     this.route.params
       .map((params: Params) => {
@@ -39,11 +40,12 @@ import {isUndefined} from "util";
 
         }
 
-      }).subscribe((id: string) => {
+      }).subscribe((response) => {
 
-      if(id) {
+      const id: number = parseInt(response, 10);
+      if(!isUndefined(id)) {
 
-        const indexAction: number = listActions.findIndex( action => action.id.toString() === id);
+        const indexAction: number = listActions.findIndex( (action: Action) => action.id === id);
         if(indexAction !== -1) {
 
           this.action = listActions[indexAction];
@@ -61,12 +63,6 @@ import {isUndefined} from "util";
   ngOnInit() {
 
     this.loadAction();
-
-    if(isUndefined(this.action)) {
-
-      return;
-
-    }
 
   }
 

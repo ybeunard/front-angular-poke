@@ -1,20 +1,20 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {isUndefined} from 'util';
+import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { isUndefined } from "util";
 
-import {ScenariosService} from '../service/scenarios.service';
-import { TaskService } from '../service/tasks.service';
+import { ScenariosService } from "../service/scenarios.service";
+import { TaskService } from "../service/tasks.service";
 
-import { Scenario } from '../front-ops';
+import { Scenario } from "../front-ops";
 
-const sigma = require('../../js/sigma/sigma.require.js');
-import '../../js/sigma/plugins/sigma.layout.forceAtlas2.min.js';
-import '../../js/sigma/plugins/sigma.parsers.json.min.js';
+const sigma: any = require("../../js/sigma/sigma.require.js");
+import "../../js/sigma/plugins/sigma.layout.forceAtlas2.min.js";
+import "../../js/sigma/plugins/sigma.parsers.json.min.js";
 
 @Component({
-  selector: 'app-scenario',
-  templateUrl: './scenario.component.html',
-  styleUrls: ['./scenario.component.scss']
+  selector: "app-scenario",
+  templateUrl: "./scenario.component.html",
+  styleUrls: ["./scenario.component.scss"]
 })
 export class ScenarioComponent implements OnInit, AfterViewInit {
 
@@ -38,15 +38,15 @@ export class ScenarioComponent implements OnInit, AfterViewInit {
     this.route.params
       .map((params: Params) => {
 
-        if(params['id']) {
+        if(params["id"]) {
 
-          return params['id'];
+          return params["id"];
 
         }
 
       }).subscribe((response) => {
 
-      const id: number = parseInt(response);
+      const id: number = parseInt(response, 10);
       if(!isUndefined(id)) {
 
         const indexScenario: number = listScenario.findIndex((scenario: Scenario) => scenario.id === id);
@@ -78,11 +78,13 @@ export class ScenarioComponent implements OnInit, AfterViewInit {
       graph: myGraph,
       renderers: [
         {
-          container: document.getElementById('sigma-graph'),
-          type: 'canvas' // sigma.renderers.canvas works as well
+          container: document.getElementById("sigma-graph"),
+          type: "canvas"
         }
       ]
     });
+    s.refresh();
+
   }
 
 }

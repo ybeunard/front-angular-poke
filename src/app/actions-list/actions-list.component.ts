@@ -1,10 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Subscription }   from "rxjs/Subscription";
 
 import { ActionsService } from "../service/actions.service";
 
-import {Action, Module} from "../front-ops";
+import { Action, Module} from "../front-ops";
+import { isUndefined } from "util";
 
 @Component({
 
@@ -49,11 +50,12 @@ import {Action, Module} from "../front-ops";
 
         }
 
-      }).subscribe((id: string) => {
+      }).subscribe((response) => {
 
-        if(id) {
+        const id: number = parseInt(response, 10);
+        if(!isUndefined(id)) {
 
-          const indexModule: number = this.listActionsSortByModule.findIndex(list => list.module.id.toString() === id);
+          const indexModule: number = this.listActionsSortByModule.findIndex((list: {module: Module, actions: Array<Action>, visibility: boolean}) => list.module.id === id);
           if(indexModule !== -1) {
 
             this.listActionsSortByModule[indexModule].visibility = true;

@@ -23,7 +23,8 @@ export class ModulesService {
     return this.http.get(environment.urlModule)
       .map(response => {
 
-        return response.json().modules || { };
+        this.listModules = response.json().modules || { };
+        return this.listModules;
 
       })
       .catch(this.handleError);

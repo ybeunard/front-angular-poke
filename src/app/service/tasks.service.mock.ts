@@ -1,4 +1,4 @@
-export const mockUrlTask = {
+export const mockUrlTask: any = {
   starter: 0,
   tasksById: {
     0: {
