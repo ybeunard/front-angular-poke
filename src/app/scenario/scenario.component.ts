@@ -72,9 +72,9 @@ export class ScenarioComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
 
-    let myGraph = this.tasksService.getSigmaGraph();
+    let myGraph: any = this.tasksService.getSigmaGraph();
 
-    let s = new sigma({
+    let s: any = new sigma({
       graph: myGraph,
       renderers: [
         {

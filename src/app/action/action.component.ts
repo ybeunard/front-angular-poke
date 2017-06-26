@@ -15,6 +15,8 @@ import {isUndefined} from "util";
 }) export class ActionComponent implements OnInit {
 
   action: Action;
+  args: string = "";
+  console: string = "";
 
   loadAction() {
 
@@ -48,6 +50,7 @@ import {isUndefined} from "util";
         const indexAction: number = listActions.findIndex( (action: Action) => action.id === id);
         if(indexAction !== -1) {
 
+          this.console = "";
           this.action = listActions[indexAction];
 
         }
@@ -55,6 +58,22 @@ import {isUndefined} from "util";
       }
 
     });
+
+  }
+
+  runAction(action: Action) {
+
+    this.actionsService.executeAction(action, this.args)
+      .subscribe((response) => {
+
+        this.console = response;
+
+      },
+        (error) => {
+
+          this.console = error;
+
+        });
 
   }
 

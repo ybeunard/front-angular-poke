@@ -1,5 +1,6 @@
 <div class="container">
 
+  <button md-button (click)="runAction(action)">RUN</button>
   <p *ngIf="action">
 
     {{action.id}}
@@ -10,5 +11,7 @@
     {{action.args}}
 
   </p>
+  <input [value]="args" (input)="args = $event.target.value" placeholder="Arguments">
+  <div>{{console}}</div>
 
 </div>
