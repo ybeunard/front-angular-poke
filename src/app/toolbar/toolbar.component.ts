@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Output, Type } from "@angular/core";
-
-import { ActionsListComponent } from "../actions-list/actions-list.component";
+import { Component } from "@angular/core";
 
 @Component({
 
@@ -8,14 +6,4 @@ import { ActionsListComponent } from "../actions-list/actions-list.component";
   templateUrl: "./toolbar.component.html",
   styleUrls: ["./toolbar.component.scss"]
 
-}) export class ToolbarComponent {
-
-  @Output() changeCore: EventEmitter<Type<any>> = new EventEmitter<Type<any>>();
-
-  classes: any = {
-
-    "ActionsListComponent": ActionsListComponent
-
-  };
-
-}
+}) export class ToolbarComponent { }

@@ -5,6 +5,40 @@
   width: 100%;
 }
 
+a {
+
+  width: 100%;
+
+
+}
+
+button {
+
+  background-color: transparent;
+  border-bottom-style: outset;
+  border-left-style: none;
+  border-top-style: outset;
+  border-right-style: none;
+  color: $color-theme-accent;
+  width: 100%;
+
+}
+
+md-toolbar {
+
+  background-color: $color-theme-primary !important;
+  color: $color-theme-accent !important;
+
+}
+
+md-toolbar-row {
+
+  margin: 20px 0px;
+
+}
+
 .spacer {
+
   flex: 1;
+
 }

@@ -1,10 +1,55 @@
 @import '../../styles/_constant';
 
 :host {
+
   height: 100%;
   width: 100%;
+
+}
+
+button {
+
+  background-color: $color-theme-accent !important;
+
+}
+
+button:disabled {
+
+  background-color: $color-theme-primary !important;
+  border: $color-theme-accent solid 1px !important;
+  color: $color-theme-accent !important;
+
 }
 
 .header:nth-child(2) {
-  margin-left: auto;
+
+  margin-left: $toolbar-width;
+  position: $header-span-link-position;
+
+}
+
+.header:nth-child(3) {
+
+  margin-left: $header-child-3-margin-left;
+
+}
+
+md-toolbar {
+
+  background-color: $color-theme-primary !important;
+  color: $color-theme-accent !important;
+
+}
+
+span {
+
+  color: $color-theme-accent;
+
+}
+
+span.link {
+
+  cursor: $header-span-link-cursor;
+  text-decoration: $header-span-link-text-decoration;
+
 }

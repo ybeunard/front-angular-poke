@@ -1,5 +1,45 @@
-<div class="container">
+<div class="container" *ngIf="!errorMessageGetAllScenarios && !errorMessageScenarioNotFound && !errorMessageGetScript">
 
+  <div class="principal" *ngIf="scenario">
+
+    <div class="item">
+
+      <button md-button [disabled]="checkInstanceRunning()" (click)="runScenario()"> RUN </button>
+      <span [hidden]="checkVisibility()"><button md-button [disabled]="checkConsoleMessage()" (click)="changeVisibility()">console</button></span>
+      <span [hidden]="!checkVisibility()"><button md-button (click)="changeVisibility()">description</button></span>
+      <button md-button (click)="updateScenario()"> UPDATE </button>
+
+    </div>
+    <div class="item">
+
+      <div [hidden]="checkVisibility()" *ngIf="scenario"> {{scenario.description}} </div>
+      <div class="console" [hidden]="!checkVisibility()" *ngIf="!errorMessageResponseTasksServiceError">
+
+        <div class="consoleReturn" *ngFor="let log of consoleReturn" >
+
+          <div class="horodatage">{{log.begin_datetime | date: 'dd/MM/yyyy h:mm:ss'}}</div>
+          <div class="containerLabelMessage">
+            <button md-button class="label" [disabled]="!log.status" (click)="changeVisibilityLogConsole(log)"> {{log.label}} </button>
+            <div class="message" [hidden]="!log.visibility" [innerHtml]="getConsoleReturn(log.output)" *ngIf="!errorMessageResponseTasksServiceError"></div>
+          </div>
+          <div class="status"> {{log.status}}<p *ngIf="!log.status">En Cours</p> </div>
+          <div class="horodatage"> {{log.end_datetime | date: 'dd/MM/yyyy h:mm:ss'}}</div>
+
+        </div>
+
+      </div>
+      <div class="consoleReturn" [hidden]="!checkVisibility()" *ngIf="errorMessageResponseTasksServiceError">
+
+        ResponseTasksServiceError: {{errorMessageResponseTasksServiceError}}
+
+      </div>
+
+    </div>
+
+  </div>
   <div id="sigma-graph"></div>
 
 </div>
+<div class="container-router" *ngIf="errorMessageGetAllScenarios"><div class="error">{{errorMessageGetAllScenarios}}</div></div>
+<div class="container-router" *ngIf="errorMessageScenarioNotFound"><div class="error">{{errorMessageScenarioNotFound}}</div></div>
+<div class="container-router" *ngIf="errorMessageGetScript"><div class="error">{{errorMessageGetScript}}</div></div>

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MdListModule } from "@angular/material";
 
 import { ActionsService } from "../service/actions.service";
-import { ActionsServiceMock} from "../service/action.service.mock";
+import { ActionsServiceMock} from "../service/actions.service.mock";
 
 import { ActionsListComponent } from "./actions-list.component";
 

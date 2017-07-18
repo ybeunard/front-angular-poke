@@ -1,11 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Subscription }   from "rxjs/Subscription";
 
-import { ActionsService } from "../service/actions.service";
+import { ModulesService } from "../service/modules.service";
 
-import { Action, Module} from "../front-ops";
-import { isUndefined } from "util";
+import { Action, Module } from "../front-ops";
 
 @Component({
 
@@ -15,27 +13,28 @@ import { isUndefined } from "util";
 
 }) export class ActionsListComponent implements OnInit {
 
-  listActionsSortByModule: Array< { module: Module, actions: Action[], visibility: boolean } >;
+  listModules: Array<Module>;
 
-  errorMessage: string;
-
-  selectedModule: number;
-
-  subscription: Subscription;
+  // Error Messages
+  errorMessageGetAllModules: string = "";
+  errorMessageModuleNotFound: string = "";
 
   loadActions() {
 
-    this.actionsService
-      .getListActionsSortByModule()
+    this.modulesService
+      .getAllModules()
       .subscribe(
         response => {
 
-          this.listActionsSortByModule = response;
+          this.listModules = response;
           this.initCurrentModuleVisibility();
 
         },
-          error => this.errorMessage = error
-      );
+          error => {
+
+          this.errorMessageGetAllModules = error;
+
+      });
 
   }
 
@@ -46,44 +45,57 @@ import { isUndefined } from "util";
 
         if(params["module"]) {
 
+          this.errorMessageModuleNotFound = "";
           return params["module"];
 
         }
 
-      }).subscribe((response) => {
+      }).subscribe(
+        response => {
 
-        const id: number = parseInt(response, 10);
-        if(!isUndefined(id)) {
+          const id: number = parseInt(response, 10);
+          if (!isNaN(id)) {
 
-          const indexModule: number = this.listActionsSortByModule.findIndex((list: {module: Module, actions: Array<Action>, visibility: boolean}) => list.module.id === id);
-          if(indexModule !== -1) {
+            const indexModule: number = this.listModules.findIndex((list: Module) => list.id === id);
+            if (indexModule !== -1) {
 
-            this.listActionsSortByModule[indexModule].visibility = true;
+              this.listModules[indexModule].visibility = true;
+
+            } else {
+
+              this.errorMessageModuleNotFound = "Module ID " + id + " doesn't exists";
+
+            }
 
           }
 
-        }
+        },
+        error => {
+
+          this.errorMessageModuleNotFound = error;
 
       });
 
   }
 
-  changeVisibility(module: { module: Module, actions: Action[], visibility: boolean }) {
+  changeVisibility(module: Module) {
 
     module.visibility = !module.visibility;
 
   }
 
-  displayAction(action: Action) {
+  displayAction(module: Module, action: Action) {
 
-    this.router.navigate(["/actions/", action.module_id, action.id]);
+    this.router.navigate(["/actions/", module.id, action.id]);
 
   }
 
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private modulesService: ModulesService) { }
 
   ngOnInit() {
 
+    this.errorMessageGetAllModules = "";
+    this.errorMessageModuleNotFound = "";
     this.loadActions();
 
   }
