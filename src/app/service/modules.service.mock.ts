@@ -1,24 +1,8 @@
-import {Observable} from "rxjs/Observable";
+export const mockGetAllModules: Array<any> = [
+    { id: 0, label: "module 0", actions: [] },
+    { id: 1, label: "module 1", actions: [] },
+    { id: 2, label: "module 2", actions: [] },
+    { id: 3, label: "module 3", actions: [] },
+];
 
-export const mockUrlModule: any = {
-  modules: [
-    { id: 0, name: "module 0" },
-    { id: 1, name: "module 1" },
-    { id: 2, name: "module 2" },
-    { id: 3, name: "module 3" },
-  ]
-};
-export class ModulesServiceMock {
-
-  getAllModules() {
-
-    return Observable.of([
-      {id: 0, name: "module 0"},
-      {id: 1, name: "module 1"},
-      {id: 2, name: "module 2"},
-      {id: 3, name: "module 3"},
-    ]);
-
-  }
-
-};
+export class ModulesServiceMock { };
