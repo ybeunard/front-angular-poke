@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import {  CoreScenarioComponent } from "./core-scenario.component";
 import { ScenariosListComponent } from "../scenarios-list/scenarios-list.component";
 import { ScenarioComponent } from "../scenario/scenario.component";
+import { AddScenarioComponent } from "../add-scenario/add-scenario.component";
 
 const scenariosRoutes: Routes = [
 
@@ -13,16 +14,28 @@ const scenariosRoutes: Routes = [
     component: CoreScenarioComponent,
     children: [{
 
-      path: "",
-      component: ScenariosListComponent,
-      children: [{
+        path: "add",
+        component: AddScenarioComponent
 
-        path: ":id",
-        component: ScenarioComponent
+      },
+      {
+
+        path: ":id/update",
+        component: AddScenarioComponent
+
+      },
+      {
+
+        path: "",
+        component: ScenariosListComponent,
+        children: [{
+
+          path: ":id",
+          component: ScenarioComponent
+
+        }]
 
       }]
-
-    }]
 
   }
 

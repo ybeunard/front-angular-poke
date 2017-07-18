@@ -16,15 +16,29 @@ export class ScenariosListComponent implements OnInit {
 
   listScenarios: Array<Scenario>;
 
+  // Error Messages
+  errorMessageGetAllScenarios: string = "";
+
   loadScenarios() {
 
     this.scenariosService
       .getAllScenarios()
-      .subscribe( (response) => {
+      .subscribe(
+        response => {
 
-        this.listScenarios = response;
+          this.listScenarios = response;
 
-      } );
+        },
+        error => {
+
+          if(error.status === 404) {
+
+           return;
+
+          }
+          this.errorMessageGetAllScenarios = error;
+
+      });
 
   }
 
@@ -34,10 +48,17 @@ export class ScenariosListComponent implements OnInit {
 
   }
 
+  addScenario() {
+
+    this.router.navigate(["/scenarios/add"]);
+
+  }
+
   constructor(private router: Router, private scenariosService: ScenariosService) { }
 
   ngOnInit() {
 
+    this.errorMessageGetAllScenarios = "";
     this.loadScenarios();
 
   }
