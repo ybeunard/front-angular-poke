@@ -1,0 +1,28 @@
+<div class="dialog">
+
+  <div>
+
+    <div>Label action</div><br>
+    <input type="text" class="title" [(ngModel)]="label" />
+    <button class="exit-button" (click)="onResetLabel()">x</button>
+
+  </div>
+  <div>
+
+    <div>Argument actuel:</div><br>
+    <div>{{argsHelper}}</div>
+    <textarea class="argsInput" [(ngModel)]="args"></textarea>
+    <button class="exit-button" (click)="onResetArgs()">x</button>
+
+  </div>
+  <button md-button class="exit-button" (click)="onSubmit()">save</button>
+  <button md-button class="exit-button" (click)="onDelete()">delete</button>
+  <button md-button class="exit-button" (click)="onClickedExit()">exit</button><br>
+  <button md-button [disabled]="starterTask" class="exit-button" (click)="onStarterTask()">starterTask</button>
+  <button md-button *ngIf="successLink || errorLink" class="exit-button" (click)="onCancelAction()">Cancel Action</button><br>
+  <div>{{successLabel}}<p *ngIf="!successLabel">Aucun</p><button *ngIf="successLabel" class="exit-button" (click)="onDeleteSuccess()">x</button></div><br>
+  <button md-button [disabled]="successLink" class="exit-button" (click)="onSuccessLink()">success</button><br>
+  <div>{{errorLabel}}<p *ngIf="!errorLabel">Aucun</p><button *ngIf="errorLabel" class="exit-button" (click)="onDeleteError()">x</button></div><br>
+  <button md-button [disabled]="errorLink" class="exit-button" (click)="onErrorLink()">error</button><br>
+
+</div>

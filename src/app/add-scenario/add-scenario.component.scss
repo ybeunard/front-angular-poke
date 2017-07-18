@@ -1,0 +1,64 @@
+@import '../../styles/_constant';
+
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+.add-scenario-list {
+
+  align-content: center;
+  width: 300px;
+
+}
+
+button {
+
+  line-height: $button-line-height;
+  padding: $button-padding;
+  white-space: $button-white-space;
+
+}
+
+.current-action-list {
+
+  width: $add-scenario-current-actions-list-width;
+
+}
+
+.description {
+
+  height: $input-args-height;
+  resize: none;
+  width: $input-label-width;
+
+}
+
+.forms-add-scenario {
+
+  width: $add-scenario-form-width;
+
+}
+
+.label {
+
+  width: $input-label-width;
+
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-right: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-right: 5px solid #a94442; /* red */
+}
+
+#sigma-new-graph {
+
+  display: flex;
+  flex: 1;
+  height: 100%;
+  position: $graph-position;
+
+}
