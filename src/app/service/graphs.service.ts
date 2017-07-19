@@ -15,32 +15,6 @@ export class GraphsService {
   // sigma position used in graph
   private nodePos: Array<{ x: number, y: number }>;
 
-  // return sigma graph object associated to script argument
-  getSigmaGraph(scenario: Scenario): Graph {
-
-    this.nodePos = [];
-    this.edgeCount = 0;
-    this.sigmaNodesDiagram = { nodes: [], edges: [] };
-    const starterTask: Task = scenario.tasks.find(task => task.inner_scenario_id === scenario.starter_task_id);
-    if(isNullOrUndefined(starterTask)) {
-
-      return this.sigmaNodesDiagram;
-
-    }
-    this.nodePos[starterTask.inner_scenario_id] = { x: 0, y: 0 };
-    this.extractTask(scenario, starterTask);
-    this.checkMissTask(scenario, starterTask.inner_scenario_id);
-    return this.sigmaNodesDiagram;
-
-  }
-
-  private extractFollowingTask(scenario: Scenario, task: Task) {
-
-    this.checkFollowingTask(scenario, task, task.success_id, "#00cc00");
-    this.checkFollowingTask(scenario, task, task.error_id, "#cc272b");
-
-  }
-
   private checkFollowingTask(scenario: Scenario, task: Task, taskFollowing: number, color: string) {
 
     if(isNullOrUndefined(taskFollowing)) {
@@ -57,6 +31,36 @@ export class GraphsService {
       this.extractTask(scenario, newTask);
 
     }
+
+  }
+
+  private checkMissTask(scenario: Scenario, idParent: number) {
+
+    scenario.tasks.forEach((task: Task) => {
+
+      if(this.createPositionNodes(idParent, task.inner_scenario_id)) {
+
+        this.extractTask(scenario, task);
+
+      }
+
+    });
+
+  }
+
+  private checkPosition(x: number, y: number): boolean {
+
+    let check: boolean = true;
+    this.nodePos.forEach((pos: {x: number, y: number}) => {
+
+      if(pos.x === x && pos.y === y) {
+
+        check = false;
+
+      }
+
+    });
+    return check;
 
   }
 
@@ -98,19 +102,10 @@ export class GraphsService {
 
   }
 
-  private checkPosition(x: number, y: number): boolean {
+  private extractFollowingTask(scenario: Scenario, task: Task) {
 
-    let check: boolean = true;
-    this.nodePos.forEach((pos: {x: number, y: number}) => {
-
-      if(pos.x === x && pos.y === y) {
-
-        check = false;
-
-      }
-
-    });
-    return check;
+    this.checkFollowingTask(scenario, task, task.success_id, "#00cc00");
+    this.checkFollowingTask(scenario, task, task.error_id, "#cc272b");
 
   }
 
@@ -122,17 +117,22 @@ export class GraphsService {
 
   }
 
-  private checkMissTask(scenario: Scenario, idParent: number) {
+  // return sigma graph object associated to script argument
+  public getSigmaGraph(scenario: Scenario): Graph {
 
-    scenario.tasks.forEach((task: Task) => {
+    this.nodePos = [];
+    this.edgeCount = 0;
+    this.sigmaNodesDiagram = { nodes: [], edges: [] };
+    const starterTask: Task = scenario.tasks.find(task => task.inner_scenario_id === scenario.starter_task_id);
+    if(isNullOrUndefined(starterTask)) {
 
-      if(this.createPositionNodes(idParent, task.inner_scenario_id)) {
+      return this.sigmaNodesDiagram;
 
-        this.extractTask(scenario, task);
-
-      }
-
-    });
+    }
+    this.nodePos[starterTask.inner_scenario_id] = { x: 0, y: 0 };
+    this.extractTask(scenario, starterTask);
+    this.checkMissTask(scenario, starterTask.inner_scenario_id);
+    return this.sigmaNodesDiagram;
 
   }
 
