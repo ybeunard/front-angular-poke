@@ -11,7 +11,7 @@ import { InstancesService } from "../service/instances.service";
 
 import { Log, Scenario } from "../front-ops";
 
-const sigma: any = require("../../js/sigma/sigma.require");
+import * as Sigma from "../../js/sigma/sigma.require";
 
 @Component({
 
@@ -36,7 +36,91 @@ export class ScenarioComponent implements OnInit {
   errorMessageScenarioIdIncorrect: string = "";
   errorMessageResponseTasksServiceError: string = "";
 
-  loadScenario() {
+  // change console visibility
+  public changeVisibility() {
+
+    this.consoleVisibility = !this.consoleVisibility;
+
+  }
+
+  // change log visibility to see detail of log or not
+  public changeVisibilityLogConsole(logConsole: Log) {
+
+    const logFindIndex: number = this.consoleReturn.findIndex((logTest: Log ) => logTest === logConsole);
+    this.consoleReturn[logFindIndex].visibility = !this.consoleReturn[logFindIndex].visibility;
+
+  }
+
+  // return true if the consoleReturn contain information else return false
+  public checkConsoleMessage(): boolean {
+
+    if(isNullOrUndefined(this.consoleReturn)) {
+
+      return true;
+
+    }
+    return this.consoleReturn.length === 0;
+
+  }
+
+  // chek if one instance of the scenarion is running
+  public checkInstanceRunning(): boolean {
+
+    if(isNullOrUndefined(this.scenario)) {
+
+      return false;
+
+    }
+    return this.instancesService.checkInstanceScenarioRunning(this.scenario.id);
+
+  }
+
+  // check if the consoleReturn contain information else take consoleVisibility to false
+  // return console visibility
+  public checkVisibility(): boolean {
+
+    if(isNullOrUndefined(this.consoleReturn) || this.consoleReturn.length === 0) {
+
+      this.consoleVisibility = false;
+
+    }
+    return this.consoleVisibility;
+
+  }
+
+  // return the consoleReturn in SafeHtml
+  public getConsoleReturn(message: string) : SafeHtml {
+
+    return this.sanitizer.bypassSecurityTrustHtml(message);
+
+  }
+
+  // load a new graph sigma
+  private loadGraph() {
+
+    document.getElementById("sigma-graph").innerHTML = "";
+    this.sigInst =  new Sigma({
+      graph: this.graphsService.getSigmaGraph(this.scenario),
+      renderers: [
+        {
+          container: document.getElementById("sigma-graph"),
+          type: "canvas"
+        }
+      ],
+      settings: {
+
+        defaultNodeType: "border",
+        minArrowSize: 10
+
+      }
+    });
+    this.sigInst.graph.refreshColorStatus();
+    this.sigInst.refresh();
+
+  }
+
+  // recover id scenario in the URL and load the action.
+  private loadScenario() {
 
     this.route.params
       .map((params: Params) => {
@@ -53,7 +137,7 @@ export class ScenarioComponent implements OnInit {
       responseRouter => {
 
         const id: number = parseInt(responseRouter, 10);
-        if (!isNullOrUndefined(id)) {
+        if (!isNullOrUndefined(id) && !isNaN(id)) {
 
             this.scenariosService
               .getScenario(id)
@@ -74,7 +158,7 @@ export class ScenarioComponent implements OnInit {
 
         } else {
 
-          this.errorMessageScenarioIdIncorrect = "Scenario ID " + id + " doesn't exist";
+          this.errorMessageScenarioIdIncorrect = "Scenario ID " + responseRouter + " doesn't exist";
 
         }
 
@@ -87,75 +171,8 @@ export class ScenarioComponent implements OnInit {
 
   }
 
-  runScenario() {
-
-    this.consoleReturn = [];
-    this.sigInst.graph.refreshColorStatus();
-    this.sigInst.refresh();
-    this.logsService.refreshLogsScenario(this.scenario.id);
-    this.instancesService.runInstanceScenario(this.scenario.id);
-
-  }
-
-  updateScenario() {
-
-    this.router.navigate(["/scenarios/" + this.scenario.id + "/update"]);
-
-  }
-
-  getConsoleReturn(message: string) : SafeHtml {
-
-    return this.sanitizer.bypassSecurityTrustHtml(message);
-
-  }
-
-  checkVisibility(): boolean {
-
-    if(isNullOrUndefined(this.consoleReturn) || this.consoleReturn.length === 0) {
-
-      this.consoleVisibility = false;
-
-    }
-    return this.consoleVisibility;
-
-  }
-
-  checkInstanceRunning(): boolean {
-
-    if(isNullOrUndefined(this.scenario)) {
-
-      return false;
-
-    }
-    return this.instancesService.checkInstanceScenarioRunning(this.scenario.id);
-
-  }
-
-  changeVisibility() {
-
-    this.consoleVisibility = !this.consoleVisibility;
-
-  }
-
-  changeVisibilityLogConsole(logConsole: Log) {
-
-    const logFindIndex: number = this.consoleReturn.findIndex((logTest: Log ) => logTest === logConsole);
-    this.consoleReturn[logFindIndex].visibility = !this.consoleReturn[logFindIndex].visibility;
-
-  }
-
-  checkConsoleMessage(): boolean {
-
-    if(isNullOrUndefined(this.consoleReturn)) {
-
-      return true;
-
-    }
-    return this.consoleReturn.length === 0;
-
-  }
-
-  refreshConsoleReturn() {
+  // refresh the consoleReturn and set consoleVisibility to true
+  private refreshConsoleReturn() {
 
     this.consoleReturn = this.logsService.getCurrentLogsScenario(this.scenario.id);
     if(this.consoleReturn.length !== 0) {
@@ -166,7 +183,8 @@ export class ScenarioComponent implements OnInit {
 
   }
 
-  refreshStatusGraph() {
+  // refresh the sigma graph status
+  private refreshStatusGraph() {
 
     this.logsService
       .getStatusGraph(this.scenario)
@@ -174,40 +192,26 @@ export class ScenarioComponent implements OnInit {
 
         this.sigInst.graph.changeColorStatus(statusGraph.idTask, statusGraph.status, statusGraph.nextTask);
 
-    });
+      });
     this.sigInst.refresh();
 
   }
 
-  loadGraph() {
+  // run current scenario in component
+  public runScenario() {
 
-    document.getElementById("sigma-graph").innerHTML = "";
-    this.sigInst =  new sigma({
-      graph: this.graphsService.getSigmaGraph(this.scenario),
-      renderers: [
-        {
-          container: document.getElementById("sigma-graph"),
-          type: "canvas"
-        }
-      ],
-      settings: {
-
-        defaultNodeType: "border",
-        minArrowSize: 10
-
-      }
-    });
-    this.modulesService
-      .foundModuleId(this.scenario.tasks)
-      .subscribe(
-        response => {
-
-          this.sigInst.graph.setColorNodes(response);
-          this.sigInst.refresh();
-
-        });
+    this.consoleReturn = [];
     this.sigInst.graph.refreshColorStatus();
     this.sigInst.refresh();
+    this.logsService.refreshLogsScenario(this.scenario.id);
+    this.instancesService.runInstanceScenario(this.scenario.id);
+
+  }
+
+  // go to the interface update scenario
+  public updateScenario() {
+
+    this.router.navigate(["/scenarios/" + this.scenario.id + "/update"]);
 
   }
 
@@ -229,7 +233,7 @@ export class ScenarioComponent implements OnInit {
     this.loadScenario();
 
     this.logsService.instanceChange.subscribe(
-      (idScenario :number) => {
+      () => {
 
         this.refreshConsoleReturn();
         this.refreshStatusGraph();
@@ -241,13 +245,13 @@ export class ScenarioComponent implements OnInit {
 
     });
 
-    if(sigma.classes.graph.hasMethod("changeColorStatus")) {
+    if(Sigma.classes.graph.hasMethod("changeColorStatus")) {
 
       return;
 
     }
 
-    sigma.classes.graph.addMethod("changeColorStatus", function(nodeId: number, status: number, nextNodeId: number) {
+    Sigma.classes.graph.addMethod("changeColorStatus", function(nodeId: number, status: number, nextNodeId: number) {
 
       this.nodesArray.forEach(node => {
 
@@ -312,7 +316,7 @@ export class ScenarioComponent implements OnInit {
 
     });
 
-    sigma.classes.graph.addMethod("refreshColorStatus", function () {
+    Sigma.classes.graph.addMethod("refreshColorStatus", function () {
 
       this.nodesArray.forEach(node => {
 
@@ -327,37 +331,8 @@ export class ScenarioComponent implements OnInit {
 
     });
 
-    sigma.classes.graph.addMethod("setColorNodes", function (modulesColor: Array<{ idModule: number, idTask: number }>) {
-
-      this.nodesArray.forEach(node => {
-
-        let moduleColorFind:  { idModule: number, idTask: number } = modulesColor.find(moduleColorTest => moduleColorTest.idTask === node.id);
-        if(isNullOrUndefined(moduleColorFind)) {
-
-          moduleColorFind.idModule = -1;
-
-        }
-        switch (moduleColorFind.idModule) {
-
-          case 0:
-            node.color = "#0099ff";
-            break;
-
-          case 1:
-            node.color = "#cc66ff";
-            break;
-
-          default:
-            node.color = "#000";
-
-        }
-
-      });
-
-    });
-
     // We gave our own name 'border' to the custom renderer
-    sigma.canvas.nodes.border = function(node: any, context: any, settings: any) {
+    Sigma.canvas.nodes.border = function(node: any, context: any, settings: any) {
       let prefix: any = settings("prefix") || "";
 
       context.fillStyle = node.color || settings("defaultNodeColor");
