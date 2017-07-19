@@ -2,10 +2,12 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { isUndefined } from "util";
 import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
 
 import { environment } from "../../environments/environment";
 
 import { Scenario } from "../front-ops";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class ScenariosService {
@@ -13,8 +15,12 @@ export class ScenariosService {
   // list of all scenarios available
   private listScenarios: Array<Scenario>;
 
+  // subject and observable to push notification when instance end
+  private errorScenarioSource: Subject<Observable<string>> = new Subject<Observable<string>>();
+  public errorScenarioObs: Observable<Observable<string>> = this.errorScenarioSource.asObservable();
+
   // return observable list of all scenarios
-  getAllScenarios(): Observable<Array<Scenario>> {
+  public getAllScenarios(): Observable<Array<Scenario>> {
 
     if(this.listScenarios && this.listScenarios.length > 0) {
 
@@ -33,19 +39,12 @@ export class ScenariosService {
         return this.listScenarios;
 
       })
-      .catch(error => ScenariosService.handleError(error, "getAllScenarios: "));
-
-  }
-
-  // refresh listScenario after call update on Scenarios table on database
-  refreshAllScenarios() {
-
-    this.listScenarios = [];
+      .catch(error => ScenariosService.handleError(error));
 
   }
 
   // return observable scenario associated to scenario ID argument
-  getScenario(scenarioId: number): Observable<Scenario> {
+  public getScenario(scenarioId: number): Observable<Scenario> {
 
     return this.http.get(environment.urlGetScenario.replace("id", scenarioId))
       .map(response => {
@@ -53,12 +52,12 @@ export class ScenariosService {
         return response.json() || { };
 
       })
-      .catch(error => ScenariosService.handleError(error, "getScenario: "));
+      .catch(error => ScenariosService.handleError(error));
 
   }
 
   // return observable label of one module id in params
-  getLabelScenario(idScenario: number): Observable<string> {
+  public getLabelScenario(idScenario: number): Observable<string> {
 
     return this.getScenario(idScenario)
       .map(response => {
@@ -70,38 +69,69 @@ export class ScenariosService {
         }
         return response.label;
 
-      });
+    });
 
   }
 
-  putScenario(scenario: Scenario): Observable<any> {
+  // put scenario in param
+  public putScenario(scenario: Scenario) {
 
     return this.http.put(environment.urlPutScenario, { scenario })
-      .catch(error => ScenariosService.handleError(error, "putScenario: "));
+      .subscribe(
+        () => {
+
+          this.refreshAllScenarios();
+          this.router.navigate(["/scenarios/"]);
+
+        },
+        error => {
+
+          this.errorScenarioSource.next(ScenariosService.handleError(error));
+
+    });
 
   }
 
-  postScenario(scenario: Scenario): Observable<any> {
+  // post scenario in param
+  public postScenario(scenario: Scenario) {
 
     return this.http.post(environment.urlPostScenario.replace("id", scenario.id), { scenario })
-      .catch(error => ScenariosService.handleError(error, "postScenario: "));
+      .subscribe(
+        () => {
+
+        this.refreshAllScenarios();
+        this.router.navigate(["/scenarios/", scenario.id]);
+
+        },
+        error => {
+
+          this.errorScenarioSource.next(ScenariosService.handleError(error));
+
+    });
 
   }
 
-  constructor(private http: Http) { }
+  // refresh listScenario after call update on Scenarios table on database
+  private refreshAllScenarios() {
 
-  private static handleError (error: Response | any, functionName: string) {
+    this.listScenarios = [];
 
-    let errMsg: string = "ScenariosScervice: " + functionName;
+  }
+
+  constructor(private http: Http,
+              private router: Router) { }
+
+  private static handleError (error: Response | any) {
+
+    let errMsg: string;
     if (error instanceof Response) {
 
       const body: any = error.json() || "";
-      const err: string = body.error || JSON.stringify(body);
-      errMsg += `${error.status} - ${error.statusText || ""} ${err}`;
+      errMsg = `${error.status} - ${body.message || ""}`;
 
     } else {
 
-      errMsg += error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : error.toString();
 
     }
     return Observable.throw(errMsg);
