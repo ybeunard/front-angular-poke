@@ -174,7 +174,7 @@ export class ScenarioComponent implements OnInit {
   // refresh the consoleReturn and set consoleVisibility to true
   private refreshConsoleReturn() {
 
-    this.consoleReturn = this.logsService.getCurrentLogsScenario(this.scenario.id);
+    this.consoleReturn = this.logsService.getLogsScenario(this.scenario.id);
     if(this.consoleReturn.length !== 0) {
 
       this.consoleVisibility = true;
@@ -218,7 +218,6 @@ export class ScenarioComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
-              private modulesService: ModulesService,
               private scenariosService: ScenariosService,
               private instancesService: InstancesService,
               private graphsService: GraphsService,
