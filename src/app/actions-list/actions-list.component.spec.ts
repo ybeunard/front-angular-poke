@@ -10,6 +10,7 @@ describe("ActionsListComponent", () => {
 
   let fixture: ComponentFixture<ActionsListComponent>;
   let component: any;
+
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
@@ -28,6 +29,7 @@ describe("ActionsListComponent", () => {
     });
 
   }));
+
   it("should be created", () => {
 
     expect(component).toBeTruthy();
