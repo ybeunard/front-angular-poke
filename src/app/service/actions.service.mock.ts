@@ -7,6 +7,4 @@ export const mockGetAllActions: Array<Action> = [
     { id: 3, label: "List all currently configured remotes", category: "Update & Publish", command: "remote", args: "null", args_helper: "You can add git status flags", working_status: true },
 ];
 
-export const mockExecuteAction: { message: string } = { message: "action executer" };
-
 export class ActionsServiceMock { }

@@ -22,7 +22,7 @@ describe("ActionsService", () => {
         { provide: ModulesService, useClass: ModulesServiceMock }
       ]
 
-    }).compileComponents().then(inject([ ActionsService, XHRBackend, ModulesService ], (service, mockBackend, modulesService) => {
+    }).compileComponents().then(inject([ ActionsService, XHRBackend, ModulesService ], (service, mockBackend) => {
 
       mockBackend.connections.subscribe((connection) => {
 

@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
-import { environment } from "../../environments/environment";
-
+import { isNullOrUndefined } from "util";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 
+import { environment } from "../../environments/environment";
+
 import { Action } from "../front-ops";
-import { isUndefined } from "util";
 
 @Injectable()
 export class ActionsService {
@@ -16,7 +16,7 @@ export class ActionsService {
   private listActions: Array<Action> = [];
 
   // return observable list of all actions
-  getAllActions(): Observable<Action[]> {
+  public getAllActions(): Observable<Action[]> {
 
     if(this.listActions && this.listActions.length > 0) {
 
@@ -30,12 +30,12 @@ export class ActionsService {
         return this.listActions;
 
       })
-      .catch(error => ActionsService.handleError(error, "getAllActions: "));
+      .catch(error => ActionsService.handleError(error));
 
   }
 
   // return observable action associated to action ID argument
-  getAction(actionId: number): Observable<Action> {
+  public getAction(actionId: number): Observable<Action> {
 
     return this.http.get(environment.urlGetAction.replace("id", actionId))
       .map(response => {
@@ -43,18 +43,36 @@ export class ActionsService {
         return response.json() || { };
 
       })
-      .catch(error => ActionsService.handleError(error, "getScenario: "));
+      .catch(error => ActionsService.handleError(error));
 
   }
 
-  // return observable label of one action id in params
-  getLabelAction(idAction: number): Observable<string> {
+  // return observable args of one action id in params
+  public getArgsAction(idAction: number): Observable<string> {
 
     return this.getAllActions()
       .map(response => {
 
-        const actionFind: Action = response.find((action: Action) => action.id === idAction);
-        if (isUndefined(actionFind)) {
+        const actionFind: Action = response.find((actionTest: Action) => actionTest.id === idAction);
+        if (isNullOrUndefined(actionFind)) {
+
+          return "";
+
+        }
+        return actionFind.args;
+
+      });
+
+  }
+
+  // return observable label of one action id in params
+  public getLabelAction(idAction: number): Observable<string> {
+
+    return this.getAllActions()
+      .map(response => {
+
+        const actionFind: Action = response.find((actionTest: Action) => actionTest.id === idAction);
+        if (isNullOrUndefined(actionFind)) {
 
           return "Not Exist";
 
@@ -65,15 +83,8 @@ export class ActionsService {
 
   }
 
-  // refresh listActions after call update on Actions table on database
-  refreshAllActions() {
-
-    this.listActions = [];
-
-  }
-
   // execute one action on back and return response message
-  executeAction(actionId: number, args: string): Observable<string> {
+  public executeAction(actionId: number, args: string): Observable<string> {
 
     return this.http.post(environment.urlExecuteAction.replace("id", actionId), {args: args})
       .map(response => {
@@ -81,24 +92,30 @@ export class ActionsService {
         return response.json().message || "";
 
       })
-      .catch(error => ActionsService.handleError(error, "executeAction: "));
+      .catch(error => ActionsService.handleError(error));
+
+  }
+
+  // refresh listActions after call update on Actions table on database
+  private refreshAllActions() {
+
+    this.listActions = [];
 
   }
 
   constructor(private http: Http) { }
 
-  private static handleError (error: Response | any, functionName: string) {
+  private static handleError (error: Response | any) {
 
-    let errMsg: string = "ActionsService: " + functionName;
+    let errMsg: string;
     if (error instanceof Response) {
 
       const body: any = error.json() || "";
-      const err: string = body.error || JSON.stringify(body);
-      errMsg += `${error.status} - ${error.statusText || ""} ${err}`;
+      errMsg = `${error.status} - ${body.message || ""}`;
 
     } else {
 
-      errMsg += error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : error.toString();
 
     }
     return Observable.throw(errMsg);
