@@ -10,7 +10,7 @@
 
   </p>
   <input [value]="args" (input)="args = $event.target.value" placeholder="Arguments">
-  <div id="consoleReturn" [innerHtml]="_consoleReturn"></div>
+  <div id="consoleReturn" [innerHtml]="getConsoleReturn()"></div>
 
 </div>
 <div class="container-router" *ngIf="errorMessageGetAction"><div class="error">{{errorMessageGetAction}}</div></div>

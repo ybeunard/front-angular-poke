@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { isUndefined } from "util";
+import { isNullOrUndefined } from "util";
 
 import { ActionsService } from "../service/actions.service";
 
@@ -15,6 +15,7 @@ import { Action } from "../front-ops";
 
 }) export class ActionComponent implements OnInit {
 
+  // current action in the component
   action: Action;
 
   // string to stock args to run the action with it.
@@ -26,6 +27,13 @@ import { Action } from "../front-ops";
   // Error Messages
   errorMessageGetAction: string = "";
   errorMessageActionIdIncorrect: string = "";
+
+  // return the consoleReturn in SafeHtml
+  getConsoleReturn() : SafeHtml {
+
+    return this.sanitizer.bypassSecurityTrustHtml(this.consoleReturn);
+
+  }
 
   // recover id action in the URL and load the action.
   loadAction() {
@@ -44,7 +52,7 @@ import { Action } from "../front-ops";
       responseRouter => {
 
         const id: number = parseInt(responseRouter, 10);
-        if (!isUndefined(id) && !isNaN(id)) {
+        if (!isNullOrUndefined(id) && !isNaN(id)) {
 
           this.actionsService
             .getAction(id)
@@ -64,7 +72,7 @@ import { Action } from "../front-ops";
 
         } else {
 
-          this.errorMessageActionIdIncorrect = "Action ID " + id + " doesn't exists";
+          this.errorMessageActionIdIncorrect = "Action ID " + responseRouter + " doesn't exists";
 
         }
 
@@ -77,9 +85,10 @@ import { Action } from "../front-ops";
 
   }
 
-  runAction(action: number) {
+  // run action in param
+  runAction(actionId: number) {
 
-    this.actionsService.executeAction(action, this.args)
+    this.actionsService.executeAction(actionId, this.args)
       .subscribe(
         response => {
 
@@ -91,12 +100,6 @@ import { Action } from "../front-ops";
           this.consoleReturn = error;
 
       });
-
-  }
-
-  public get _consoleReturn() : SafeHtml {
-
-    return this.sanitizer.bypassSecurityTrustHtml(this.consoleReturn);
 
   }
 
