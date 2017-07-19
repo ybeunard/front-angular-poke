@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 
 import { PushNotificationsService } from "./notification-module/push-notifications/services/push-notifications.service";
 import { InstancesService } from "./service/instances.service";
+import { ScenariosService } from "./service/scenarios.service";
 
 @Component({
 
@@ -36,6 +37,7 @@ import { InstancesService } from "./service/instances.service";
   }
 
   constructor(private instancesService: InstancesService,
+              private scenariosService: ScenariosService,
               private _pushNotifications: PushNotificationsService) {
 
     this.instancesService.terminateInstanceScenarioObs.subscribe(
@@ -51,7 +53,14 @@ import { InstancesService } from "./service/instances.service";
 
         }
 
-      });
+    });
+
+    this.scenariosService.errorScenarioObs.subscribe(
+      response => {
+
+        response.subscribe(() => { return; }, error => this.notifyError(error));
+
+    });
 
     this.instancesService.setIntervalRequeteObservable();
 

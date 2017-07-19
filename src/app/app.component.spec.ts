@@ -1,5 +1,5 @@
 import {TestBed, async, ComponentFixture} from "@angular/core/testing";
-import { Component, Input, Type } from "@angular/core";
+import { Component } from "@angular/core";
 
 import { AppComponent } from "./app.component";
 
@@ -8,9 +8,7 @@ class HeaderComponent {}
 @Component({selector: "app-toolbar", template: ""})
 class ToolbarComponent {}
 @Component({selector: "app-core", template: ""})
-class CoreComponent {
-  @Input() componentType: Type<any>;
-}
+class CoreComponent { }
 
 describe("AppComponent", () => {
 
