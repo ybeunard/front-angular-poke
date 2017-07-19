@@ -17,19 +17,24 @@ import { ScenariosService } from "../service/scenarios.service";
 
 }) export class HeaderComponent implements OnInit {
 
-  locale: string;
+  // current locale language
+  private locale: string;
+
+  // array to print the current path where the user is situate
   urlNav: Array<{display: string, url: string }> = [];
 
   // Error Messages
   errorMessageTranslationProvidersError: string = "";
 
-  isLocaleLanguage(language: string) {
+  // check if the current locale language is the language in param
+  public isLocaleLanguage(language: string): boolean {
 
     return (language === this.locale);
 
   };
 
-  changeLanguage(language: string) {
+  // change the current locale language
+  public changeLanguage(language: string) {
 
     document["locale"] = language;
     this.locale = language;
@@ -53,13 +58,15 @@ import { ScenariosService } from "../service/scenarios.service";
 
   };
 
-  onClickUrl(url: string) {
+  // go to the url in param
+  public onClickUrl(url: string) {
 
     this.router.navigate([url]);
 
   }
 
-  createUrl(url: string): string {
+  // create and add the new url in the urlNav array
+  private createUrl(url: string): string {
 
     if(this.urlNav.length === 0) {
 
@@ -70,7 +77,8 @@ import { ScenariosService } from "../service/scenarios.service";
 
   }
 
-  browseUrl(urlSplit: Array<string>, path: string, index: number) {
+  // take the browse url in param and analize her to create a readable url for user
+  private browseUrl(urlSplit: Array<string>, path: string, index: number) {
 
     const url: string = urlSplit[index];
     const nextUrl: string = urlSplit[index + 1];
