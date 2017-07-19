@@ -8,7 +8,9 @@ $color-theme-primary-core: mat-color($palette-primary, 50);
 
 $color-theme-accent: mat-color($palette-accent, 400);
 
-$color-theme-warning: mat-color($palette-warning, 800);
+$color-theme-error: mat-color($palette-warning, 800);
+
+$color-theme-warning: mat-color($palette-warning, 300);
 
 /* Font Properties */
 
@@ -44,6 +46,8 @@ $add-scenario-current-actions-list-width: 200px;
 
 $add-scenario-form-width: 300px;
 
+$add-scenario-module-list-width: 300px;
+
 $input-args-height: 100px;
 
 $input-label-width: 250px;
@@ -62,7 +66,11 @@ $toolbar-width: 200px;
 
 $border-little-primary: $color-theme-primary solid 1px;
 
-$border-medium-primary: $color-theme-primary solid 3px;
+$border-medium-primary: 3px solid $color-theme-primary;
+
+$border-form-error: 5px solid $color-theme-error;
+
+$border-form-conform: 5px solid #42A948;
 
 $button-line-height: normal;
 
