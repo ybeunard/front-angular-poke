@@ -14,43 +14,50 @@ import { Scenario } from "../front-ops";
 })
 export class ScenariosListComponent implements OnInit {
 
+  // current list of scenarios in the component
   listScenarios: Array<Scenario>;
 
   // Error Messages
   errorMessageGetAllScenarios: string = "";
 
-  loadScenarios() {
+  // Warning Messages
+  warningMessageNoContentScenario: string = "";
+
+  // go to the interface create scenario
+  public addScenario() {
+
+    this.router.navigate(["/scenarios/add"]);
+
+  }
+
+  // call the component scenario with the scenario in param
+  public displayScenario(scenario: Scenario) {
+
+    this.router.navigate(["/scenarios", scenario.id]);
+
+  }
+
+  // load list of all scenarios in the component
+  private loadScenarios() {
 
     this.scenariosService
       .getAllScenarios()
       .subscribe(
         response => {
 
+          if(response.length === 0) {
+
+            this.warningMessageNoContentScenario = "No scenario in the database";
+
+          }
           this.listScenarios = response;
 
         },
         error => {
 
-          if(error.status === 404) {
-
-           return;
-
-          }
           this.errorMessageGetAllScenarios = error;
 
       });
-
-  }
-
-  displayScenario(scenario: Scenario) {
-
-    this.router.navigate(["/scenarios", scenario.id]);
-
-  }
-
-  addScenario() {
-
-    this.router.navigate(["/scenarios/add"]);
 
   }
 
@@ -59,6 +66,7 @@ export class ScenariosListComponent implements OnInit {
   ngOnInit() {
 
     this.errorMessageGetAllScenarios = "";
+    this.warningMessageNoContentScenario = "";
     this.loadScenarios();
 
   }
