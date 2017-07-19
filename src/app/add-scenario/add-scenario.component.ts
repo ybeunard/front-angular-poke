@@ -51,7 +51,7 @@ import { ActionsService } from "../service/actions.service";
   errorMessageGetScenario: string = "";
 
   // add new task to the current scenario model
-  addTask(idAction: number, labelAction: string) {
+  public addTask(idAction: number, labelAction: string) {
 
     let newTask: Task = {id: null, inner_scenario_id: this.countIdTask, action_id: idAction, label: labelAction, description: "", args: "", success_id: null, error_id: null };
     this.countIdTask++;
@@ -61,14 +61,14 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // back to the scenarios home page
-  back() {
+  public back() {
 
     this.router.navigate(["/scenarios"]);
 
   }
 
   // change visibility of module in param
-  changeVisibility(module: Module) {
+  public changeVisibility(module: Module) {
 
     module.visibility = !module.visibility;
 
@@ -77,7 +77,7 @@ import { ActionsService } from "../service/actions.service";
   // check if we do an action link on the clicked task,
   // create the link,
   // else create new dialog node
-  createDialogNode(idTask: number) {
+  public createDialogNode(idTask: number) {
 
     const taskFind: Task = this.model.tasks.find(taskTest => taskTest.inner_scenario_id === idTask);
     if(this.successLink) {
@@ -195,7 +195,9 @@ import { ActionsService } from "../service/actions.service";
     this.dialogComponentRef.instance.close.subscribe(() => {
 
       this.resetSuccessErrorLink(false, false);
+      this.currentTaskIndex = null;
       this.dialogComponentRef.destroy();
+      this.refreshGraph();
 
     });
 
@@ -235,7 +237,7 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // load all actions which can be add in the scenario like task
-  loadActions() {
+  private loadActions() {
 
     this.modulesService
       .getAllModules()
@@ -254,7 +256,7 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // check if we update an exeisting scenario in the URL and load it else create an empty scenario
-  loadModel() {
+  private loadModel() {
 
     this.route.params
       .map((params: Params) => {
@@ -309,14 +311,14 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // function to catch specific sigma node click event
-  onNodeClick(event: any) {
+  public onNodeClick(event: any) {
 
     this.createDialogNode(event.detail);
 
   }
 
   // try to put or post the scenario model
-  onScenarioSubmit() {
+  public onScenarioSubmit() {
 
     if(isNullOrUndefined(this.model.id)) {
 
@@ -363,7 +365,7 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // reset current graph and all params task associate
-  resetGraph() {
+  public resetGraph() {
 
     document.getElementById("sigma-new-graph").innerHTML = "";
     this.model.starter_task_id = 0;
@@ -386,7 +388,7 @@ import { ActionsService } from "../service/actions.service";
   }
 
   // check if a task is selected
-  selectedCurrentTask(taskId: number): boolean {
+  public selectedCurrentTask(taskId: number): boolean {
 
     return !(isNullOrUndefined(this.currentTaskIndex) || this.model.tasks[this.currentTaskIndex].inner_scenario_id !== taskId);
 
