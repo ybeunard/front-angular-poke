@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!errorMessageGetAllScenarios && !errorMessageScenarioNotFound && !errorMessageGetScript">
+<div class="container" *ngIf="!errorMessageGetScenario && !errorMessageScenarioIdIncorrect">
 
   <div class="principal" *ngIf="scenario">
 
@@ -28,11 +28,7 @@
         </div>
 
       </div>
-      <div class="consoleReturn" [hidden]="!checkVisibility()" *ngIf="errorMessageResponseTasksServiceError">
-
-        ResponseTasksServiceError: {{errorMessageResponseTasksServiceError}}
-
-      </div>
+      <div class="container-router" *ngIf="errorMessageResponseTasksServiceError"><div class="error">{{errorMessageResponseTasksServiceError}}</div></div>
 
     </div>
 
@@ -40,6 +36,5 @@
   <div id="sigma-graph"></div>
 
 </div>
-<div class="container-router" *ngIf="errorMessageGetAllScenarios"><div class="error">{{errorMessageGetAllScenarios}}</div></div>
-<div class="container-router" *ngIf="errorMessageScenarioNotFound"><div class="error">{{errorMessageScenarioNotFound}}</div></div>
-<div class="container-router" *ngIf="errorMessageGetScript"><div class="error">{{errorMessageGetScript}}</div></div>
+<div class="container-router" *ngIf="errorMessageGetScenario"><div class="error">{{errorMessageGetScenario}}</div></div>
+<div class="container-router" *ngIf="errorMessageScenarioIdIncorrect"><div class="error">{{errorMessageScenarioIdIncorrect}}</div></div>

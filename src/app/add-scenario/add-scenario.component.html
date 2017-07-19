@@ -41,7 +41,7 @@
 
   </md-list>
   <div id="sigma-new-graph"></div>
-  <md-list *ngIf="!errorMessageGetAllModules" class="add-scenario-list">
+  <md-list *ngIf="!warningMessageNoContentModule && !errorMessageGetAllModules" class="add-scenario-list">
 
     <md-list-item *ngFor="let module of listModules">
 
@@ -65,6 +65,7 @@
     </md-list-item>
 
   </md-list>
+  <div class="container-router" *ngIf="warningMessageNoContentModule"><div class="warning">{{warningMessageNoContentModule}}</div></div>
   <div class="container-router" *ngIf="errorMessageGetAllModules"><div class="error">{{errorMessageGetAllModules}}</div></div>
 
 </div>

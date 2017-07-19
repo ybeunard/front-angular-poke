@@ -21,15 +21,18 @@ import { Action, Module } from "../front-ops";
   errorMessageGetAllModules: string = "";
   errorMessageModuleNotFound: string = "";
 
+  // Warning Messages
+  warningMessageNoContentModule: string = "";
+
   // change visibility of module in param
-  changeVisibility(module: Module) {
+  public changeVisibility(module: Module) {
 
     module.visibility = !module.visibility;
 
   }
 
   // go to the page /actions/module_id/action_id in param
-  displayAction(module: Module, action: Action) {
+  public displayAction(module: Module, action: Action) {
 
     this.router.navigate(["/actions/", module.id, action.id]);
 
@@ -85,13 +88,18 @@ import { Action, Module } from "../front-ops";
   }
 
   // load all modules
-  loadModules() {
+  private loadModules() {
 
     this.modulesService
       .getAllModules()
       .subscribe(
         response => {
 
+          if(response.length === 0) {
+
+            this.warningMessageNoContentModule = "No module in the database";
+
+          }
           this.listModules = response;
           this.initCurrentModuleVisibility();
 
@@ -112,6 +120,7 @@ import { Action, Module } from "../front-ops";
 
     this.errorMessageGetAllModules = "";
     this.errorMessageModuleNotFound = "";
+    this.warningMessageNoContentModule = "";
     this.loadModules();
 
   }

@@ -29,14 +29,14 @@ import { Action } from "../front-ops";
   errorMessageActionIdIncorrect: string = "";
 
   // return the consoleReturn in SafeHtml
-  getConsoleReturn() : SafeHtml {
+  public getConsoleReturn() : SafeHtml {
 
     return this.sanitizer.bypassSecurityTrustHtml(this.consoleReturn);
 
   }
 
   // recover id action in the URL and load the action.
-  loadAction() {
+  private loadAction() {
 
     this.route.params
       .map((params: Params) => {
@@ -86,7 +86,7 @@ import { Action } from "../front-ops";
   }
 
   // run action in param
-  runAction(actionId: number) {
+  public runAction(actionId: number) {
 
     this.actionsService.executeAction(actionId, this.args)
       .subscribe(

@@ -28,67 +28,67 @@ import { Component, EventEmitter } from "@angular/core";
   errorLabel: string = null;
   errorLink: boolean = false;
 
-  onResetLabel() {
+  public onResetLabel() {
 
     this.label = "";
 
   }
 
-  onResetArgs() {
+  public onResetArgs() {
 
     this.args = "";
 
   }
 
-  onStarterTask() {
+  public onStarterTask() {
 
     this.starter.emit();
 
   }
 
-  onDeleteSuccess() {
+  public onDeleteSuccess() {
 
     this.deleteSuccess.emit();
 
   }
 
-  onDeleteError() {
+  public onDeleteError() {
 
     this.deleteError.emit();
 
   }
 
-  onSuccessLink() {
+  public onSuccessLink() {
 
     this.success.emit();
 
   }
 
-  onErrorLink() {
+  public onErrorLink() {
 
     this.error.emit();
 
   }
 
-  onSubmit() {
+  public onSubmit() {
 
     this.submit.emit({label: this.label, args: this.args});
 
   }
 
-  onCancelAction() {
+  public onCancelAction() {
 
     this.cancelAction.emit();
 
   }
 
-  onDelete() {
+  public onDelete() {
 
     this.deleted.emit();
 
   }
 
-  onClickedExit() {
+  public onClickedExit() {
     this.close.emit();
   }
 

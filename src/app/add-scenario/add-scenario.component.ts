@@ -50,6 +50,9 @@ import { ActionsService } from "../service/actions.service";
   errorMessageGetAllModules: string = "";
   errorMessageGetScenario: string = "";
 
+  // Warning Messages
+  warningMessageNoContentModule: string = "";
+
   // add new task to the current scenario model
   public addTask(idAction: number, labelAction: string) {
 
@@ -216,7 +219,7 @@ import { ActionsService } from "../service/actions.service";
         },
         () => {
 
-          this.dialogComponentRef.instance.argsHelper = "";
+          this.dialogComponentRef.instance.argsHelper = "Error Loading Args Action";
 
       });
     this.dialogComponentRef.instance.args = task.args;
@@ -244,6 +247,11 @@ import { ActionsService } from "../service/actions.service";
       .subscribe(
         response => {
 
+          if(response.length === 0) {
+
+            this.warningMessageNoContentModule = "No module in the database";
+
+          }
           this.listModules = response;
 
         },
@@ -407,6 +415,7 @@ import { ActionsService } from "../service/actions.service";
 
     this.errorMessageGetAllModules = "";
     this.errorMessageGetScenario = "";
+    this.warningMessageNoContentModule = "";
     this.currentTaskIndex = null;
     this.countIdTask = 0;
     this.successLink = false;
