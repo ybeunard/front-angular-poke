@@ -5,7 +5,35 @@
   width: 100%;
 }
 
+.add-scenario-button {
+
+  margin: 10px;
+
+}
+
+button {
+
+  background-color: $color-theme-accent !important;
+
+}
+
 .container {
+
   text-align: $actions-list-text-align;
+
+}
+
+.list-flex {
+
+  border-right: solid 3px $color-theme-primary;
+  flex-direction: column;
+
+}
+
+.list-scenario-button {
+
+  border: solid $color-theme-primary 1px;
+  border-radius: 0;
   width: 100%;
+
 }

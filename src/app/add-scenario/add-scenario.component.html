@@ -1,0 +1,72 @@
+<div class="container" *ngIf="!errorMessageGetScenario">
+
+  <div class="forms-add-scenario">
+
+    <form (ngSubmit)="onScenarioSubmit()" #scenarioForm="ngForm">
+
+        <div class="form-group">
+
+          <label for="label">Label</label><br>
+          <input type="text" class="form-control label" id="label"
+                 required
+                 [(ngModel)]="model.label" name="label"
+                 #label="ngModel" />
+
+        </div>
+        <div class="form-group">
+
+          <label for="description">description</label><br>
+          <textarea class="form-control description" id="description"
+                 required
+                 [(ngModel)]="model.description" name="description"
+                    #description="ngModel"></textarea>
+
+        </div>
+
+      <button md-button type="submit" [disabled]="!scenarioForm.form.valid">Create</button>
+      <button md-button type="button" (click)="resetGraph(); scenarioForm.reset()">Reset</button>
+      <button md-button type="button" (click)="back()">Cancel</button>
+
+    </form>
+    <div #dialogAnchor></div>
+
+  </div>
+  <md-list class="current-action-list">
+
+    <md-list-item *ngFor="let task of model.tasks">
+
+      <button md-button [disabled]="selectedCurrentTask(task.inner_scenario_id)" (click)="createDialogNode(task.inner_scenario_id)">{{task.label}}</button>
+
+    </md-list-item>
+
+  </md-list>
+  <div id="sigma-new-graph"></div>
+  <md-list *ngIf="!warningMessageNoContentModule && !errorMessageGetAllModules" class="add-scenario-list">
+
+    <md-list-item *ngFor="let module of listModules">
+
+      <button md-button (click)="changeVisibility(module)">{{ module.label }}</button>
+      <md-list [hidden]="!module.visibility">
+
+
+
+        <md-list-item *ngFor="let action of module.actions">
+
+          <button md-button (click)="addTask(action.id, action.label)">
+
+            {{ action.label }}
+
+          </button>
+
+        </md-list-item>
+
+      </md-list>
+
+    </md-list-item>
+
+  </md-list>
+  <div class="container-router" *ngIf="warningMessageNoContentModule"><div class="warning">{{warningMessageNoContentModule}}</div></div>
+  <div class="container-router" *ngIf="errorMessageGetAllModules"><div class="error">{{errorMessageGetAllModules}}</div></div>
+
+</div>
+<div class="container-router" *ngIf="errorMessageGetScenario"><div class="error">{{errorMessageGetScenario}}</div></div>

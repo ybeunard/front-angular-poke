@@ -3,10 +3,10 @@ import { HttpModule, Response, ResponseOptions, XHRBackend } from "@angular/http
 import { MockBackend } from "@angular/http/testing";
 
 import { ActionsService } from "./actions.service";
-import { mockUrlAction } from "./action.service.mock";
+import { mockGetAllActions } from "./actions.service.mock";
 import { ModulesService } from "./modules.service";
 import { ModulesServiceMock } from "./modules.service.mock";
-import {environment} from "../../environments/environment";
+import { environment } from "../../environments/environment";
 
 describe("ActionsService", () => {
 
@@ -22,7 +22,7 @@ describe("ActionsService", () => {
         { provide: ModulesService, useClass: ModulesServiceMock }
       ]
 
-    }).compileComponents().then(inject([ ActionsService, XHRBackend, ModulesService ], (service, mockBackend, modulesService) => {
+    }).compileComponents().then(inject([ ActionsService, XHRBackend, ModulesService ], (service, mockBackend) => {
 
       mockBackend.connections.subscribe((connection) => {
 
@@ -30,7 +30,7 @@ describe("ActionsService", () => {
 
           connection.mockRespond(new Response(new ResponseOptions({
 
-            body: JSON.stringify(mockUrlAction)
+            body: JSON.stringify(mockGetAllActions)
 
           })));
 
@@ -44,31 +44,14 @@ describe("ActionsService", () => {
   }));
   describe("getAllActions", () => {
 
-  it("should return an Observable<Array<Action>>", async(() => {
+    it("should return an Observable<Array<Action>>", async(() => {
 
-    actionsService.getAllActions().subscribe((actions) => {
+      actionsService.getAllActions().subscribe((actions) => {
 
-      expect(actions.length).toBe(4);
-      expect(actions[0].label).toEqual("Clone an existing reposiroty");
-      expect(actions[1].module_id).toEqual(0);
-      expect(actions[2].command).toEqual("git init --bare");
-      expect(actions[3].category).toEqual("Update & Publish");
-
-    });
-
-  }));
-
-  });
-  describe("getListActionsSortByModule", () => {
-
-    it("should return an Observable<Array<string, Array<Action>, boolean>", async(() => {
-
-      actionsService.getListActionsSortByModule().subscribe((response) => {
-
-        expect(response[0].moduleName).toEqual("module 0");
-        expect(response[0].actions.length).toBe(2);
-        expect(response[1].actions.length).toBe(2);
-        expect(response[3].visibility).toBe(false);
+        expect(actions.length).toBe(4);
+        expect(actions[0].label).toEqual("Clone an existing reposiroty");
+        expect(actions[2].command).toEqual("git init --bare");
+        expect(actions[3].category).toEqual("Update & Publish");
 
       });
 

@@ -1,6 +1,14 @@
 @import '../../styles/_constant';
 
 :host {
+
   height: 100%;
   width: 100%;
+
+}
+
+.container {
+
+  background-color: $color-theme-primary-core;
+
 }

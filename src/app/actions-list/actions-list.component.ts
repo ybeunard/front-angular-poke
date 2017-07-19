@@ -1,11 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Subscription }   from "rxjs/Subscription";
+import { isNullOrUndefined } from "util";
 
-import { ActionsService } from "../service/actions.service";
+import { ModulesService } from "../service/modules.service";
 
-import { Action, Module} from "../front-ops";
-import { isUndefined } from "util";
+import { Action, Module } from "../front-ops";
 
 @Component({
 
@@ -15,31 +14,32 @@ import { isUndefined } from "util";
 
 }) export class ActionsListComponent implements OnInit {
 
-  listActionsSortByModule: Array< { module: Module, actions: Action[], visibility: boolean } >;
+  // current list of modules in the component
+  listModules: Array<Module>;
 
-  errorMessage: string;
+  // Error Messages
+  errorMessageGetAllModules: string = "";
+  errorMessageModuleNotFound: string = "";
 
-  selectedModule: number;
+  // Warning Messages
+  warningMessageNoContentModule: string = "";
 
-  subscription: Subscription;
+  // change visibility of module in param
+  public changeVisibility(module: Module) {
 
-  loadActions() {
-
-    this.actionsService
-      .getListActionsSortByModule()
-      .subscribe(
-        response => {
-
-          this.listActionsSortByModule = response;
-          this.initCurrentModuleVisibility();
-
-        },
-          error => this.errorMessage = error
-      );
+    module.visibility = !module.visibility;
 
   }
 
-  initCurrentModuleVisibility() {
+  // go to the page /actions/module_id/action_id in param
+  public displayAction(module: Module, action: Action) {
+
+    this.router.navigate(["/actions/", module.id, action.id]);
+
+  }
+
+  // recover id module in the URL if exist and load the module.
+  private initCurrentModuleVisibility() {
 
     this.route.params
       .map((params: Params) => {
@@ -50,41 +50,78 @@ import { isUndefined } from "util";
 
         }
 
-      }).subscribe((response) => {
+      }).subscribe(
+      responseRouter => {
 
-        const id: number = parseInt(response, 10);
-        if(!isUndefined(id)) {
+        if (isNullOrUndefined(responseRouter)) {
 
-          const indexModule: number = this.listActionsSortByModule.findIndex((list: {module: Module, actions: Array<Action>, visibility: boolean}) => list.module.id === id);
-          if(indexModule !== -1) {
+          return;
 
-            this.listActionsSortByModule[indexModule].visibility = true;
+        }
+        const id: number = parseInt(responseRouter, 10);
+        if(!isNaN(id)) {
+
+          const listModuleFindIndex: number = this.listModules.findIndex((listTest: Module) => listTest.id === id);
+          if (listModuleFindIndex !== -1) {
+
+            this.listModules[listModuleFindIndex].visibility = true;
+
+          } else {
+
+            this.errorMessageModuleNotFound = "Module ID " + id + " doesn't exists";
 
           }
 
+        } else {
+
+          this.errorMessageModuleNotFound = "Module ID " + responseRouter + " doesn't exists";
+
         }
+
+      },
+      error => {
+
+        this.errorMessageModuleNotFound = error;
 
       });
 
   }
 
-  changeVisibility(module: { module: Module, actions: Action[], visibility: boolean }) {
+  // load all modules
+  private loadModules() {
 
-    module.visibility = !module.visibility;
+    this.modulesService
+      .getAllModules()
+      .subscribe(
+        response => {
+
+          if(response.length === 0) {
+
+            this.warningMessageNoContentModule = "No module in the database";
+
+          }
+          this.listModules = response;
+          this.initCurrentModuleVisibility();
+
+        },
+          error => {
+
+          this.errorMessageGetAllModules = error;
+
+      });
 
   }
 
-  displayAction(action: Action) {
-
-    this.router.navigate(["/actions/", action.module_id, action.id]);
-
-  }
-
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private modulesService: ModulesService) { }
 
   ngOnInit() {
 
-    this.loadActions();
+    this.errorMessageGetAllModules = "";
+    this.errorMessageModuleNotFound = "";
+    this.warningMessageNoContentModule = "";
+    this.loadModules();
 
   }
 

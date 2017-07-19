@@ -1,11 +1,29 @@
 @import '../../styles/_constant';
 
 :host {
+
   height: 100%;
   width: 100%;
+
+}
+
+.actions-list-list {
+
+  width: $actions-list-list-width;
+
+}
+
+button {
+
+  line-height: $button-line-height;
+  padding: $button-padding;
+  white-space: $button-white-space;
+
 }
 
 .container {
+
   text-align: $actions-list-text-align;
   width: 100%;
+
 }

@@ -1,8 +1,81 @@
+@import "../theme";
+
+/* Color Properties */
+
+$color-theme-primary: mat-color($palette-primary, 600);
+
+$color-theme-primary-core: mat-color($palette-primary, 50);
+
+$color-theme-accent: mat-color($palette-accent, 400);
+
+$color-theme-error: mat-color($palette-warning, 800);
+
+$color-theme-warning: mat-color($palette-warning, 300);
+
+/* Font Properties */
+
 $actions-list-text-align: center;
+
+$div-text-align: left;
+
+$header-span-link-text-decoration: underline;
+
+/* Layout Properties */
+
+$add-scenario-console-display: flex;
+
+$graph-position: relative;
+
+$header-span-link-position: absolute;
+
+/* Margin Padding Properties */
+
+$button-padding: 13px;
+
+$header-child-3-margin-left: auto;
+
+$scenario-console-logs-margin: 15px;
+
+$scenario-control-panel-button-margin: 15px;
+
+/* Size Properties */
+
+$actions-list-list-width: 350px;
+
+$add-scenario-current-actions-list-width: 200px;
+
+$add-scenario-form-width: 300px;
+
+$add-scenario-module-list-width: 300px;
+
+$input-args-height: 100px;
+
+$input-label-width: 250px;
 
 $header-height: 70px;
 
-$list-item-color: black;
-$list-item-padding: 0;
+$scenario-console-horodatage-width: 100px;
+
+$scenario-console-status-width: 50px;
+
+$scenario-control-panel-button-height: 50px;
 
 $toolbar-width: 200px;
+
+/* Style Properties */
+
+$border-little-primary: $color-theme-primary solid 1px;
+
+$border-medium-primary: 3px solid $color-theme-primary;
+
+$border-form-error: 5px solid $color-theme-error;
+
+$border-form-conform: 5px solid #42A948;
+
+$button-line-height: normal;
+
+$button-white-space: normal;
+
+$div-overflow-y: auto;
+
+$header-span-link-cursor: pointer;

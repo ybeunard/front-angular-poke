@@ -1,14 +1,25 @@
-<div class="container">
+<div class="container" *ngIf="!errorMessageGetAllScenarios">
 
-  <md-list>
+  <div class="list-flex">
 
-    <md-list-item *ngFor="let scenario of listScenarios">
+    <button md-button class="add-scenario-button" (click)="addScenario()"> Add Scenario </button>
+    <md-list *ngIf="!warningMessageNoContentScenario" >
 
-      <button md-button (click)="displayScenario(scenario)">{{ scenario.label }}</button>
+      <md-list-item *ngFor="let scenario of listScenarios">
 
-    </md-list-item>
+        <button md-button class="list-scenario-button" (click)="displayScenario(scenario)">{{ scenario.label }}</button>
 
-  </md-list>
-  <router-outlet></router-outlet>
+      </md-list-item>
+
+    </md-list>
+    <div class="container-router" *ngIf="warningMessageNoContentScenario"><div class="warning">{{warningMessageNoContentScenario}}</div></div>
+
+  </div>
+  <div class="container-router">
+
+    <router-outlet></router-outlet>
+
+  </div>
 
 </div>
+<div class="container-router" *ngIf="errorMessageGetAllScenarios"><div class="error">{{errorMessageGetAllScenarios}}</div></div>

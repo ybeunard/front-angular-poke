@@ -1,15 +1,79 @@
 @import '../../styles/_constant';
 
 :host {
+
   height: 100%;
   width: 100%;
+
+}
+
+.console {
+
+  overflow-y: $div-overflow-y;
+  height: 100%;
+  width:  100%;
+
+}
+
+.consoleReturn {
+
+  border-bottom: $border-little-primary;
+  display: $add-scenario-console-display;
+  text-align: $div-text-align;
+
+}
+
+.containerLabelMessage {
+
+  flex: 1;
+  flex-direction: column;
+  margin: $scenario-console-logs-margin;
+
+}
+
+.horodatage {
+
+  margin: $scenario-console-logs-margin;
+  width: $scenario-console-horodatage-width;
+
+}
+
+.item:nth-child(1) {
+
+  height: $scenario-control-panel-button-height;
+  margin: $scenario-control-panel-button-margin;
+  width:  100%;
+
+}
+
+.item:nth-child(2) {
+
+  flex: 1;
+  overflow: hidden;
+
+}
+
+.principal {
+
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 60%;
+
 }
 
 #sigma-graph {
 
-  height: 100%;
-  width: 100%;
-  position: relative;
   display: flex;
+  height: 100%;
+  width: 40%;
+  position: $graph-position;
+
+}
+
+.status {
+
+  margin: $scenario-console-logs-margin;
+  width: $scenario-console-status-width;
 
 }
