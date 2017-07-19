@@ -3,7 +3,7 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-const urlServeurBack: string = "http://172.18.36.112:5000";
+const urlServerBack: string = "http://172.18.36.38:5000";
 
 export const environment: any = {
 
@@ -12,19 +12,19 @@ export const environment: any = {
   keyCacheInstanceRunning: "instanceRunning",
   intervalRequeteLog: 5000,
 
-  urlGetAllActions: urlServeurBack + "/modules/*/actions/",
-  urlGetAction: urlServeurBack + "/modules/*/actions/id",
-  urlExecuteAction: urlServeurBack + "/modules/*/actions/id/execute",
+  urlGetAllActions: urlServerBack + "/modules/*/actions/",
+  urlGetAction: urlServerBack + "/modules/*/actions/id",
+  urlExecuteAction: urlServerBack + "/modules/*/actions/id/execute",
 
-  urlGetAllModules: urlServeurBack + "/modules/",
+  urlGetAllModules: urlServerBack + "/modules/",
 
-  urlGetAllScenario: urlServeurBack + "/scenarios/?lazy",
-  urlGetScenario: urlServeurBack + "/scenarios/id",
-  urlPutScenario: urlServeurBack + "/scenarios/",
-  urlPostScenario: urlServeurBack + "/scenarios/id",
+  urlGetAllScenario: urlServerBack + "/scenarios/?lazy",
+  urlGetScenario: urlServerBack + "/scenarios/id",
+  urlPutScenario: urlServerBack + "/scenarios/",
+  urlPostScenario: urlServerBack + "/scenarios/id",
 
-  urlGetAllInstancesStatusWorking: urlServeurBack + "/scenarios/instances/?status=WORKING&lazy",
-  urlGetInstance: urlServeurBack + "/scenarios/instances/id",
-  urlExecuteInstanceScenario: urlServeurBack + "/scenarios/id/execute"
+  urlGetAllInstancesStatusWorking: urlServerBack + "/scenarios/instances/?status=WORKING&lazy",
+  urlGetInstance: urlServerBack + "/scenarios/instances/id",
+  urlExecuteInstanceScenario: urlServerBack + "/scenarios/id/execute"
 
 };
