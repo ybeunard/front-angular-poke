@@ -3,7 +3,11 @@
   <div>
 
     <div>Label action</div><br>
-    <input type="text" class="title" [(ngModel)]="label" />
+    <label>
+
+      <input type="text" class="title" [(ngModel)]="label"/>
+
+    </label>
     <button class="exit-button" (click)="onResetLabel()">x</button>
 
   </div>
@@ -11,7 +15,11 @@
 
     <div>Argument actuel:</div><br>
     <div>{{argsHelper}}</div>
-    <textarea class="argsInput" [(ngModel)]="args"></textarea>
+    <label>
+
+      <textarea class="argsInput" [(ngModel)]="args"></textarea>
+
+    </label>
     <button class="exit-button" (click)="onResetArgs()">x</button>
 
   </div>

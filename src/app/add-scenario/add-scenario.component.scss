@@ -8,7 +8,7 @@
 .add-scenario-list {
 
   align-content: center;
-  width: 300px;
+  width: $add-scenario-module-list-width;
 
 }
 
@@ -46,12 +46,16 @@ button {
 
 }
 
-.ng-valid[required], .ng-valid.required  {
-  border-right: 5px solid #42A948; /* green */
+.ng-invalid:not(form)  {
+
+  border-right: $border-form-error;
+
 }
 
-.ng-invalid:not(form)  {
-  border-right: 5px solid #a94442; /* red */
+.ng-valid[required], .ng-valid.required  {
+
+  border-right: $border-form-conform;
+
 }
 
 #sigma-new-graph {

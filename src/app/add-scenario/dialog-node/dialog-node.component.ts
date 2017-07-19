@@ -1,12 +1,14 @@
 import { Component, EventEmitter } from "@angular/core";
 
 @Component({
+
   selector: "app-dialog-node",
   templateUrl: "./dialog-node.component.html",
   styleUrls: ["./dialog-node.component.scss"]
-})
-export class DialogNodeComponent {
 
+}) export class DialogNodeComponent {
+
+  // event emitter to communicate with the add-scenario component
   starter: EventEmitter<any> = new EventEmitter();
   success: EventEmitter<any> = new EventEmitter();
   deleteSuccess: EventEmitter<any> = new EventEmitter();
