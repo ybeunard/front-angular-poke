@@ -81,7 +81,7 @@ export class Node {
   x: number;
   y: number;
   size: number;
-  color: string
+  color: string;
 
 }
 
@@ -91,6 +91,6 @@ export class Edge {
   source: number;
   target: number;
   type: string;
-  color: string
+  color: string;
 
 }
