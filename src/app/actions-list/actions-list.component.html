@@ -1,40 +1,42 @@
-<div class="container" *ngIf="!errorMessageGetAllModules">
+<div class="container actions-list-component" *ngIf="!errorMessageGetAllModules">
 
-  <div class="actions-list-list">
+  <div class="actions-list-component-header">
 
-    <div class="warning" *ngIf="errorMessageModuleNotFound">{{errorMessageModuleNotFound}}</div>
+    <button md-raised-button class="button-type-3" (click)="createModule()">Create Module</button>
+    <div class="warning" *ngIf="warningMessageActionNotFound && !warningMessageNoContentModule">{{warningMessageActionNotFound}}</div>
+    <div class="warning" *ngIf="warningMessageModuleNotFound && !warningMessageNoContentModule">{{warningMessageModuleNotFound}}</div>
     <div class="warning" *ngIf="warningMessageNoContentModule">{{warningMessageNoContentModule}}</div>
-    <md-list *ngIf="!warningMessageNoContentModule">
-
-      <md-list-item *ngFor="let module of listModules">
-
-        <button md-raised-button (click)="changeVisibility(module)">{{ module.label }}</button>
-        <md-list [hidden]="!module.visibility">
-
-
-
-            <md-list-item *ngFor="let action of module.actions">
-
-              <button md-button (click)="displayAction(module, action)">
-
-                {{ action.label }}
-
-              </button>
-
-            </md-list-item>
-
-        </md-list>
-
-      </md-list-item>
-
-    </md-list>
 
   </div>
-  <div class="container-router">
+  <md-list class="list-module" *ngIf="!warningMessageNoContentModule">
 
-    <router-outlet></router-outlet>
+    <md-list-item *ngFor="let module of listModules">
 
-  </div>
+      <div class="container-module-buttons">
+
+        <button md-raised-button class="button-type-2" (click)="changeVisibility(module)">{{ module.label }}</button>
+        <button md-button class="button-icon" (click)="deleteModule(module)" ><md-icon>delete</md-icon></button>
+        <button md-button class="button-icon" (click)="updateModule(module)"><md-icon>mode_edit</md-icon></button>
+
+      </div>
+      <md-list class="list-actions">
+
+          <md-list-item class="list-actions-element" [hidden]="!module.visibility" *ngFor="let action of module.actions"  id="item_{{action.id}}">
+
+            <button md-button class="button-type-1" (click)="displayAction(module, action)">
+
+              {{ action.label }}
+
+            </button>
+            <div #actionAnchor id="action_{{action.id}}" class="container-action"></div>
+
+          </md-list-item>
+
+      </md-list>
+
+    </md-list-item>
+
+  </md-list>
 
 </div>
 <div class="container-router" *ngIf="errorMessageGetAllModules"><div class="error">{{errorMessageGetAllModules}}</div></div>

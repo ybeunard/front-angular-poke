@@ -1,29 +1,67 @@
 @import '../../styles/_constant';
 
-:host {
+app-actions-list {
 
   height: 100%;
   width: 100%;
 
 }
 
-.actions-list-list {
+.actions-list-component {
 
-  width: $actions-list-list-width;
-
-}
-
-button {
-
-  line-height: $button-line-height;
-  padding: $button-padding;
-  white-space: $button-white-space;
+  flex-direction: column;
 
 }
 
-.container {
+.actions-list-component-header {
 
-  text-align: $actions-list-text-align;
+  padding: $header-component-padding;
+  text-align: $text-align-center;
+  width: 100%;
+
+}
+
+.button-icon {
+
+  min-width: 0;
+
+}
+
+.container-action {
+
+  padding: $element-list-padding;
+
+}
+
+.container-module-buttons {
+
+  padding: $element-list-padding;
+
+}
+
+.list-actions {
+
+  display: flex;
+  flex-direction: column;
+  padding-top: $list-padding-top;
+
+}
+
+.list-actions-element {
+
+  padding: $element-list-padding;
+
+}
+
+.list-module {
+
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow-x: $div-overflow-x;
+  overflow-y: $div-overflow-y;
+  padding-top: $list-padding-top;
+  text-align: $text-align-center;
   width: 100%;
 
 }

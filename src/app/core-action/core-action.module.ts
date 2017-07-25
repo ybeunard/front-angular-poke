@@ -1,14 +1,14 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import {MdButtonModule, MdMenuModule} from "@angular/material";
+import { MdButtonModule, MdIconModule, MdMenuModule } from "@angular/material";
 
-import {CoreActionRoutingModule} from "./core-action-routing.module";
-import {CoreActionComponent} from "./core-action.component";
-import {ActionsListComponent} from "../actions-list/actions-list.component";
-import {ActionComponent} from "../action/action.component";
+import { CoreActionRoutingModule } from "./core-action-routing.module";
+import { CoreActionComponent } from "./core-action.component";
+import { ActionsListComponent } from "../actions-list/actions-list.component";
+import { ActionComponent } from "../action/action.component";
 
-import {ModulesService} from "../service/modules.service";
-import {ActionsService} from "../service/actions.service";
+import { ModulesService } from "../service/modules.service";
+import { ActionsService } from "../service/actions.service";
 
 @NgModule({
   imports: [
@@ -16,7 +16,8 @@ import {ActionsService} from "../service/actions.service";
     CommonModule,
     CoreActionRoutingModule,
     MdButtonModule,
-    MdMenuModule
+    MdMenuModule,
+    MdIconModule
 
   ],
   declarations: [
@@ -31,5 +32,6 @@ import {ActionsService} from "../service/actions.service";
     ModulesService,
     ActionsService
 
-  ]
+  ],
+  entryComponents: [ ActionComponent ]
 }) export class CoreActionModule { }

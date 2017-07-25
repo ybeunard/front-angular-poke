@@ -1,0 +1,14 @@
+<div class="container confirmation-dialog-component">
+
+  <h1 md-dialog-title class="title">Confirm</h1>
+  <div md-dialog-content class="message">{{confirmMessage}}</div>
+  <br>
+  <div md-dialog-content class="warning">{{warningMessage}}</div>
+  <div class="container-button">
+
+    <button md-button class="button-type-2" (click)="dialogRef.close(true)">Confirm</button>
+    <button md-button class="button-type-2" (click)="dialogRef.close(false)">Cancel</button>
+
+  </div>
+
+</div>

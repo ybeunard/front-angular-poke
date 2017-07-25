@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { isUndefined } from "util";
-
-import { environment } from "../../environments/environment";
-
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 
-import { Action, Module, Task } from "../front-ops";
+import { environment } from "../../environments/environment";
+
+import { Module } from "../front-ops";
 
 @Injectable()
 export class ModulesService {
@@ -33,9 +32,10 @@ export class ModulesService {
 
         }
         const responseModules: Array<any> = response.json().modules || { };
+        this.refreshAllModules();
         responseModules.forEach((module: any) => {
 
-          this.listModules.push({ id: module.id, label: module.label, actions: module.actions, visibility: false});
+          this.listModules.push({ id: module.id, label: module.label, command: module.command, actions: module.actions, visibility: false});
 
         });
         return this.listModules;
@@ -60,6 +60,48 @@ export class ModulesService {
         return moduleFind.label;
 
       });
+
+  }
+
+  // return observable with the return of the put request
+  public putModules(label: string, command: string): Observable<any> {
+
+    return this.http.put(environment.urlPutModule, { module: { label: label, command: command } })
+      .map(response => {
+
+        this.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ModulesService.handleError(error));
+
+  }
+
+  // return observable with the return of the post request
+  public postModules(idModule: number, label: string, command: string): Observable<any> {
+
+    return this.http.post(environment.urlPostModule.replace("id", idModule), { module: { label: label, command: command } })
+      .map(response => {
+
+        this.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ModulesService.handleError(error));
+
+  }
+
+  // return observable with the return of the delete request
+  public deleteModule(moduleId: number): Observable<any> {
+
+    return this.http.delete(environment.urlDeleteModule.replace("id", moduleId))
+      .map(response => {
+
+        this.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ModulesService.handleError(error));
 
   }
 

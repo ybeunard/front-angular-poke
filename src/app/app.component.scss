@@ -1,32 +1,43 @@
 @import '../styles/_constant';
 
 :host {
+
   height: 100%;
   width: 100%;
+
 }
 
-.container {
+.app-component {
+
   flex-direction: column;
+
 }
 
 .app:nth-child(1) {
+
   height: $header-height;
   width: 100%;
+
 }
 
 .app:nth-child(2) {
-  flex: 1;
 
+  flex: 1;
   display: flex;
   flex-direction: row;
+
 }
 
 .item:nth-child(1) {
+
   height: 100%;
   width: $toolbar-width;
+
 }
 
 .item:nth-child(2) {
+
   flex: 1;
+
 }
 

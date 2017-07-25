@@ -2,6 +2,7 @@ export class Module {
 
   id: number;
   label: string;
+  command: string;
   actions: Array<Action>;
   visibility: boolean;
 

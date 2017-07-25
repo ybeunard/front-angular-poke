@@ -22,7 +22,6 @@
                     #description="ngModel"></textarea>
 
         </div>
-
       <button md-button type="submit" [disabled]="!scenarioForm.form.valid">Create</button>
       <button md-button type="button" (click)="resetGraph(); scenarioForm.reset()">Reset</button>
       <button md-button type="button" (click)="back()">Cancel</button>
@@ -45,7 +44,7 @@
 
     <md-list-item *ngFor="let module of listModules">
 
-      <button md-button (click)="changeVisibility(module)">{{ module.label }}</button>
+      <button md-raised-button class="button-module" (click)="changeVisibility(module)">{{ module.label }}</button>
       <md-list [hidden]="!module.visibility">
 
 

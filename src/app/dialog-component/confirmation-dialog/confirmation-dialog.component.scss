@@ -1,0 +1,31 @@
+@import '../../../styles/_constant';
+
+.confirmation-dialog-component {
+
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.container-button {
+
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+  width: 100%;
+
+}
+
+.message {
+
+  font-weight: $message-important-weight;
+  font-size: $message-important-size;
+
+}
+
+.title {
+
+  align-self: flex-start;
+  font-size: 30px;
+
+}

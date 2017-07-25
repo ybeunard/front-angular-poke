@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { isUndefined } from "util";
 import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
 
 import { environment } from "../../environments/environment";
 
@@ -14,10 +13,6 @@ export class ScenariosService {
 
   // list of all scenarios available
   private listScenarios: Array<Scenario>;
-
-  // subject and observable to push notification when instance end
-  private errorScenarioSource: Subject<Observable<string>> = new Subject<Observable<string>>();
-  public errorScenarioObs: Observable<Observable<string>> = this.errorScenarioSource.asObservable();
 
   // return observable list of all scenarios
   public getAllScenarios(): Observable<Array<Scenario>> {
@@ -74,40 +69,30 @@ export class ScenariosService {
   }
 
   // put scenario in param
-  public putScenario(scenario: Scenario) {
+  public putScenario(scenario: Scenario): Observable<any> {
 
     return this.http.put(environment.urlPutScenario, { scenario })
-      .subscribe(
-        () => {
+      .map(response => {
 
-          this.refreshAllScenarios();
-          this.router.navigate(["/scenarios/"]);
+        this.refreshAllScenarios();
+        return response;
 
-        },
-        error => {
-
-          this.errorScenarioSource.next(ScenariosService.handleError(error));
-
-    });
+      })
+      .catch(error => ScenariosService.handleError(error));
 
   }
 
   // post scenario in param
-  public postScenario(scenario: Scenario) {
+  public postScenario(scenario: Scenario): Observable<any> {
 
     return this.http.post(environment.urlPostScenario.replace("id", scenario.id), { scenario })
-      .subscribe(
-        () => {
+      .map(response => {
 
         this.refreshAllScenarios();
-        this.router.navigate(["/scenarios/", scenario.id]);
+        return response;
 
-        },
-        error => {
-
-          this.errorScenarioSource.next(ScenariosService.handleError(error));
-
-    });
+      })
+      .catch(error => ScenariosService.handleError(error));
 
   }
 

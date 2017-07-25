@@ -2,45 +2,57 @@
 
 /* Color Properties */
 
+$cancel-color: #000000;
+
 $color-theme-primary: mat-color($palette-primary, 600);
 
 $color-theme-primary-core: mat-color($palette-primary, 50);
 
-$color-theme-accent: mat-color($palette-accent, 400);
+$color-theme-primary-input: mat-color($palette-primary, 100);
+
+$color-theme-accent: mat-color($palette-accent, 300);
+
+$color-theme-accent-raised-button: mat-color($palette-accent, 600);
+
+$color-theme-accent-raised-button-important: mat-color($palette-accent, 900);
 
 $color-theme-error: mat-color($palette-warning, 800);
 
 $color-theme-warning: mat-color($palette-warning, 300);
 
+$color-success: #6ed76e;
+
+$color-fail: #eb150e;
+
 /* Font Properties */
 
-$actions-list-text-align: center;
+$text-align-center: center;
 
 $div-text-align: left;
 
 $header-span-link-text-decoration: underline;
 
-/* Layout Properties */
+$message-important-size: 17px;
 
-$add-scenario-console-display: flex;
+$message-important-weight: bold;
+
+/* Layout Properties */
 
 $graph-position: relative;
 
-$header-span-link-position: absolute;
-
 /* Margin Padding Properties */
 
-$button-padding: 13px;
+$element-list-padding: 5px 0 5px 0;
 
-$header-child-3-margin-left: auto;
+$form-element-padding: 5px 0 15px 0;
+
+$header-component-padding: 15px 0 15px 0;
 
 $scenario-console-logs-margin: 15px;
 
-$scenario-control-panel-button-margin: 15px;
+$list-padding-top: 15px;
 
 /* Size Properties */
-
-$actions-list-list-width: 350px;
 
 $add-scenario-current-actions-list-width: 200px;
 
@@ -64,17 +76,21 @@ $toolbar-width: 200px;
 
 /* Style Properties */
 
+$border-radius-input: 5px;
+
 $border-little-primary: $color-theme-primary solid 1px;
 
 $border-medium-primary: 3px solid $color-theme-primary;
 
-$border-form-error: 5px solid $color-theme-error;
+$border-form-error: 5px solid $color-fail;
 
-$border-form-conform: 5px solid #42A948;
+$border-form-conform: 5px solid $color-success;
 
 $button-line-height: normal;
 
 $button-white-space: normal;
+
+$div-overflow-x: hidden;
 
 $div-overflow-y: auto;
 

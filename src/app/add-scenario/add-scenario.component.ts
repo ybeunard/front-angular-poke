@@ -5,13 +5,14 @@ import { isNullOrUndefined } from "util";
 import { ScenariosService } from "../service/scenarios.service";
 import { ModulesService } from "../service/modules.service";
 import { GraphsService } from "../service/graphs.service";
+import { ActionsService } from "../service/actions.service";
 
 import { DialogNodeComponent } from "./dialog-node/dialog-node.component";
 
 import { Module, Scenario, Task } from "../front-ops";
 
 import * as Sigma from "../../js/sigma/sigma.require";
-import { ActionsService } from "../service/actions.service";
+import { MdSnackBar } from "@angular/material";
 
 @Component({
 
@@ -23,7 +24,7 @@ import { ActionsService } from "../service/actions.service";
 }) export class AddScenarioComponent implements OnInit {
 
   // viewContainer to create the dialog-node component
-  @ViewChild("dialogAnchor", {read: ViewContainerRef}) dialogAnchor: ViewContainerRef;
+  @ViewChild("dialogAnchor", { read: ViewContainerRef }) dialogAnchor: ViewContainerRef;
 
   dialogComponentRef: any;
 
@@ -330,11 +331,45 @@ import { ActionsService } from "../service/actions.service";
 
     if(isNullOrUndefined(this.model.id)) {
 
-      this.scenariosService.putScenario(this.model);
+      this.scenariosService.putScenario(this.model).subscribe(
+        () => {
+
+          this.snackBar.open("Scenario Created", undefined, {
+            duration: 2000,
+            extraClasses: ["success"]
+          });
+          this.router.navigate(["/scenarios/"]);
+
+        },
+        error => {
+
+          this.snackBar.open(error, undefined, {
+            duration: 2000,
+            extraClasses: ["error"]
+          });
+
+      });
 
     } else {
 
-      this.scenariosService.postScenario(this.model);
+      this.scenariosService.postScenario(this.model).subscribe(
+        () => {
+
+          this.snackBar.open("Scenario Updated", undefined, {
+            duration: 2000,
+            extraClasses: ["success"]
+          });
+          this.router.navigate(["/scenarios/"]);
+
+        },
+        error => {
+
+          this.snackBar.open(error, undefined, {
+            duration: 2000,
+            extraClasses: ["error"]
+          });
+
+        });
 
     }
 
@@ -409,7 +444,8 @@ import { ActionsService } from "../service/actions.service";
     private scenariosService: ScenariosService,
     private modulesService: ModulesService,
     private graphsService: GraphsService,
-    private componentFactoryResolver: ComponentFactoryResolver) { }
+    private componentFactoryResolver: ComponentFactoryResolver,
+    public snackBar: MdSnackBar) { }
 
   ngOnInit() {
 

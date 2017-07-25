@@ -8,6 +8,24 @@ html,body {
 
 }
 
+.button-type-1 {
+
+  background-color: $color-theme-accent !important;
+
+}
+
+.button-type-2 {
+
+  background-color: $color-theme-accent-raised-button !important;
+
+}
+
+.button-type-3 {
+
+  background-color: $color-theme-accent-raised-button-important !important;
+
+}
+
 .container {
 
   display: flex;
@@ -19,19 +37,6 @@ html,body {
 .container-router {
 
   flex: 1;
-
-}
-
-md-list {
-
-  overflow-x: hidden;
-  overflow-y: auto;
-
-}
-
-md-list-item {
-
-  display: block;
 
 }
 
@@ -47,6 +52,64 @@ md-list-item {
   line-height: 50px;
   text-align: center;
   width: 75%;
+
+}
+
+input {
+
+  border-radius: $border-radius-input;
+
+}
+
+input:focus {
+
+  background-color: $color-theme-primary-input;
+
+}
+
+md-icon {
+
+  color: $color-theme-primary;
+
+}
+
+simple-snack-bar {
+
+  color: $cancel-color !important;
+  font-size: $message-important-size !important;
+  font-weight: $message-important-weight;
+
+}
+
+snack-bar-container {
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+}
+
+snack-bar-container.success {
+
+  background-color: $color-success;
+
+}
+
+snack-bar-container.error {
+
+  background-color: $color-fail;
+
+}
+
+textarea {
+
+  border-radius: $border-radius-input;
+
+}
+
+textarea:focus {
+
+  background-color: $color-theme-primary-input;
 
 }
 
