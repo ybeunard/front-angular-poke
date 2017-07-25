@@ -1,0 +1,24 @@
+@import '../../../styles/_constant';
+
+button:disabled {
+
+
+}
+
+.form-group {
+
+  padding: $form-element-padding;
+
+}
+
+.ng-invalid:not(form)  {
+
+  border-right: $border-form-error;
+
+}
+
+.ng-valid[required], .ng-valid.required  {
+
+  border-right: $border-form-conform;
+
+}
