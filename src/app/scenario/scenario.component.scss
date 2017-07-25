@@ -18,7 +18,7 @@
 .consoleReturn {
 
   border-bottom: $border-little-primary;
-  display: $add-scenario-console-display;
+  display: flex;
   text-align: $div-text-align;
 
 }
@@ -41,7 +41,6 @@
 .item:nth-child(1) {
 
   height: $scenario-control-panel-button-height;
-  margin: $scenario-control-panel-button-margin;
   width:  100%;
 
 }

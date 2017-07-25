@@ -4,7 +4,6 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { isNullOrUndefined } from "util";
 
 import { ScenariosService } from "../service/scenarios.service";
-import {ModulesService} from "../service/modules.service";
 import {GraphsService} from "../service/graphs.service";
 import { LogsService } from "../service/logs.service";
 import { InstancesService } from "../service/instances.service";
