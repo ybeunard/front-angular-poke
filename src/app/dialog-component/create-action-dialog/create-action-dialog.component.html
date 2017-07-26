@@ -1,0 +1,56 @@
+<form (ngSubmit)="onSubmit()" #moduleForm="ngForm">
+
+  <div class="form-group">
+
+    <label for="label">Label</label><br>
+    <input type="text" class="form-control label" id="label"
+           required
+           [(ngModel)]="model.label" name="label" />
+
+  </div>
+  <div class="form-group">
+
+    <label for="module_action">Module</label>
+    <select class="form-control module" id="module_action"
+            required
+            [(ngModel)]="module_action" name="module_action">
+
+      <option *ngFor="let module of modules" [value]="module.id">{{ module.label }}</option>
+
+    </select>
+
+  </div>
+  <div class="form-group">
+
+    <label for="category">Category</label><br>
+    <input class="form-control category" id="category"
+           [(ngModel)]="model.category" name="category" />
+
+  </div>
+  <div class="form-group">
+
+    <label for="command">Command</label><br>
+    <input class="form-control command" id="command"
+           required
+           [(ngModel)]="model.command" name="command" />
+
+  </div>
+  <div class="form-group">
+
+    <label for="args">Args</label><br>
+    <input class="form-control args" id="args"
+           [(ngModel)]="model.args" name="args" />
+
+  </div>
+  <div class="form-group">
+
+    <label for="args_helper">Args helper</label><br>
+    <input class="form-control args_helper" id="args_helper"
+           [(ngModel)]="model.args_helper" name="args_helper" />
+
+  </div>
+  <button md-button class="button-type-2" type="submit" [disabled]="!moduleForm.form.valid">Create</button>
+  <button md-button class="button-type-2" type="button" (click)="moduleForm.reset()">Reset</button>
+  <button md-button class="button-type-2" type="button" (click)="dialogRef.close(false)">Cancel</button>
+
+</form>
