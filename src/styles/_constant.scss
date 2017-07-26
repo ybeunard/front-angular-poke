@@ -42,7 +42,9 @@ $graph-position: relative;
 
 /* Margin Padding Properties */
 
-$element-list-padding: 5px 0 5px 0;
+$element-list-margin: 0 0 15px 0;
+
+$element-list-padding: 0 0 15px 0;
 
 $form-element-padding: 5px 0 15px 0;
 
@@ -50,7 +52,7 @@ $header-component-padding: 15px 0 15px 0;
 
 $scenario-console-logs-margin: 15px;
 
-$list-padding-top: 15px;
+$list-padding-top: 10px;
 
 /* Size Properties */
 
