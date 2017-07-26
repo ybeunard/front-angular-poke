@@ -3,6 +3,8 @@ import { MdDialogRef, MdSnackBar } from "@angular/material";
 import { ModulesService } from "../../service/modules.service";
 import { isNullOrUndefined } from "util";
 
+import { Module } from "../../front-ops";
+
 @Component({
 
   selector: "app-create-module-dialog",
@@ -11,14 +13,12 @@ import { isNullOrUndefined } from "util";
 
 }) export class CreateModuleDialogComponent {
 
-  id: number = null;
-  label: string = "";
-  command: string = "";
+  model: Module = { id: null, label: "", command: "", actions: [], visibility: false };
 
   public onSubmit() {
 
-    if(isNullOrUndefined(this.id)) {
-      this.modulesService.putModules(this.label, this.command)
+    if(isNullOrUndefined(this.model.id)) {
+      this.modulesService.putModule(this.model)
         .subscribe(() => {
 
             this.dialogRef.close(true);
@@ -35,7 +35,7 @@ import { isNullOrUndefined } from "util";
 
     } else {
 
-      this.modulesService.postModules(this.id, this.label, this.command)
+      this.modulesService.postModule(this.model)
         .subscribe(() => {
 
           this.dialogRef.close(true);

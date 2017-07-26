@@ -111,12 +111,12 @@ export class ScenariosService {
     let errMsg: string;
     if (error instanceof Response) {
 
-      const body: any = error.json() || "";
-      errMsg = `${error.status} - ${body.message || ""}`;
+      const body: any = error.json().data || error.json();
+      errMsg = `${error.status} - ${body.message || "Unreachable server"}`;
 
     } else {
 
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : "Unreachable server";
 
     }
     return Observable.throw(errMsg);

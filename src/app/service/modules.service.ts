@@ -13,14 +13,14 @@ import { Module } from "../front-ops";
 export class ModulesService {
 
   // list of all modules available
-  private listModules: Array<Module> = [];
+  private static listModules: Array<Module> = [];
 
   // return observable list of all modules with a visibility set at false
   public getAllModules(): Observable<Array<Module>> {
 
-    if(this.listModules && this.listModules.length > 0) {
+    if(ModulesService.listModules && ModulesService.listModules.length > 0) {
 
-      return Observable.of(this.listModules);
+      return Observable.of(ModulesService.listModules);
 
     }
     return this.http.get(environment.urlGetAllModules)
@@ -31,14 +31,14 @@ export class ModulesService {
           return [];
 
         }
-        const responseModules: Array<any> = response.json().modules || { };
-        this.refreshAllModules();
+        const responseModules: Array<any> = response.json().modules || [];
+        ModulesService.refreshAllModules();
         responseModules.forEach((module: any) => {
 
-          this.listModules.push({ id: module.id, label: module.label, command: module.command, actions: module.actions, visibility: false});
+          ModulesService.listModules.push({ id: module.id, label: module.label, command: module.command, actions: module.actions, visibility: false});
 
         });
-        return this.listModules;
+        return ModulesService.listModules;
 
       })
       .catch(error => ModulesService.handleError(error));
@@ -64,12 +64,12 @@ export class ModulesService {
   }
 
   // return observable with the return of the put request
-  public putModules(label: string, command: string): Observable<any> {
+  public putModule(module: Module): Observable<any> {
 
-    return this.http.put(environment.urlPutModule, { module: { label: label, command: command } })
+    return this.http.put(environment.urlPutModule, { module: { label: module.label, command: module.command } })
       .map(response => {
 
-        this.refreshAllModules();
+        ModulesService.refreshAllModules();
         return response;
 
       })
@@ -78,12 +78,12 @@ export class ModulesService {
   }
 
   // return observable with the return of the post request
-  public postModules(idModule: number, label: string, command: string): Observable<any> {
+  public postModule(module: Module): Observable<any> {
 
-    return this.http.post(environment.urlPostModule.replace("id", idModule), { module: { label: label, command: command } })
+    return this.http.post(environment.urlPostModule.replace("id", module.id), { module: { label: module.label, command: module.command } })
       .map(response => {
 
-        this.refreshAllModules();
+        ModulesService.refreshAllModules();
         return response;
 
       })
@@ -97,7 +97,7 @@ export class ModulesService {
     return this.http.delete(environment.urlDeleteModule.replace("id", moduleId))
       .map(response => {
 
-        this.refreshAllModules();
+        ModulesService.refreshAllModules();
         return response;
 
       })
@@ -106,9 +106,9 @@ export class ModulesService {
   }
 
   // refresh listModules after call update on Modules and Actions table on database
-  private refreshAllModules() {
+  public static refreshAllModules() {
 
-    this.listModules = [];
+    ModulesService.listModules = [];
 
   }
 
@@ -119,12 +119,12 @@ export class ModulesService {
     let errMsg: string;
     if (error instanceof Response) {
 
-      const body: any = error.json() || "";
-      errMsg = `${error.status} - ${body.message || ""}`;
+      const body: any = error.json().data || error.json();
+      errMsg = `${error.status} - ${body.message || "Unreachable server"}`;
 
     } else {
 
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : "Unreachable server";
 
     }
     return Observable.throw(errMsg);
