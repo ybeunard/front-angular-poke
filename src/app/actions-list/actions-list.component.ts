@@ -1,17 +1,26 @@
 import {
-  Component, OnInit, ViewChildren, QueryList, ViewContainerRef, ComponentFactoryResolver, AfterViewInit, ViewEncapsulation
+
+  Component,
+  OnInit,
+  ViewChildren,
+  QueryList,
+  ViewContainerRef,
+  ComponentFactoryResolver,
+  AfterViewInit,
+  ViewEncapsulation
+
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { isNullOrUndefined } from "util";
-import { MdDialog, MdDialogRef, MdSnackBar } from "@angular/material";
+import { MdSnackBar } from "@angular/material";
 
 import { ModulesService } from "../service/modules.service";
+import { ActionsService } from "../service/actions.service";
+import { DialogsService } from "../service/dialogs.service";
 
 import { ActionComponent } from "../action/action.component";
-import { ConfirmationDialogComponent } from "../dialog-component/confirmation-dialog/confirmation-dialog.component";
 
 import { Action, Module } from "../front-ops";
-import { CreateModuleDialogComponent } from "../dialog-component/create-module-dialog/create-module-dialog.component";
 
 @Component({
 
@@ -29,9 +38,6 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
   private actionComponentRef: any;
 
   private firstLoading: boolean;
-
-  private confirmationDialogRef: MdDialogRef<ConfirmationDialogComponent>;
-  private createDialogRef: MdDialogRef<CreateModuleDialogComponent>;
 
   // current list of modules in the component
   listModules: Array<Module> = [];
@@ -52,22 +58,74 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
 
   }
 
+  // create one action
+  public createAction() {
+
+    this.dialogsService.createActionDialog(null, null, this.listModules).subscribe(response => {
+
+      if(response) {
+
+        this.snackBar.open("Action Created", undefined, {
+
+          duration: 2000,
+          extraClasses: ["success"]
+
+        });
+        this.loadModules(false, "/actions/");
+
+      }
+
+    });
+
+  }
+
   // create one module
   public createModule() {
 
-    this.createDialogRef = this.dialog.open(CreateModuleDialogComponent, { disableClose: false });
-    this.createDialogRef.afterClosed().subscribe(response => {
+    this.dialogsService.createModuleDialog(null).subscribe(response => {
+
       if(response) {
 
         this.snackBar.open("Module Created", undefined, {
+
           duration: 2000,
           extraClasses: ["success"]
+
         });
-        this.router.navigate(["/actions/"]);
-        this.loadModules(false);
+        this.loadModules(false, "/actions/");
 
       }
-      this.confirmationDialogRef = null;
+
+    });
+
+  }
+
+  // delete one action in params
+  public deleteAction(action: Action) {
+
+    this.dialogsService.confirmationDialog("Are you sure you want to delete this action?", null).subscribe(response => {
+      if(response) {
+
+        this.actionsService.deleteAction(action.id)
+          .subscribe(() => {
+
+              this.snackBar.open("Action Deleted", undefined, {
+                duration: 2000,
+                extraClasses: ["success"]
+              });
+              this.loadModules(false, "/actions/");
+
+            },
+            error => {
+
+              this.snackBar.open(error, undefined, {
+                duration: 2000,
+                extraClasses: ["error"]
+              });
+
+            });
+
+      }
 
     });
 
@@ -76,14 +134,8 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
   // delete one module in params
   public deleteModule(module: Module) {
 
-    this.confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, { disableClose: false });
-    this.confirmationDialogRef.componentInstance.confirmMessage = "Are you sure you want to delete this module?";
-    if(module.actions.length !== 0) {
-
-      this.confirmationDialogRef.componentInstance.warningMessage = "Warning: This module contains " + module.actions.length + " actions!!!";
-
-    }
-    this.confirmationDialogRef.afterClosed().subscribe(response => {
+    const warning: string = module.actions.length !== 0 ? "Warning: This module contains " + module.actions.length + " actions!!!" : null;
+    this.dialogsService.confirmationDialog("Are you sure you want to delete this module?", warning).subscribe(response => {
       if(response) {
 
         this.modulesService.deleteModule(module.id)
@@ -93,8 +145,7 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
               duration: 2000,
               extraClasses: ["success"]
             });
-            this.router.navigate(["/actions/"]);
-            this.loadModules(false);
+            this.loadModules(false, "/actions/");
 
           },
           error => {
@@ -107,7 +158,6 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
         });
 
       }
-      this.confirmationDialogRef = null;
 
     });
 
@@ -117,32 +167,6 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
   public displayAction(module: Module, action: Action) {
 
     this.router.navigate(["/actions/", module.id, action.id]);
-
-  }
-
-  private recoverParamsRouter() {
-
-    this.route.params
-      .subscribe(
-        responseRouter => {
-
-          if (responseRouter["module"]) {
-
-            const moduleIndex: number = this.initCurrentModuleVisibility(responseRouter["module"]);
-            if(!isNullOrUndefined(moduleIndex) && responseRouter["id"]) {
-
-              this.initCurrentAction(responseRouter["id"], moduleIndex);
-
-            }
-
-          }
-
-        },
-        error => {
-
-          this.warningMessageModuleNotFound = error;
-
-    });
 
   }
 
@@ -228,7 +252,7 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
   }
 
   // load all modules
-  private loadModules(needRecoverParams: boolean) {
+  private loadModules(needRecoverParams: boolean, navigate: string) {
 
     this.modulesService
       .getAllModules()
@@ -245,6 +269,10 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
 
             this.recoverParamsRouter();
 
+          } else {
+
+            this.router.navigate([navigate]);
+
           }
 
         },
@@ -253,6 +281,32 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
           this.errorMessageGetAllModules = error;
 
       });
+
+  }
+
+  private recoverParamsRouter() {
+
+    this.route.params
+      .subscribe(
+        responseRouter => {
+
+          if (responseRouter["module"]) {
+
+            const moduleIndex: number = this.initCurrentModuleVisibility(responseRouter["module"]);
+            if(!isNullOrUndefined(moduleIndex) && responseRouter["id"]) {
+
+              this.initCurrentAction(responseRouter["id"], moduleIndex);
+
+            }
+
+          }
+
+        },
+        error => {
+
+          this.warningMessageModuleNotFound = error;
+
+        });
 
   }
 
@@ -267,23 +321,43 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
 
   }
 
+  // update one action in params
+  public updateAction(action: Action, module: Module) {
+
+    this.dialogsService.createActionDialog(action, module.id, this.listModules).subscribe(response => {
+
+      if(response) {
+
+        this.snackBar.open("Action Updated", undefined, {
+
+          duration: 2000,
+          extraClasses: ["success"]
+
+        });
+        this.loadModules(false, "/actions/" + response.idModule + "/" + response.idAction);
+
+      }
+
+    });
+
+  }
+
+  // update one module in params
   public updateModule(module: Module) {
 
-    this.createDialogRef = this.dialog.open(CreateModuleDialogComponent, { disableClose: false });
-    this.createDialogRef.componentInstance.id = module.id;
-    this.createDialogRef.componentInstance.label = module.label;
-    this.createDialogRef.componentInstance.command = module.command;
-    this.createDialogRef.afterClosed().subscribe(response => {
+    this.dialogsService.createModuleDialog(module).subscribe(response => {
+
       if(response) {
 
         this.snackBar.open("Module Updated", undefined, {
+
           duration: 2000,
           extraClasses: ["success"]
+
         });
-        this.loadModules(false);
+        this.loadModules(false, "/actions/");
 
       }
-      this.confirmationDialogRef = null;
 
     });
 
@@ -292,8 +366,9 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
   constructor(private route: ActivatedRoute,
               private router: Router,
               private modulesService: ModulesService,
+              private actionsService: ActionsService,
+              private dialogsService: DialogsService,
               private componentFactoryResolver: ComponentFactoryResolver,
-              public dialog: MdDialog,
               public snackBar: MdSnackBar) { }
 
   ngOnInit() {
@@ -308,7 +383,7 @@ import { CreateModuleDialogComponent } from "../dialog-component/create-module-d
 
   ngAfterViewInit() {
 
-    this.loadModules(true);
+    this.loadModules(true, "");
 
   }
 

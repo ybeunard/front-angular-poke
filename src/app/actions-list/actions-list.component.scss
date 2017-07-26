@@ -27,41 +27,64 @@ app-actions-list {
 
 }
 
-.container-action {
+.center-button {
 
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+
+}
+
+.container-action-buttons {
+
+  display: flex;
   padding: $element-list-padding;
+  width: 70%;
 
 }
 
 .container-module-buttons {
 
+  border-bottom: $border-medium-primary;
+  display: flex;
   padding: $element-list-padding;
+  width: 70%;
+
+}
+
+.element-action {
+
+  align-items: center;
+  border-bottom: $border-little-primary;
+  display: flex;
+  flex-direction: column;
+  margin: $element-list-margin;
+  width: 100%;
+
+}
+
+.element-module {
+
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: $element-list-padding;
+  width: 100%;
 
 }
 
 .list-actions {
 
-  display: flex;
-  flex-direction: column;
   padding-top: $list-padding-top;
-
-}
-
-.list-actions-element {
-
-  padding: $element-list-padding;
+  width: 50%;
 
 }
 
 .list-module {
 
-  align-items: center;
-  display: flex;
-  flex-direction: column;
   overflow-x: $div-overflow-x;
   overflow-y: $div-overflow-y;
   padding-top: $list-padding-top;
-  text-align: $text-align-center;
   width: 100%;
 
 }

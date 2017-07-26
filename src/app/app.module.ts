@@ -11,12 +11,15 @@ import {CoreScenarioModule} from "./core-scenario/core-scenario.module";
 
 import {AppRoutingModule} from "./app-routing.module";
 
+import { DialogsService } from "./service/dialogs.service";
+
 import { AppComponent } from "./app.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { HeaderComponent } from "./header/header.component";
 import {NotFoundComponent} from "./error/not-found.component";
 import { ConfirmationDialogComponent } from "./dialog-component/confirmation-dialog/confirmation-dialog.component";
 import { CreateModuleDialogComponent } from "./dialog-component/create-module-dialog/create-module-dialog.component";
+import { CreateActionDialogComponent } from "./dialog-component/create-action-dialog/create-action-dialog.component";
 
 import { PushNotificationsModule } from "./notification-module/push-notifications.module";
 
@@ -49,10 +52,18 @@ import { PushNotificationsModule } from "./notification-module/push-notification
     HeaderComponent,
     NotFoundComponent,
     ConfirmationDialogComponent,
-    CreateModuleDialogComponent
+    CreateModuleDialogComponent,
+    CreateActionDialogComponent
 
   ],
+  providers: [ DialogsService ],
   bootstrap: [ AppComponent ],
-  entryComponents: [ ConfirmationDialogComponent, CreateModuleDialogComponent ]
+  entryComponents: [
+
+    ConfirmationDialogComponent,
+    CreateModuleDialogComponent,
+    CreateActionDialogComponent
+
+  ]
 
 }) export class AppModule { }
