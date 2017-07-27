@@ -5,14 +5,14 @@
     <label for="label">Label</label><br>
     <input type="text" class="form-control label" id="label"
            required
-           [(ngModel)]="label" name="label" />
+           [(ngModel)]="model.label" name="label" />
 
   </div>
   <div class="form-group">
 
     <label for="command">Command</label><br>
     <input class="form-control command" id="command"
-              [(ngModel)]="command" name="command" />
+              [(ngModel)]="model.command" name="command" />
 
   </div>
   <button md-button class="button-type-2" type="submit" [disabled]="!moduleForm.form.valid">Create</button>

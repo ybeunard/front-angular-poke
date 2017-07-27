@@ -1,15 +1,12 @@
-<div class="container" *ngIf="!errorMessageGetAction && !errorMessageActionIdIncorrect">
+<div class="container action-component">
 
-  <button md-button (click)="runAction(action.id)">RUN</button>
-  <p *ngIf="action">
+  <div class="description" *ngIf="!consoleReturn"> {{ action.command }} </div>
+  <div class="console" *ngIf="consoleReturn" [innerHtml]="getConsoleReturn()"></div>
+  <div class="run-action">
 
-    {{action.id}}
-    {{action.category}}
-    {{action.label}}
-    {{action.command}}
+    <input [value]="args" (input)="args = $event.target.value" placeholder="Arguments">
+    <button md-button class="button-type-3" (click)="runAction(action.id)">RUN</button>
 
-  </p>
-  <input [value]="args" (input)="args = $event.target.value" placeholder="Arguments">
-  <div id="consoleReturn" [innerHtml]="getConsoleReturn()"></div>
+  </div>
 
 </div>

@@ -16,7 +16,7 @@ export class Action {
   command: string;
   args: string;
   args_helper: string;
-  working_status: boolean;
+  is_tested: boolean;
 
 }
 

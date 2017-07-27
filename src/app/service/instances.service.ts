@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { Subject } from "rxjs/Subject";
 import { isNullOrUndefined } from "util";
 
@@ -119,12 +119,12 @@ export class InstancesService {
     let errMsg: string;
     if (error instanceof Response) {
 
-      const body: any = error.json() || "";
-      errMsg = `${error.status} - ${body.message || ""}`;
+      const body: any = error.json().data || error.json();
+      errMsg = `${error.status} - ${body.message || "Unreachable server"}`;
 
     } else {
 
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : "Unreachable server";
 
     }
     return Observable.throw(errMsg);

@@ -6,3 +6,41 @@
   width: 100%;
 
 }
+
+.action-component {
+
+  align-items: center;
+  border: $border-little-primary;
+  display: flex;
+  flex-direction: column;
+  margin: $element-list-margin;
+  padding: $form-element-padding;
+
+}
+
+.console {
+
+  border: $border-little-primary;
+  margin: $element-list-margin;
+  padding: $form-element-padding;
+  text-align: center;
+  width: 80%;
+
+}
+
+.description {
+
+  border: $border-little-primary;
+  margin: $element-list-margin;
+  padding: $form-element-padding;
+  text-align: center;
+  width: 80%;
+
+}
+
+.run-action {
+
+  align-self: flex-end;
+  display: flex;
+
+}

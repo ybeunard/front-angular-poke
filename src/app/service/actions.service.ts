@@ -7,40 +7,34 @@ import "rxjs/add/operator/map";
 
 import { environment } from "../../environments/environment";
 
+import { ModulesService } from "./modules.service";
+
 import { Action } from "../front-ops";
 
 @Injectable()
 export class ActionsService {
 
   // list of all actions available
-  private listActions: Array<Action> = [];
+  private static listActions: Array<Action> = [];
 
   // return observable list of all actions
   public getAllActions(): Observable<Action[]> {
 
-    if(this.listActions && this.listActions.length > 0) {
+    if(ActionsService.listActions && ActionsService.listActions.length > 0) {
 
-      return Observable.of(this.listActions);
+      return Observable.of(ActionsService.listActions);
 
     }
     return this.http.get(environment.urlGetAllActions)
       .map(response => {
 
-        this.listActions = response.json() || { };
-        return this.listActions;
+        if(response.status === 204) {
 
-      })
-      .catch(error => ActionsService.handleError(error));
+          return [];
 
-  }
-
-  // return observable action associated to action ID argument
-  public getAction(actionId: number): Observable<Action> {
-
-    return this.http.get(environment.urlGetAction.replace("id", actionId))
-      .map(response => {
-
-        return response.json() || { };
+        }
+        ActionsService.listActions = response.json().actions || [];
+        return ActionsService.listActions;
 
       })
       .catch(error => ActionsService.handleError(error));
@@ -83,6 +77,53 @@ export class ActionsService {
 
   }
 
+  // return observable with the return of the put request
+  public putAction(action: Action, moduleId: number): Observable<any> {
+
+    return this.http.put(environment.urlPutAction.replace("module_id", moduleId), { action })
+      .map(response => {
+
+        ActionsService.refreshAllActions();
+        ModulesService.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ActionsService.handleError(error));
+
+  }
+
+  // return observable with the return of the post request
+  public postAction(action: Action, moduleId: number): Observable<any> {
+
+    return this.http.post(environment.urlPostAction
+      .replace("module_id", moduleId)
+      .replace("id", action.id), { action })
+      .map(response => {
+
+        ActionsService.refreshAllActions();
+        ModulesService.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ActionsService.handleError(error));
+
+  }
+
+  // return observable with the return of the delete request
+  public deleteAction(actionId: number): Observable<any> {
+
+    return this.http.delete(environment.urlDeleteAction.replace("id", actionId))
+      .map(response => {
+
+        ActionsService.refreshAllActions();
+        ModulesService.refreshAllModules();
+        return response;
+
+      })
+      .catch(error => ActionsService.handleError(error));
+
+  }
+
   // execute one action on back and return response message
   public executeAction(actionId: number, args: string): Observable<string> {
 
@@ -97,9 +138,9 @@ export class ActionsService {
   }
 
   // refresh listActions after call update on Actions table on database
-  private refreshAllActions() {
+  private static refreshAllActions() {
 
-    this.listActions = [];
+    ActionsService.listActions = [];
 
   }
 
@@ -110,12 +151,12 @@ export class ActionsService {
     let errMsg: string;
     if (error instanceof Response) {
 
-      const body: any = error.json() || "";
-      errMsg = `${error.status} - ${body.message || ""}`;
+      const body: any = error.json().data || error.json();
+      errMsg = `${error.status} - ${body.message || "Unreachable server"}`;
 
     } else {
 
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.message ? error.message : "Unreachable server";
 
     }
     return Observable.throw(errMsg);

@@ -14,6 +14,9 @@ export const environment: any = {
 
   urlGetAllActions: urlServerBack + "/modules/*/actions/",
   urlGetAction: urlServerBack + "/modules/*/actions/id",
+  urlPutAction: urlServerBack + "/modules/module_id/actions/",
+  urlPostAction: urlServerBack + "/modules/module_id/actions/id",
+  urlDeleteAction: urlServerBack + "/modules/*/actions/id",
   urlExecuteAction: urlServerBack + "/modules/*/actions/id/execute",
 
   urlGetAllModules: urlServerBack + "/modules/",

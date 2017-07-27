@@ -3,6 +3,7 @@
   <div class="actions-list-component-header">
 
     <button md-raised-button class="button-type-3" (click)="createModule()">Create Module</button>
+    <button md-raised-button class="button-type-3" (click)="createAction()">Create Action</button>
     <div class="warning" *ngIf="warningMessageActionNotFound && !warningMessageNoContentModule">{{warningMessageActionNotFound}}</div>
     <div class="warning" *ngIf="warningMessageModuleNotFound && !warningMessageNoContentModule">{{warningMessageModuleNotFound}}</div>
     <div class="warning" *ngIf="warningMessageNoContentModule">{{warningMessageNoContentModule}}</div>
@@ -10,25 +11,37 @@
   </div>
   <md-list class="list-module" *ngIf="!warningMessageNoContentModule">
 
-    <md-list-item *ngFor="let module of listModules">
+    <md-list-item class="element-module" *ngFor="let module of listModules">
 
       <div class="container-module-buttons">
 
+        <div class="center-button"></div>
         <button md-raised-button class="button-type-2" (click)="changeVisibility(module)">{{ module.label }}</button>
+        <div class="center-button">
+
         <button md-button class="button-icon" (click)="deleteModule(module)" ><md-icon>delete</md-icon></button>
         <button md-button class="button-icon" (click)="updateModule(module)"><md-icon>mode_edit</md-icon></button>
 
+        </div>
+
       </div>
-      <md-list class="list-actions">
+      <md-list class="list-actions" [hidden]="!module.visibility">
 
-          <md-list-item class="list-actions-element" [hidden]="!module.visibility" *ngFor="let action of module.actions"  id="item_{{action.id}}">
+          <md-list-item class="element-action" *ngFor="let action of module.actions"  id="item_{{action.id}}">
 
-            <button md-button class="button-type-1" (click)="displayAction(module, action)">
+            <div class="container-action-buttons">
 
-              {{ action.label }}
+              <div class="center-button"></div>
+              <button md-button class="button-type-1" (click)="displayAction(module, action)">{{ action.label }}</button>
+              <div class="center-button">
 
-            </button>
-            <div #actionAnchor id="action_{{action.id}}" class="container-action"></div>
+                <button md-button class="button-icon" (click)="deleteAction(action)"><md-icon>delete</md-icon></button>
+                <button md-button class="button-icon" (click)="updateAction(action, module)"><md-icon>mode_edit</md-icon></button>
+
+              </div>
+
+            </div>
+            <div #actionAnchor id="action_{{action.id}}"></div>
 
           </md-list-item>
 
