@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
+import { Http, Response } from "@angular/http";
+import { isNullOrUndefined } from "util";
+import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 import { Log, Instance, Scenario, Task } from "../front-ops";
-import { isNullOrUndefined } from "util";
+
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class LogsService {
@@ -11,9 +15,20 @@ export class LogsService {
   // list of all instances running or runned available
   private listInstances: Array<Instance> = [];
 
-  // subject and observable to transmit all change on console to component
+  // interval between two requete log
+  private intervalRequeteLog: number = environment.intervalRequeteLog;
+
+  // subject and observable to transmit all changement on instance to component
   private instanceChangeSource: Subject<number> = new Subject<number>();
-  public instanceChange: Observable<number> = this.instanceChangeSource.asObservable();
+  public instanceChangeObs: Observable<number> = this.instanceChangeSource.asObservable();
+
+  // subject and observable to transmit all changement on action to component
+  private actionChangeSource: Subject<{ objectId: number, log: Log }> = new Subject<{ objectId: number, log: Log }>();
+  public actionChangeObs: Observable<{ objectId: number, log: Log }> = this.actionChangeSource.asObservable();
+
+  // subject and observable to push notification when object end
+  public terminateSource: Subject<string | Observable<string>> = new Subject<string | Observable<string>>();
+  public terminateObs: Observable<string | Observable<string>> = this.terminateSource.asObservable();
 
   // add new instance
   private addInstance(newInstance: Instance) {
@@ -30,12 +45,12 @@ export class LogsService {
     this.listInstances[instanceFindIndex]
       .logs.forEach((log: Log) => {
 
-        const logIndex: number = this.listInstances[instanceFindIndex].logs.indexOf(log);
-        if(isNullOrUndefined(log.status)) {
+      const logIndex: number = this.listInstances[instanceFindIndex].logs.indexOf(log);
+      if(isNullOrUndefined(log.status)) {
 
-          this.listInstances[instanceFindIndex].logs[logIndex].status = 500;
+        this.listInstances[instanceFindIndex].logs[logIndex].status = 500;
 
-        }
+      }
 
     });
 
@@ -120,6 +135,128 @@ export class LogsService {
       this.deleteInstance(instance.id);
 
     });
+
+  }
+
+  private sendLog(log: any, idObject: number, pathCache: string, type: string) {
+
+    switch(type) {
+
+      case "Action":
+
+        this.actionChangeSource.next({ objectId: idObject, log: log });
+        if(log.status === "terminated") {
+
+          this.terminateRunning(log.id, idObject, pathCache, type);
+
+        }
+        break;
+
+      default:
+
+    }
+
+  }
+
+  // check if all object running,
+  private checkObjectRunning(url: any, pathCache: string, type: string) {
+
+    const cache: Array<{ idLog: number, idObject: number, terminated: boolean }> = JSON.parse(localStorage.getItem(pathCache));
+    if(isNullOrUndefined(cache)) {
+
+      return;
+
+    }
+    cache.forEach((elementRunning) => {
+
+      if(!elementRunning.terminated) {
+
+        return;
+
+      }
+      this.http.get(url.replace("id", elementRunning.idLog))
+        .subscribe(
+          response => {
+
+            this.sendLog(response.json(), elementRunning.idObject, pathCache, type);
+
+          },
+          error => {
+
+            this.terminateRunning(elementRunning.idLog, elementRunning.idObject, pathCache, type);
+            this.terminateSource.next(LogsService.handleError(error));
+
+      });
+
+    });
+
+  }
+
+  // check in the cache if an action in param run
+  public checkActionRunning(idAction: number): boolean {
+
+    const cache: Array<{ idLog: number, idObject: number, terminated: boolean }> = JSON.parse(localStorage.getItem(environment.keyCacheActionRunning));
+    return !(isNullOrUndefined(cache) || cache.findIndex(elementCacheTest =>
+      elementCacheTest.idObject === idAction &&
+      elementCacheTest.terminated === true) === -1);
+
+  }
+
+  public getLogAction(idAction: number): Observable<Log> {
+
+    const cache: Array<{ idLog: number, idObject: number, terminated: boolean }> = JSON.parse(localStorage.getItem(environment.keyCacheActionRunning));
+    if(isNullOrUndefined(cache)) {
+
+      return Observable.of(null);
+
+    }
+    const elementFind: any = cache.find(elementCacheTest => elementCacheTest.idObject === idAction);
+    return this.http.get(environment.getLogAction.replace("id", elementFind.idLog))
+      .map(response => response.json())
+      .catch(error => LogsService.handleError(error));
+
+  }
+
+  // set an intervalle observable to check if cache contains object running
+  public setIntervalRequeteObservable() {
+
+    IntervalObservable.create(this.intervalRequeteLog)
+      .subscribe(
+        () => {
+
+          this.checkObjectRunning(environment.getLogAction, environment.keyCacheActionRunning, "Action");
+
+        });
+
+  }
+
+  // delete of the cache an object terminated
+  private terminateRunning(idLog: number, idObject: number, pathCache: string, type: string) {
+
+    const cache: Array<{ idLog: number, idObject: number, terminated: boolean }> = JSON.parse(localStorage.getItem(pathCache));
+    const elementCacheIndex: number = cache.indexOf({ idLog: idLog, idObject: idObject, terminated: false });
+    cache[elementCacheIndex].terminated = true;
+    localStorage.setItem(pathCache, JSON.stringify(cache));
+    this.terminateSource.next(type + " " + idObject);
+
+  }
+
+  constructor(private http: Http) {  }
+
+  private static handleError (error: Response | any) {
+
+    let errMsg: string;
+    if (error instanceof Response) {
+
+      const body: any = error.json().data || error.json();
+      errMsg = `${error.status} - ${body.message || "Unreachable server"}`;
+
+    } else {
+
+      errMsg = error.message ? error.message : "Unreachable server";
+
+    }
+    return Observable.throw(errMsg);
 
   }
 

@@ -20,7 +20,7 @@
           <div class="horodatage">{{log.begin_datetime | date: 'dd/MM/yyyy h:mm:ss'}}</div>
           <div class="containerLabelMessage">
             <button md-button class="label" [disabled]="!log.status" (click)="changeVisibilityLogConsole(log)"> {{log.label}} </button>
-            <div class="message" [hidden]="!log.visibility" [innerHtml]="getConsoleReturn(log.output)" *ngIf="!errorMessageResponseTasksServiceError"></div>
+            <div [hidden]="!log.visibility" [innerHtml]="log.output | safeHtml" *ngIf="!errorMessageResponseTasksServiceError"></div>
           </div>
           <div class="status"> {{log.status}}<p *ngIf="!log.status">En Cours</p> </div>
           <div class="horodatage"> {{log.end_datetime | date: 'dd/MM/yyyy h:mm:ss'}}</div>

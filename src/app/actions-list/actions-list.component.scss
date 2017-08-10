@@ -7,9 +7,10 @@ app-actions-list {
 
 }
 
-.actions-list-component {
+.actions-list-container {
 
   flex-direction: column;
+  width: 50%;
 
 }
 
@@ -27,11 +28,9 @@ app-actions-list {
 
 }
 
-.center-button {
+.button-position {
 
-  display: flex;
   flex: 1;
-  justify-content: flex-start;
 
 }
 
@@ -39,7 +38,7 @@ app-actions-list {
 
   display: flex;
   padding: $element-list-padding;
-  width: 70%;
+  width: 100%;
 
 }
 
@@ -47,19 +46,17 @@ app-actions-list {
 
   border-bottom: $border-medium-primary;
   display: flex;
-  padding: $element-list-padding;
-  width: 70%;
+  padding: $container-button-padding;
+  width: 100%;
 
 }
 
 .element-action {
 
-  align-items: center;
   border-bottom: $border-little-primary;
   display: flex;
   flex-direction: column;
   margin: $element-list-margin;
-  width: 100%;
 
 }
 
@@ -68,15 +65,16 @@ app-actions-list {
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin: auto;
   padding: $element-list-padding;
-  width: 100%;
+  width: 95%;
 
 }
 
 .list-actions {
 
   padding-top: $list-padding-top;
-  width: 50%;
+  width: 100%;
 
 }
 
@@ -85,6 +83,5 @@ app-actions-list {
   overflow-x: $div-overflow-x;
   overflow-y: $div-overflow-y;
   padding-top: $list-padding-top;
-  width: 100%;
 
 }

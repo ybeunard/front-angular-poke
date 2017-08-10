@@ -7,21 +7,22 @@
 
 .add-scenario-list {
 
-  align-content: center;
+  overflow-x: $div-overflow-x;
+  overflow-y: $div-overflow-y;
+  padding-top: $list-padding-top;
   width: $add-scenario-module-list-width;
 
 }
 
-button {
+.button-position {
 
-  line-height: $button-line-height;
-  white-space: $button-white-space;
+  width: 100%;
 
 }
 
 .current-action-list {
 
-  width: $add-scenario-current-actions-list-width;
+  flex: 1;
 
 }
 
@@ -30,6 +31,24 @@ button {
   height: $input-args-height;
   resize: none;
   width: $input-label-width;
+
+}
+
+.element-action {
+
+  border-bottom: $border-little-primary;
+  display: flex;
+  flex-direction: column;
+  margin: $element-list-margin;
+
+}
+
+.element-add-scenario-list {
+
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: $element-list-padding;
 
 }
 
@@ -42,6 +61,13 @@ button {
 .label {
 
   width: $input-label-width;
+
+}
+
+.list-actions {
+
+  padding-top: $list-padding-top;
+  width: 100%;
 
 }
 

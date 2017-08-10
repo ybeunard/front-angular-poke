@@ -1,12 +1,35 @@
 <div class="container action-component">
 
   <div class="description" *ngIf="!consoleReturn"> {{ action.command }} </div>
-  <div class="console" *ngIf="consoleReturn" [innerHtml]="getConsoleReturn()"></div>
-  <div class="run-action">
+  <div class="consoleReturn" *ngIf="consoleReturn" >
 
-    <input [value]="args" (input)="args = $event.target.value" placeholder="Arguments">
-    <button md-button class="button-type-3" (click)="runAction(action.id)">RUN</button>
+    <div class="horodatage">{{ consoleReturn.begin_datetime | date: 'dd/MM/yyyy h:mm:ss' }}</div>
+    <div class="containerLabelMessage">
+      <div [innerHtml]="consoleReturn.output | safeHtml"></div>
+    </div>
+    <div class="status"> {{ consoleReturn.status }}</div>
+    <div class="horodatage"> {{ consoleReturn.end_datetime | date: 'dd/MM/yyyy h:mm:ss' }}</div>
 
   </div>
+  <div class="run-action">
+
+    <p class="textCommand">{{ moduleCommand }}</p>
+
+    <div *ngIf="moduleCommand==='salt'" class="targetInput">
+
+      <input placeholder="target" class="targetInput" [(ngModel)]="target" [mdAutocomplete]="auto" [formControl]="targetCtrl">
+      <md-autocomplete #auto="mdAutocomplete">
+
+        <md-option *ngFor="let saltAttribute of saltAttributesFiltered | async" [value]="addSaltAttributePattern(target, saltAttribute.pattern)">{{ saltAttribute.label }}</md-option>
+
+      </md-autocomplete>
+
+    </div>
+    <p class="textCommand">{{ action.command }}</p>
+    <input class="argsInput" [(ngModel)]="args" placeholder="Arguments">
+    <button md-button class="button-type-3 run-button" (click)="runAction(action.id)">RUN</button>
+
+  </div>
+  <p class="command">{{ moduleCommand + " " + target + " " + action.command + " " + args }}</p>
 
 </div>

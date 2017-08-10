@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div class="warning" *ngIf="warningMessageNoContentEnvironment">{{ warningMessageNoContentEnvironment }}</div>
+
+  <md-tab-group class="tabs-environment" *ngIf="!warningMessageNoContentEnvironment">
+
+    <md-tab   *ngFor="let listEnvironments of listEnvironmentsSortByCategory" label="{{ listEnvironments.category }}">
+
+      <md-list class="list-environment">
+
+        <md-list-item class="element-environment" *ngFor="let environment of listEnvironments.environments">
+
+          <div class="container-environment-buttons">
+
+            <button md-raised-button class="button-type-2 button-position">{{ environment.label }}</button>
+            <md-icon *ngIf="environment.status" class="icon-success">check_circle</md-icon>
+            <md-icon *ngIf="!environment.status" class="icon-error">report_problem</md-icon>
+
+          </div>
+
+        </md-list-item>
+
+      </md-list>
+
+    </md-tab>
+
+  </md-tab-group>
+
+</div>

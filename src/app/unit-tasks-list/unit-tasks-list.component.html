@@ -1,0 +1,37 @@
+<div class="container unit-tasks-list-component">
+
+  <div class="actions-list-component-header">
+
+    <input [(ngModel)]="filter" placeholder="Filter">
+
+  </div>
+  <md-list class="list-module">
+
+    <md-list-item class="element-module" *ngFor="let unitTask of listUnitTasks">
+
+      <md-list class="list-actions">
+
+        <md-list-item class="element-action" *ngFor="let log of unitTask.logs">
+
+          <div class="consoleReturn">
+
+            <div class="horodatage">{{ log.begin_datetime | date: 'dd/MM/yyyy h:mm:ss' }}</div>
+            <div class="containerLabelMessage">
+
+              <div [innerHtml]="log.output | safeHtml"></div>
+
+            </div>
+            <div class="status"> {{ log.status }}</div>
+            <div class="horodatage"> {{ log.end_datetime | date: 'dd/MM/yyyy h:mm:ss' }}</div>
+
+          </div>
+
+        </md-list-item>
+
+      </md-list>
+
+    </md-list-item>
+
+  </md-list>
+
+</div>

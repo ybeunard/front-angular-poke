@@ -18,7 +18,7 @@ export class ActionsService {
   private static listActions: Array<Action> = [];
 
   // return observable list of all actions
-  public getAllActions(): Observable<Action[]> {
+  public getAllActions(): Observable<Array<Action>> {
 
     if(ActionsService.listActions && ActionsService.listActions.length > 0) {
 
@@ -41,24 +41,6 @@ export class ActionsService {
 
   }
 
-  // return observable args of one action id in params
-  public getArgsAction(idAction: number): Observable<string> {
-
-    return this.getAllActions()
-      .map(response => {
-
-        const actionFind: Action = response.find((actionTest: Action) => actionTest.id === idAction);
-        if (isNullOrUndefined(actionFind)) {
-
-          return "";
-
-        }
-        return actionFind.args;
-
-      });
-
-  }
-
   // return observable label of one action id in params
   public getLabelAction(idAction: number): Observable<string> {
 
@@ -78,14 +60,19 @@ export class ActionsService {
   }
 
   // return observable with the return of the put request
-  public putAction(action: Action, moduleId: number): Observable<any> {
+  public putAction(action: Action): Observable<string> {
 
-    return this.http.put(environment.urlPutAction.replace("module_id", moduleId), { action })
+    return this.http.put(environment.urlPutAction.replace("module_id", action.module_id), { action })
       .map(response => {
 
         ActionsService.refreshAllActions();
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
+
+          return "";
+
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ActionsService.handleError(error));
@@ -93,16 +80,21 @@ export class ActionsService {
   }
 
   // return observable with the return of the post request
-  public postAction(action: Action, moduleId: number): Observable<any> {
+  public postAction(action: Action): Observable<string> {
 
     return this.http.post(environment.urlPostAction
-      .replace("module_id", moduleId)
+      .replace("module_id", action.module_id)
       .replace("id", action.id), { action })
       .map(response => {
 
         ActionsService.refreshAllActions();
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
+
+          return "";
+
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ActionsService.handleError(error));
@@ -110,27 +102,19 @@ export class ActionsService {
   }
 
   // return observable with the return of the delete request
-  public deleteAction(actionId: number): Observable<any> {
+  public deleteAction(actionId: number): Observable<string> {
 
     return this.http.delete(environment.urlDeleteAction.replace("id", actionId))
       .map(response => {
 
         ActionsService.refreshAllActions();
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
 
-      })
-      .catch(error => ActionsService.handleError(error));
+          return "";
 
-  }
-
-  // execute one action on back and return response message
-  public executeAction(actionId: number, args: string): Observable<string> {
-
-    return this.http.post(environment.urlExecuteAction.replace("id", actionId), {args: args})
-      .map(response => {
-
-        return response.json().message || "";
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ActionsService.handleError(error));

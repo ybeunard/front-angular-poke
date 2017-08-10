@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 
-import { PushNotificationsService } from "./notification-module/push-notifications/services/push-notifications.service";
-import { InstancesService } from "./service/instances.service";
+import { PushNotificationsService } from "./service/push-notifications.service";
 
 @Component({
 
@@ -11,19 +10,19 @@ import { InstancesService } from "./service/instances.service";
 
 }) export class AppComponent {
 
-  notify(idScenario: number) {
+  notify(text: string, link?: string) {
 
     const options: any = {
 
-      body: "Le scenario numero " + idScenario + " est terminé",
+      body: text,
       icon: "../assets/Phil_the_Maid.jpg"
 
     };
-    this._pushNotifications.create("Front Ops", options).subscribe();
+    this._pushNotifications.create("Front Ops", options, link).subscribe();
 
   }
 
-  notifyError(error: string) {
+  notifyError(error: string, link?: string) {
 
     const options: any = {
 
@@ -31,30 +30,10 @@ import { InstancesService } from "./service/instances.service";
       icon: "../assets/evil-minion.jpg"
 
     };
-    this._pushNotifications.create("Front Ops", options).subscribe();
+    this._pushNotifications.create("Front Ops", options, link).subscribe();
 
   }
 
-  constructor(private instancesService: InstancesService,
-              private _pushNotifications: PushNotificationsService) {
-
-    this.instancesService.terminateInstanceScenarioObs.subscribe(
-      response => {
-
-        if(typeof response === "number") {
-
-          this.notify(response);
-
-        } else {
-
-          response.subscribe(() => { return; }, error => this.notifyError(error));
-
-        }
-
-    });
-
-    this.instancesService.setIntervalRequeteObservable();
-
-  }
+  constructor(private _pushNotifications: PushNotificationsService) { }
 
 }

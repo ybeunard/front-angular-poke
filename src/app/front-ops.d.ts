@@ -1,24 +1,87 @@
+// Standard path
+
 export class Module {
 
+  action_list: Array<Action>;
+  command: string;
   id: number;
   label: string;
-  command: string;
-  actions: Array<Action>;
-  visibility: boolean;
 
 }
 
 export class Action {
 
-  id: number;
   category: string;
-  label: string;
   command: string;
-  args: string;
-  args_helper: string;
-  is_tested: boolean;
+  id: number;
+  label: string;
+  module_id: number;
 
 }
+
+export class Task {
+
+  action: number;
+  created_at: string;
+  custom_label: string;
+  id: number;
+  task_params: {
+
+    params_dict: ParamsDict;
+    params_patterns: {
+
+      args_pattern: string;
+      target_pattern: string;
+
+    };
+
+  };
+
+}
+
+export class UserTask {
+
+  id: number;
+  task_id: Task;
+  user_params: {
+
+    args: string;
+    target: string;
+
+  };
+  task_events: Array<EventTask>;
+
+}
+
+export class ParamsDict {
+
+  args_map: Map<string, string>;
+  id: number;
+  target_map: Map<string, string>;
+
+}
+
+export class EventTask {
+
+  id: number;
+  user_task_id: UserTask;
+  status: string;
+  begin_date: string;
+  end_date: string;
+
+}
+
+export class EventLog {
+
+  id: number;
+  event_task_id: EventTask;
+  status_code: number;
+  stdin: string;
+  stdout: string;
+
+}
+
+// scenario path
 
 export class Scenario {
 
@@ -26,43 +89,71 @@ export class Scenario {
   label: string;
   description: string;
   starter_task_id: number;
-  tasks: Array<Task>;
+  scenario_tasks: Array<ScenarioTask>;
 
 }
 
-export class Task {
+export class ScenarioTask {
 
   id: number;
+  task_id: Task;
   inner_scenario_id: number;
-  label: string;
-  description: string;
-  action_id: number;
-  args: string;
   success_id: number;
   error_id: number;
 
 }
 
-export class Instance {
+export class UserScenario {
 
   id: number;
-  scenario_id: number;
-  begin_datetime: string;
-  end_datetime: string;
-  status: string;
-  logs: Array<Log>;
+  scenario_id: Scenario;
+  user_params: {
+
+    args: string;
+    target: string;
+
+  };
 
 }
 
-export class Log {
+export class UserScenarioInstance {
 
   id: number;
-  status: number;
+  user_scenario_id: UserScenario;
+  user_tasks: Array<UserTask>;
+
+}
+
+export class EventScenario {
+
+  id: number;
+  user_scenario_instance: UserScenarioInstance;
+  status: string;
+  begin_date: string;
+  end_date: string;
+  task_events: Array<EventTask>;
+
+}
+
+// Environment classes
+
+export class Environment {
+
+  id: number;
+  pattern: string;
   label: string;
-  output: string;
-  begin_datetime: string;
-  end_datetime: string;
-  visibility: boolean;
+  description: string;
+  category: string;
+  status: boolean;
+
+}
+
+export class SaltAttribute {
+
+  id: number;
+  label: string;
+  category: string;
+  pattern: string;
 
 }
 

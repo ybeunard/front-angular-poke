@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import  {DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { isNullOrUndefined } from "util";
 
@@ -84,13 +83,6 @@ export class ScenarioComponent implements OnInit {
 
     }
     return this.consoleVisibility;
-
-  }
-
-  // return the consoleReturn in SafeHtml
-  public getConsoleReturn(message: string) : SafeHtml {
-
-    return this.sanitizer.bypassSecurityTrustHtml(message);
 
   }
 
@@ -216,7 +208,6 @@ export class ScenarioComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private sanitizer: DomSanitizer,
               private scenariosService: ScenariosService,
               private instancesService: InstancesService,
               private graphsService: GraphsService,
@@ -230,7 +221,7 @@ export class ScenarioComponent implements OnInit {
     this.consoleReturn = [];
     this.loadScenario();
 
-    this.logsService.instanceChange.subscribe(
+    this.logsService.instanceChangeObs.subscribe(
       () => {
 
         this.refreshConsoleReturn();

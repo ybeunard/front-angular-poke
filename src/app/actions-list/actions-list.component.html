@@ -1,55 +1,63 @@
-<div class="container actions-list-component" *ngIf="!errorMessageGetAllModules">
+<div class="container" *ngIf="!errorMessageGetAllModules">
 
-  <div class="actions-list-component-header">
+  <div class="actions-list-container">
 
-    <button md-raised-button class="button-type-3" (click)="createModule()">Create Module</button>
-    <button md-raised-button class="button-type-3" (click)="createAction()">Create Action</button>
-    <div class="warning" *ngIf="warningMessageActionNotFound && !warningMessageNoContentModule">{{warningMessageActionNotFound}}</div>
-    <div class="warning" *ngIf="warningMessageModuleNotFound && !warningMessageNoContentModule">{{warningMessageModuleNotFound}}</div>
-    <div class="warning" *ngIf="warningMessageNoContentModule">{{warningMessageNoContentModule}}</div>
+    <div class="actions-list-component-header">
 
-  </div>
-  <md-list class="list-module" *ngIf="!warningMessageNoContentModule">
+      <button md-raised-button class="button-type-3" (click)="createModule()">Create Module</button>
+      <button md-raised-button class="button-type-3" (click)="createAction()">Create Action</button>
+      <input [(ngModel)]="filter" placeholder="Filter">
+      <div class="warning" *ngIf="warningMessageActionNotFound && !warningMessageNoContentModule">{{warningMessageActionNotFound}}</div>
+      <div class="warning" *ngIf="warningMessageModuleNotFound && !warningMessageNoContentModule">{{warningMessageModuleNotFound}}</div>
+      <div class="warning" *ngIf="warningMessageNoContentModule">{{warningMessageNoContentModule}}</div>
 
-    <md-list-item class="element-module" *ngFor="let module of listModules">
+    </div>
+    <md-list class="list-module" *ngIf="!warningMessageNoContentModule">
 
-      <div class="container-module-buttons">
+      <md-list-item class="element-module" *ngFor="let module of listModules | arrayTable">
 
-        <div class="center-button"></div>
-        <button md-raised-button class="button-type-2" (click)="changeVisibility(module)">{{ module.label }}</button>
-        <div class="center-button">
+        <div class="container-module-buttons">
 
-        <button md-button class="button-icon" (click)="deleteModule(module)" ><md-icon>delete</md-icon></button>
-        <button md-button class="button-icon" (click)="updateModule(module)"><md-icon>mode_edit</md-icon></button>
+          <button md-raised-button class="button-type-2 button-position" (click)="changeVisibility(module)">{{ module.label }}</button>
+          <div>
+
+            <button md-button class="button-icon" (click)="deleteModule(module)" ><md-icon>delete</md-icon></button>
+            <button md-button class="button-icon" (click)="updateModule(module)"><md-icon>mode_edit</md-icon></button>
+
+          </div>
 
         </div>
+        <md-list class="list-actions" [hidden]="!module.visibility">
 
-      </div>
-      <md-list class="list-actions" [hidden]="!module.visibility">
+            <md-list-item class="element-action" *ngFor="let action of module.action_list | arrayTable:filter"  id="item_{{action.id}}">
 
-          <md-list-item class="element-action" *ngFor="let action of module.actions"  id="item_{{action.id}}">
+              <div class="container-action-buttons">
 
-            <div class="container-action-buttons">
+                <button md-button class="button-type-1 button-position" (click)="displayAction(module, action)">{{ action.label }}</button>
+                <div class="container-icon-button">
 
-              <div class="center-button"></div>
-              <button md-button class="button-type-1" (click)="displayAction(module, action)">{{ action.label }}</button>
-              <div class="center-button">
+                  <button md-button class="button-icon" (click)="deleteAction(action)"><md-icon>delete</md-icon></button>
+                  <button md-button class="button-icon" (click)="updateAction(action, module)"><md-icon>mode_edit</md-icon></button>
 
-                <button md-button class="button-icon" (click)="deleteAction(action)"><md-icon>delete</md-icon></button>
-                <button md-button class="button-icon" (click)="updateAction(action, module)"><md-icon>mode_edit</md-icon></button>
+                </div>
 
               </div>
+              <div #actionAnchor id="action_{{action.id}}"></div>
 
-            </div>
-            <div #actionAnchor id="action_{{action.id}}"></div>
+            </md-list-item>
 
-          </md-list-item>
+        </md-list>
 
-      </md-list>
+      </md-list-item>
 
-    </md-list-item>
+    </md-list>
 
-  </md-list>
+  </div>
+  <div class=".container-router">
+
+    <app-unit-tasks-list [action]="actionId"></app-unit-tasks-list>
+
+  </div>
 
 </div>
 <div class="container-router" *ngIf="errorMessageGetAllModules"><div class="error">{{errorMessageGetAllModules}}</div></div>

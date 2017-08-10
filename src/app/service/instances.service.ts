@@ -70,7 +70,7 @@ export class InstancesService {
             cache = [];
 
           }
-          cache.push({ idInstance: response.json().message, idScenario: idScenario });
+          cache.push({ idInstance: response.json().data.message, idScenario: idScenario });
           localStorage.setItem(environment.keyCacheInstanceRunning, JSON.stringify(cache));
 
         },
@@ -83,7 +83,7 @@ export class InstancesService {
   }
 
   // set an intervalle observable to check if cache contains instance running
-  public setIntervalRequeteObservable() {
+  public setIntervalRequeteObservableScenario() {
 
     IntervalObservable.create(this.intervalRequeteLog)
       .subscribe(

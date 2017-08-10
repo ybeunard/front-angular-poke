@@ -13,16 +13,15 @@ import { Action, Module } from "../../front-ops";
 })
 export class CreateActionDialogComponent {
 
-  model: Action = { id: null, category: "", label: "", command: "", args: "", args_helper: "", is_tested: false };
+  model: Action = { category: "", command: "", id: null, label: "", module_id: null };
 
   modules: Array<Module> = [];
-
-  module_action: number = null;
 
   public onSubmit() {
 
     if(isNullOrUndefined(this.model.id)) {
-      this.actionsService.putAction(this.model, this.module_action)
+
+      this.actionsService.putAction(this.model)
         .subscribe(() => {
 
             this.dialogRef.close(true);
@@ -31,25 +30,29 @@ export class CreateActionDialogComponent {
           error => {
 
             this.snackBar.open(error, undefined, {
+
               duration: 2000,
               extraClasses: ["error"]
+
             });
 
           });
 
     } else {
 
-      this.actionsService.postAction(this.model, this.module_action)
+      this.actionsService.postAction(this.model)
         .subscribe(() => {
 
-            this.dialogRef.close({ idAction: this.model.id, idModule: this.module_action });
+            this.dialogRef.close({ action: this.model });
 
           },
           error => {
 
             this.snackBar.open(error, undefined, {
+
               duration: 2000,
               extraClasses: ["error"]
+
             });
 
           });

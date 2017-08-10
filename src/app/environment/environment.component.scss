@@ -1,0 +1,57 @@
+@import '../../styles/_constant';
+
+:host {
+
+  height: 100%;
+  width: 100%;
+
+}
+
+.icon-success {
+
+  color: $color-success;
+
+}
+
+.icon-error {
+
+  color: $color-fail;
+
+}
+
+.button-position {
+
+  flex: 1;
+
+}
+
+.container-environment-buttons {
+
+  border-bottom: $border-medium-primary;
+  display: flex;
+  padding: $container-button-padding;
+  width: 100%;
+
+}
+
+.element-environment {
+
+  display: flex;
+  padding: $element-list-padding;
+
+}
+
+.list-environment {
+
+  overflow-x: $div-overflow-x;
+  overflow-y: $div-overflow-y;
+  padding-top: $list-padding-top;
+
+}
+
+.tabs-environment {
+
+  width: 100%;
+
+}
+

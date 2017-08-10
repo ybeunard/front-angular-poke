@@ -10,27 +10,38 @@ export const environment: any = {
   production: false,
 
   keyCacheInstanceRunning: "instanceRunning",
+  keyCacheUnitTaskRunning: "unitTaskRunning",
+  keyCacheActionRunning: "actionRunning",
   intervalRequeteLog: 5000,
-
-  urlGetAllActions: urlServerBack + "/modules/*/actions/",
-  urlGetAction: urlServerBack + "/modules/*/actions/id",
-  urlPutAction: urlServerBack + "/modules/module_id/actions/",
-  urlPostAction: urlServerBack + "/modules/module_id/actions/id",
-  urlDeleteAction: urlServerBack + "/modules/*/actions/id",
-  urlExecuteAction: urlServerBack + "/modules/*/actions/id/execute",
 
   urlGetAllModules: urlServerBack + "/modules/",
   urlPutModule: urlServerBack + "/modules/",
   urlPostModule: urlServerBack + "/modules/id",
   urlDeleteModule: urlServerBack + "/modules/id",
 
+  urlGetAllActions: urlServerBack + "/modules/*/actions/",
+  urlPutAction: urlServerBack + "/modules/module_id/actions/",
+  urlPostAction: urlServerBack + "/modules/module_id/actions/id",
+  urlDeleteAction: urlServerBack + "/modules/*/actions/id",
+
+  urlGetAllTasks: urlServerBack + "/tasks/",
+  urlPutTask: urlServerBack + "/tasks/",
+  urlPostTask: urlServerBack + "/tasks/id",
+  urlDeleteTask: urlServerBack + "/tasks/id",
+
   urlGetAllScenario: urlServerBack + "/scenarios/?lazy",
   urlGetScenario: urlServerBack + "/scenarios/id",
   urlPutScenario: urlServerBack + "/scenarios/",
   urlPostScenario: urlServerBack + "/scenarios/id",
 
-  urlGetAllInstancesStatusWorking: urlServerBack + "/scenarios/instances/?status=WORKING&lazy",
   urlGetInstance: urlServerBack + "/scenarios/instances/id",
-  urlExecuteInstanceScenario: urlServerBack + "/scenarios/id/execute"
+  urlExecuteInstanceScenario: urlServerBack + "/scenarios/id/execute",
+
+  urlPutUnitTask: urlServerBack + "/unit_tasks/",
+  urlExecuteUnitTask: urlServerBack + "/unit_tasks/id/execute",
+
+  getLogAction: urlServerBack + "/logs/unit_tasks/id",
+
+  urlGetAllEnvironments: urlServerBack + "/environments/"
 
 };

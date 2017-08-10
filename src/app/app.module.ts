@@ -8,10 +8,12 @@ import { MdIconModule, MdToolbarModule, MdButtonModule, MdCardModule, MdDialogMo
 
 import {CoreActionModule} from "./core-action/core-action.module";
 import {CoreScenarioModule} from "./core-scenario/core-scenario.module";
+import { CoreEnvironmentModule } from "./core-environment/core-environment.module";
 
 import {AppRoutingModule} from "./app-routing.module";
 
 import { DialogsService } from "./service/dialogs.service";
+import { PushNotificationsService } from "./service/push-notifications.service";
 
 import { AppComponent } from "./app.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
@@ -20,8 +22,6 @@ import {NotFoundComponent} from "./error/not-found.component";
 import { ConfirmationDialogComponent } from "./dialog-component/confirmation-dialog/confirmation-dialog.component";
 import { CreateModuleDialogComponent } from "./dialog-component/create-module-dialog/create-module-dialog.component";
 import { CreateActionDialogComponent } from "./dialog-component/create-action-dialog/create-action-dialog.component";
-
-import { PushNotificationsModule } from "./notification-module/push-notifications.module";
 
 @NgModule({
 
@@ -41,7 +41,7 @@ import { PushNotificationsModule } from "./notification-module/push-notification
     MdButtonModule,
     CoreActionModule,
     CoreScenarioModule,
-    PushNotificationsModule,
+    CoreEnvironmentModule,
     AppRoutingModule
 
   ],
@@ -56,7 +56,12 @@ import { PushNotificationsModule } from "./notification-module/push-notification
     CreateActionDialogComponent
 
   ],
-  providers: [ DialogsService ],
+  providers: [
+
+    DialogsService,
+    PushNotificationsService
+
+  ],
   bootstrap: [ AppComponent ],
   entryComponents: [
 

@@ -18,13 +18,19 @@
 
 }
 
-.console {
+.consoleReturn {
 
-  border: $border-little-primary;
-  margin: $element-list-margin;
-  padding: $form-element-padding;
-  text-align: center;
-  width: 80%;
+  border-bottom: $border-little-primary;
+  display: flex;
+  text-align: $div-text-align;
+
+}
+
+.containerLabelMessage {
+
+  flex: 1;
+  flex-direction: column;
+  margin: $scenario-console-logs-margin;
 
 }
 
@@ -38,9 +44,51 @@
 
 }
 
+.horodatage {
+
+  margin: $scenario-console-logs-margin;
+  width: $scenario-console-horodatage-width;
+
+}
+
 .run-action {
 
-  align-self: flex-end;
+  align-items: center;
   display: flex;
+  margin: $element-list-margin;
+  width: 100%;
+
+}
+
+.status {
+
+  margin: $scenario-console-logs-margin;
+  width: $scenario-console-status-width;
+
+}
+
+.argsInput {
+
+  flex: 1;
+
+}
+
+.targetInput {
+
+  display: flex;
+  flex: 1;
+
+}
+
+.textCommand {
+
+  font-size: 20px;
+  margin: 0 10px;
+
+}
+
+.run-button {
+
+  margin: 0 10px;
 
 }

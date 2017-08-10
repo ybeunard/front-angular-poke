@@ -39,8 +39,12 @@ import { Action, Module } from "../front-ops";
 
   private firstLoading: boolean;
 
+  actionId: number = null;
+
   // current list of modules in the component
   listModules: Array<Module> = [];
+
+  filter: string = "";
 
   // Error Messages
   errorMessageGetAllModules: string = "";
@@ -54,14 +58,14 @@ import { Action, Module } from "../front-ops";
   // change visibility of module in param
   public changeVisibility(module: Module) {
 
-    module.visibility = !module.visibility;
+    return;
 
   }
 
   // create one action
   public createAction() {
 
-    this.dialogsService.createActionDialog(null, null, this.listModules).subscribe(response => {
+    this.dialogsService.createActionDialog(null, this.listModules).subscribe(response => {
 
       if(response) {
 
@@ -134,7 +138,7 @@ import { Action, Module } from "../front-ops";
   // delete one module in params
   public deleteModule(module: Module) {
 
-    const warning: string = module.actions.length !== 0 ? "Warning: This module contains " + module.actions.length + " actions!!!" : null;
+    const warning: string = module.action_list.length !== 0 ? "Warning: This module contains " + module.action_list.length + " actions!!!" : null;
     this.dialogsService.confirmationDialog("Are you sure you want to delete this module?", warning).subscribe(response => {
       if(response) {
 
@@ -179,7 +183,6 @@ import { Action, Module } from "../front-ops";
       const listModuleFindIndex: number = this.listModules.findIndex((listTest: Module) => listTest.id === id);
       if (listModuleFindIndex !== -1) {
 
-        this.listModules[listModuleFindIndex].visibility = true;
         return listModuleFindIndex;
 
       } else {
@@ -205,15 +208,15 @@ import { Action, Module } from "../front-ops";
 
       this.warningMessageActionNotFound = "";
 
-        const actionFindIndex: number = this.listModules[moduleIndex].actions.findIndex((actionTest: Action) => actionTest.id === id);
+        const actionFindIndex: number = this.listModules[moduleIndex].action_list.findIndex((actionTest: Action) => actionTest.id === id);
         if (actionFindIndex !== -1) {
 
           setTimeout(() => {
 
-            this.loadAction(this.listModules[moduleIndex].actions[actionFindIndex]);
+            this.loadAction(this.listModules[moduleIndex].action_list[actionFindIndex], this.listModules[moduleIndex].command);
             if(!this.firstLoading) {
 
-              this.scroll(this.listModules[moduleIndex].actions[actionFindIndex].id);
+              this.scroll(this.listModules[moduleIndex].action_list[actionFindIndex].id);
               this.firstLoading = true;
 
             }
@@ -235,7 +238,7 @@ import { Action, Module } from "../front-ops";
   }
 
   // load ActionComponent with the action in param
-  private loadAction(action: Action) {
+  private loadAction(action: Action, moduleCommand: string) {
 
     let actionAnchorFind: ViewContainerRef = this.actionAnchorList.find((actionAnchorTest: ViewContainerRef) => {
 
@@ -248,6 +251,8 @@ import { Action, Module } from "../front-ops";
     const actionComponentFactory: any = this.componentFactoryResolver.resolveComponentFactory(ActionComponent);
     this.actionComponentRef = this.currentActionAnchor.createComponent(actionComponentFactory);
     this.actionComponentRef.instance.action = action;
+    this.actionComponentRef.instance.moduleCommand = moduleCommand;
+    this.actionId = action.id;
 
   }
 
@@ -276,11 +281,11 @@ import { Action, Module } from "../front-ops";
           }
 
         },
-          error => {
+        error => {
 
           this.errorMessageGetAllModules = error;
 
-      });
+    });
 
   }
 
@@ -324,7 +329,7 @@ import { Action, Module } from "../front-ops";
   // update one action in params
   public updateAction(action: Action, module: Module) {
 
-    this.dialogsService.createActionDialog(action, module.id, this.listModules).subscribe(response => {
+    this.dialogsService.createActionDialog(action, this.listModules).subscribe(response => {
 
       if(response) {
 

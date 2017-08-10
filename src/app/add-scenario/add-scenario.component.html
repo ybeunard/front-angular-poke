@@ -40,18 +40,18 @@
 
   </md-list>
   <div id="sigma-new-graph"></div>
-  <md-list *ngIf="!warningMessageNoContentModule && !errorMessageGetAllModules" class="add-scenario-list">
+  <md-list class="add-scenario-list" *ngIf="!warningMessageNoContentModule && !errorMessageGetAllModules">
 
-    <md-list-item *ngFor="let module of listModules">
+    <md-list-item class="element-add-scenario-list" *ngFor="let module of listModules">
 
-      <button md-raised-button class="button-module" (click)="changeVisibility(module)">{{ module.label }}</button>
-      <md-list [hidden]="!module.visibility">
+      <button md-raised-button class="button-type-2 button-position" (click)="changeVisibility(module)">{{ module.label }}</button>
+      <md-list class="list-actions" [hidden]="!module.visibility">
 
 
 
-        <md-list-item *ngFor="let action of module.actions">
+        <md-list-item class="element-action" *ngFor="let action of module.actions">
 
-          <button md-button (click)="addTask(action.id, action.label)">
+          <button md-button class="button-type-1 button-position" (click)="addTask(action.id, action.label)">
 
             {{ action.label }}
 

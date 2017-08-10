@@ -10,7 +10,7 @@ $color-theme-primary-core: mat-color($palette-primary, 50);
 
 $color-theme-primary-input: mat-color($palette-primary, 100);
 
-$color-theme-accent: mat-color($palette-accent, 300);
+$color-theme-accent: mat-color($palette-accent, 500);
 
 $color-theme-accent-raised-button: mat-color($palette-accent, 600);
 
@@ -42,6 +42,8 @@ $graph-position: relative;
 
 /* Margin Padding Properties */
 
+$container-button-padding: 0 30px 15px 30px;
+
 $element-list-margin: 0 0 15px 0;
 
 $element-list-padding: 0 0 15px 0;
@@ -60,7 +62,7 @@ $add-scenario-current-actions-list-width: 200px;
 
 $add-scenario-form-width: 300px;
 
-$add-scenario-module-list-width: 300px;
+$add-scenario-module-list-width: 400px;
 
 $input-args-height: 100px;
 

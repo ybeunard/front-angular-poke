@@ -16,7 +16,7 @@ export class DialogsService {
   private createActionDialogRef: MdDialogRef<CreateActionDialogComponent>;
   private createModuleDialogRef: MdDialogRef<CreateModuleDialogComponent>;
 
-  public confirmationDialog(message: string, warningMessage: string): Observable<any> {
+  public confirmationDialog(message: string, warningMessage?: string): Observable<any> {
 
     this.confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, { disableClose: false });
     this.confirmationDialogRef.componentInstance.confirmMessage = message;
@@ -34,14 +34,13 @@ export class DialogsService {
 
   }
 
-  public createActionDialog(model: Action, moduleId: number, modules: Array<Module>): Observable<any> {
+  public createActionDialog(model: Action, modules: Array<Module>): Observable<any> {
 
     this.createActionDialogRef = this.dialog.open(CreateActionDialogComponent, { disableClose: false });
     this.createActionDialogRef.componentInstance.modules = modules;
-    if(!isNullOrUndefined(model) && isNullOrUndefined(moduleId)) {
+    if(!isNullOrUndefined(model)) {
 
       this.createActionDialogRef.componentInstance.model = { ...model };
-      this.createActionDialogRef.componentInstance.module_action = moduleId;
 
     }
     return this.createActionDialogRef.afterClosed().map(response => {

@@ -13,7 +13,7 @@ import { Module } from "../../front-ops";
 
 }) export class CreateModuleDialogComponent {
 
-  model: Module = { id: null, label: "", command: "", actions: [], visibility: false };
+  model: Module = { action_list: [], command: "", id: null, label: "" };
 
   public onSubmit() {
 

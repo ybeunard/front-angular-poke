@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
-import { isUndefined } from "util";
+import { isNullOrUndefined, isUndefined } from "util";
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/throw";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 
@@ -31,13 +33,7 @@ export class ModulesService {
           return [];
 
         }
-        const responseModules: Array<any> = response.json().modules || [];
-        ModulesService.refreshAllModules();
-        responseModules.forEach((module: any) => {
-
-          ModulesService.listModules.push({ id: module.id, label: module.label, command: module.command, actions: module.actions, visibility: false});
-
-        });
+        ModulesService.listModules = response.json().modules || [];
         return ModulesService.listModules;
 
       })
@@ -46,12 +42,12 @@ export class ModulesService {
   }
 
   // return observable label of one module id in params
-  public getLabelModule(idModule: number): Observable<string> {
+  public getLabelModule(module_id: number): Observable<string> {
 
     return this.getAllModules()
       .map(response => {
 
-        const moduleFind: Module = response.find((module: Module) => module.id === idModule);
+        const moduleFind: Module = response.find((moduleTest: Module) => moduleTest.id === module_id);
         if(isUndefined(moduleFind)) {
 
           return "Not Exist";
@@ -64,13 +60,18 @@ export class ModulesService {
   }
 
   // return observable with the return of the put request
-  public putModule(module: Module): Observable<any> {
+  public putModule(module: Module): Observable<string> {
 
     return this.http.put(environment.urlPutModule, { module: { label: module.label, command: module.command } })
       .map(response => {
 
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
+
+          return "";
+
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ModulesService.handleError(error));
@@ -78,13 +79,18 @@ export class ModulesService {
   }
 
   // return observable with the return of the post request
-  public postModule(module: Module): Observable<any> {
+  public postModule(module: Module): Observable<string> {
 
     return this.http.post(environment.urlPostModule.replace("id", module.id), { module: { label: module.label, command: module.command } })
       .map(response => {
 
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
+
+          return "";
+
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ModulesService.handleError(error));
@@ -92,13 +98,18 @@ export class ModulesService {
   }
 
   // return observable with the return of the delete request
-  public deleteModule(moduleId: number): Observable<any> {
+  public deleteModule(moduleId: number): Observable<string> {
 
     return this.http.delete(environment.urlDeleteModule.replace("id", moduleId))
       .map(response => {
 
         ModulesService.refreshAllModules();
-        return response;
+        if(isNullOrUndefined(response.json().data)) {
+
+          return "";
+
+        }
+        return response.json().data.message || "";
 
       })
       .catch(error => ModulesService.handleError(error));
@@ -114,7 +125,7 @@ export class ModulesService {
 
   constructor(private http: Http) { }
 
-  private static handleError (error: Response | any) {
+  private static handleError (error: Response | any): Observable<Response> {
 
     let errMsg: string;
     if (error instanceof Response) {

@@ -4,6 +4,8 @@ import { FormsModule }   from "@angular/forms";
 import { MdButtonModule, MdMenuModule } from "@angular/material";
 
 import { CoreScenarioRoutingModule } from "./core-scenario-routing";
+import { PipeModule } from "../pipe.module";
+
 import { CoreScenarioComponent } from "./core-scenario.component";
 import { ScenariosListComponent } from "../scenarios-list/scenarios-list.component";
 import { ScenarioComponent } from "../scenario/scenario.component";
@@ -14,7 +16,6 @@ import { ScenariosService } from "../service/scenarios.service";
 import { GraphsService } from "../service/graphs.service";
 import { LogsService } from "../service/logs.service";
 import { InstancesService } from "../service/instances.service";
-
 @NgModule({
 
   imports: [
@@ -23,7 +24,8 @@ import { InstancesService } from "../service/instances.service";
     FormsModule,
     CoreScenarioRoutingModule,
     MdButtonModule,
-    MdMenuModule
+    MdMenuModule,
+    PipeModule
 
   ],
   declarations: [

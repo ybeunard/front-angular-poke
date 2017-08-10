@@ -6,7 +6,6 @@ import { Observable } from "rxjs/Observable";
 import { environment } from "../../environments/environment";
 
 import { Scenario } from "../front-ops";
-import { Router } from "@angular/router";
 
 @Injectable()
 export class ScenariosService {
@@ -103,8 +102,7 @@ export class ScenariosService {
 
   }
 
-  constructor(private http: Http,
-              private router: Router) { }
+  constructor(private http: Http) { }
 
   private static handleError (error: Response | any) {
 
